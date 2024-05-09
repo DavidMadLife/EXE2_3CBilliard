@@ -15,6 +15,6 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<User?> GetUserByEmail(string email);
         Task<User?> GetUserById(long id);
         
-        Task<User[]> SearchUser(SearchUserView searchView);
+        /*Task<User[]> SearchUser(SearchUserView searchView);*/
     }
 }

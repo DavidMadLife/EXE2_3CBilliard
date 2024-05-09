@@ -1,0 +1,80 @@
+﻿using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Response;
+using EXE201_3CBilliard_Service.Interface;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EXE201_3CBilliard_API.Controllers.Notificate
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class NotificateController : ControllerBase
+    {
+        private readonly INotificateService _notificateService;
+
+        public NotificateController(INotificateService notificateService)
+        {
+            _notificateService = notificateService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<NotificateResponse>>> GetAll()
+        {
+            var notificates = await _notificateService.GetAllNotificateAsync();
+            return Ok(notificates);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<NotificateResponse>> GetById(long id)
+        {
+            var notificate = await _notificateService.GetNotificateByIdAsync(id);
+            if (notificate == null)
+                return NotFound();
+
+            return Ok(notificate);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<NotificateResponse>> Create([FromBody] NotificateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var createdNotificate = await _notificateService.CreateNotificateAsync(request);
+            return CreatedAtAction(nameof(GetById), new { id = createdNotificate.Id }, createdNotificate);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<NotificateResponse>> Update(long id, [FromBody] NotificateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var updatedNotificate = await _notificateService.UpdateNotificateAsync(id, request);
+                return Ok(updatedNotificate);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(long id)
+        {
+            try
+            {
+                var result = await _notificateService.DeleteNotificateAsync(id);
+                if (result)
+                    return NoContent();
+                else
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+}
