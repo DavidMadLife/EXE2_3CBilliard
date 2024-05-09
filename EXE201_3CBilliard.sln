@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EXE201_3CBilliard_Repositor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EXE201_3CBilliard_API", "EXE201_3CBilliard_API\EXE201_3CBilliard_API.csproj", "{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201_3CBilliard_Service", "EXE201_3CBilliard_Service\EXE201_3CBilliard_Service.csproj", "{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EXE201_3CBilliard_Service", "EXE201_3CBilliard_Service\EXE201_3CBilliard_Service.csproj", "{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201_3CBilliard_Model", "EXE201_3CBilliard_Model\EXE201_3CBilliard_Model.csproj", "{7BC20D23-4649-4735-AFD9-444E747F0F59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EXE201_3CBilliard_Model", "EXE201_3CBilliard_Model\EXE201_3CBilliard_Model.csproj", "{7BC20D23-4649-4735-AFD9-444E747F0F59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

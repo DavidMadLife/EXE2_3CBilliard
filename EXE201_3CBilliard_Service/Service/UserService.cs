@@ -76,7 +76,7 @@ namespace EXE201_3CBilliard_Service.Service
             return user;
         }
 
-        public Task<User[]> SearchUser(SearchUserView searchView)
+        /*public Task<User[]> SearchUser(SearchUserView searchView)
         {
             Expression<Func<User, bool>> filter = p =>
             (string.IsNullOrEmpty(searchView.Keyword) || p.UserName.Contains(searchView.Keyword) || p.Address.Contains(searchView.Keyword));
@@ -91,7 +91,7 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 return 
             }
-        }
+        }*/
 
         private string GenerateToken(User info)
         {

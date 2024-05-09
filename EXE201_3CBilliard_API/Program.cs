@@ -1,3 +1,5 @@
+using AutoMapper;
+using EXE201_3CBilliard_Model.Mapper;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
 using EXE201_3CBilliard_Service.Interface;
@@ -37,8 +39,18 @@ builder.Services.AddDbContext<MyDBContext>(options =>
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+
 // Service
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBidaClubService, BidaClubService>();
+builder.Services.AddScoped<IBidaTableService, BidaTableService>();
+builder.Services.AddScoped<INotificateService, NotificateService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ISlotService, SlotService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 
 
@@ -56,7 +68,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 //Mapper
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new AutoMapperProfile());
+});
+builder.Services.AddSingleton<IMapper>(config.CreateMapper());
 
 var app = builder.Build();
 

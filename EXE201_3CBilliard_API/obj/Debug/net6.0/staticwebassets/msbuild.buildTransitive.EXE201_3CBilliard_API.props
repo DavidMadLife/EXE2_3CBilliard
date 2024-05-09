@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\EXE201_3CBilliard_API.props" />
-</Project>
