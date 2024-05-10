@@ -1,4 +1,5 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,10 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<User> CreateUserGoogle(GoogleLoginView googleLoginView);
         Task<User?> GetUserByEmail(string email);
         Task<User?> GetUserById(long id);
-        
-        /*Task<User[]> SearchUser(SearchUserView searchView);*/
+
+        Task<User[]> SearchUser(SearchUserView searchView);
+
+        Task<RegisterUserResponse> RegisterUser(RegisterUserRequest registerUserRequest);
+
     }
 }

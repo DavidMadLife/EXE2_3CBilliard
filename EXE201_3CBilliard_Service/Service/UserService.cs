@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
 using EXE201_3CBilliard_Service.Interface;
@@ -76,22 +77,34 @@ namespace EXE201_3CBilliard_Service.Service
             return user;
         }
 
-        /*public Task<User[]> SearchUser(SearchUserView searchView)
+        public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
+            var user = _mapper.Map<User>(request);
+            _unitOfWork.UserRepository.Insert(user);
+            _unitOfWork.Save();
+            return _mapper.Map<RegisterUserResponse>(user);
+        }
+
+        public async Task<User[]> SearchUser(SearchUserView searchView)
+        {
+            // Tạo điều kiện lọc dựa trên từ khóa
             Expression<Func<User, bool>> filter = p =>
-            (string.IsNullOrEmpty(searchView.Keyword) || p.UserName.Contains(searchView.Keyword) || p.Address.Contains(searchView.Keyword));
-            var user = _unitOfWork.UserRepository.Get(
+                string.IsNullOrEmpty(searchView.Keyword) ||
+                p.UserName.Contains(searchView.Keyword) ||
+                p.Address.Contains(searchView.Keyword);
+
+            // Lấy danh sách người dùng từ repository
+            var users = _unitOfWork.UserRepository.Get(
                 filter: filter,
-                includeProperties: "Role",
-                pageIndex: searchView.Page_number,
-                pageSize: searchView.Page_number
-                
+                includeProperties: "Role", // Đảm bảo Repository hỗ trợ IncludeProperties
+                pageIndex: searchView.Page_number, // Sửa lỗi chính tả: Page_number -> PageNumber
+                pageSize: searchView.Page_size // Sửa lỗi chính tả: Page_number -> PageSize
             );
-            if(user == null)
-            {
-                return 
-            }
-        }*/
+
+            // Trả về danh sách người dùng
+            return users.ToArray(); // Sử dụng ToArray() để chuyển đổi IEnumerable sang mảng User[]
+        }
+
 
         private string GenerateToken(User info)
         {
