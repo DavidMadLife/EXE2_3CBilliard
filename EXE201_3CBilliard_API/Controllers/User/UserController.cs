@@ -1,5 +1,7 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,18 +38,18 @@ namespace EXE201_3CBilliard_API.Controllers
         {
             try
             {
-                if(string.IsNullOrEmpty(googleLoginView.UserName) || string.IsNullOrEmpty(googleLoginView.Email))
+                if (string.IsNullOrEmpty(googleLoginView.UserName) || string.IsNullOrEmpty(googleLoginView.Email))
                 {
                     return BadRequest("Invalid info user to login");
                 }
                 var user = await _userService.GetUserByEmail(googleLoginView.UserName);
-                if(user == null)
+                if (user == null)
                 {
                     user = await _userService.CreateUserGoogle(googleLoginView);
                 }
                 else
                 {
-                    if(user.Status == "Inactive")
+                    if (user.Status == "Inactive")
                     {
                         return BadRequest("User have been banned");
                     }
@@ -73,5 +75,52 @@ namespace EXE201_3CBilliard_API.Controllers
             }
             return Ok(user);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchUserByKeyWord([FromBody] SearchUserView searchUserView)
+        {
+            var users = await _userService.SearchUser(searchUserView);
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Ok(users);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequest request)
+        {
+            try
+            {
+                var user = await _userService.RegisterUser(request);
+                var response = new RegisterUserResponse
+                {
+                    Id = user.Id,
+                    RoleId = user.RoleId,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Phone = user.Phone,
+                    IdentificationCardNumber = user.IdentificationCardNumber,
+                    Image = user.Image,
+                    Address = user.Address,
+                    CreateAt = user.CreateAt,
+                    ModifineAt = user.ModifineAt,
+                    DoB = user.DoB,
+                    Note = user.Note,
+                    Status = user.Status
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và trả về thông báo lỗi
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }
