@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum FeedbackStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
     [Table("Feedback")]
     public class Feedback
     {
@@ -24,7 +31,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public string Image { get; set; }
         [Required]
-        public string Status { get; set; }
+        public FeedbackStatus Status { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
 

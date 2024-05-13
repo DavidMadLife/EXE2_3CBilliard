@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum PostStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
     [Table("Post")]
     public class Post
     {
@@ -24,7 +31,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public DateTime ModifineAt { get; set; }
         [Required]
-        public string Status { get; set; }
+        public PostStatus Status { get; set; }
         [Required]
         public string Note { get; set; }
 

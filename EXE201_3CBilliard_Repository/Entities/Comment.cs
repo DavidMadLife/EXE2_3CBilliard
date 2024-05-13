@@ -9,6 +9,14 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum CommentStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
+
     [Table("Comment")]
     public class Comment
     {
@@ -31,7 +39,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public string Note { get; set; }
         [Required]
-        public string Status { get; set; }
+        public CommentStatus Status { get; set; }
         [ForeignKey("PostId")]
         public Post Post { get; set; }
         /*[ForeignKey("UserId")]

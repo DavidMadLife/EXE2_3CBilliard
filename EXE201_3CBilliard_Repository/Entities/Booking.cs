@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum BookingStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
+
     [Table("Booking")]
     public class Booking
     {
@@ -26,7 +34,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public string Note { get; set; }
         [Required]
-        public string Status { get; set; }
+        public BookingStatus Status { get; set; }
         [ForeignKey("BT_SlotId")]
         public BidaTable_Slot Slot { get; set; }
         [ForeignKey("UserId")]
