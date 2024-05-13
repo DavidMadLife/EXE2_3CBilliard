@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum BidaTable_SlotStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
+
     [Table("BidaTable_Slot")]
     public class BidaTable_Slot
     {
@@ -18,7 +26,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public long BidaTableId { get; set; }
         [Required]
-        public string Status { get; set; }
+        public BidaTable_SlotStatus Status { get; set; }
         [ForeignKey("SlotId")]
         public Slot Slot { get; set; }
         [ForeignKey("BidaTableId")]

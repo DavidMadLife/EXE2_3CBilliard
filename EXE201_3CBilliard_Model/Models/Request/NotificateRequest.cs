@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201_3CBilliard_Model.Models.Request;
-
-public class NotificateRequest
+namespace EXE201_3CBilliard_Model.Models.Request
 {
-    [Required]
-    public string Title { get; set; }
-    [Required]
-    public string Descrpition { get; set; }
-    [Required]
-    public DateTime CreateAt { get; set; }
-    [Required]
-    public string Status { get; set; }
+    public class NotificateRequest
+    {
+        [Required(ErrorMessage = "Title is required")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Description is required")]
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "CreateAt is required")]
+        public DateTime CreateAt { get; set; }
+
+        [Required(ErrorMessage = "Status is required")]
+        public string Status { get; set; }
+    }
 }

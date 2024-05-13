@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum NotificateStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
+
     [Table("Notificate")]
     public class Notificate
     {
@@ -20,6 +28,6 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public DateTime CreateAt { get; set; }
         [Required]
-        public string Status { get; set; }
+        public NotificateStatus Status { get; set; }
     }
 }

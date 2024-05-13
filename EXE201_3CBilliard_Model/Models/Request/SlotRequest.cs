@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201_3CBilliard_Model.Models.Request;
-
-public class SlotRequest
+namespace EXE201_3CBilliard_Model.Models.Request
 {
-    [Required]
-    public string SlotTime { get; set; }
-    [Required]
-    public string Status { get; set; }
+    public class SlotRequest
+    {
+        [Required(ErrorMessage = "SlotTime is required")]
+        public string SlotTime { get; set; }
+
+        [Required(ErrorMessage = "Status is required")]
+        public string Status { get; set; }
+    }
 }

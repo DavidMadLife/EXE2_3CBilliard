@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum UserStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
     [Table("User")]
     public class User
     {
@@ -39,7 +46,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public string Note { get; set; }
         [Required]
-        public string Status { get; set; }
+        public UserStatus Status { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
 

@@ -1,26 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201_3CBilliard_Model.Models.Request;
-
-public class BidaTableRequest
+namespace EXE201_3CBilliard_Model.Models.Request
 {
-    [Required]
-    public long BidaCludId { get; set; }
-    [Required]
-    public double Price { get; set; }
-    [Required]
-    public string TableName { get; set; }
-    [Required]
-    public string Image { get; set; }
-    [Required]
-    public DateTime CreateAt { get; set; }
-    [Required]
-    public string Note { get; set; }
-    [Required]
-    public string Status { get; set; }
+    public class BidaTableRequest
+    {
+        [Required(ErrorMessage = "BidaCludId is required")]
+        public long BidaCludId { get; set; }
+
+        [Required(ErrorMessage = "Price is required")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
+        public double Price { get; set; }
+
+        [Required(ErrorMessage = "TableName is required")]
+        public string TableName { get; set; }
+
+        [Required(ErrorMessage = "Image is required")]
+        /*[Url(ErrorMessage = "Image must be a valid URL")]*/
+        public string Image { get; set; }
+
+        [Required(ErrorMessage = "CreateAt is required")]
+        public DateTime CreateAt { get; set; }
+
+        [Required(ErrorMessage = "Note is required")]
+        public string Note { get; set; }
+
+        [Required(ErrorMessage = "Status is required")]
+        public string Status { get; set; }
+    }
 }

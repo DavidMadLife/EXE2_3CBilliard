@@ -1,39 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Model.Models.Request
 {
     public class RegisterUserRequest
     {
-        [Required]
+        [Required(ErrorMessage = "RoleId is required")]
         public long RoleId { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Phone is required")]
+        [RegularExpression("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$", ErrorMessage = "Invalid phone number format")]
         public string Phone { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "IdentificationCardNumber is required")]
+        [RegularExpression("^0(0[1-9]|[1-8][0-9]|9[0-6])[0-3]([0-9][0-9])[0-9]{6}$", ErrorMessage = "Invalid IdentificationCardNumber format")]
         public string IdentificationCardNumber { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Image is required")]
+        /*[Url(ErrorMessage = "Image must be a valid URL")]*/
         public string Image { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Address is required")]
         public string Address { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "CreateAt is required")]
         public DateTime CreateAt { get; set; }
-        [Required]
-        public DateTime ModifineAt { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "ModifineAt is required")]
+        public DateTime ModifyAt { get; set; }
+
+        [Required(ErrorMessage = "DoB is required")]
         public DateTime DoB { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Note is required")]
         public string Note { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Status is required")]
         public string Status { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
+using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +50,7 @@ namespace EXE201_3CBilliard_API.Controllers
                 }
                 else
                 {
-                    if (user.Status == "Inactive")
+                    if (user.Status == UserStatus.INACTIVE)
                     {
                         return BadRequest("User have been banned");
                     }

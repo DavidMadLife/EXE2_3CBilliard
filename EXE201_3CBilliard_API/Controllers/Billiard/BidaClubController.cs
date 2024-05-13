@@ -19,6 +19,28 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _mapper = mapper;
         }
 
+        [HttpPut("{id}/activate")]
+        public async Task<ActionResult<BidaClubReponse>> ActivateBidaClub(long id)
+        {
+            try
+            {
+                var response = await _bidaClubService.ActivateBidaClubAsync(id);
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<BidaClubReponse>> Get(long id)
         {

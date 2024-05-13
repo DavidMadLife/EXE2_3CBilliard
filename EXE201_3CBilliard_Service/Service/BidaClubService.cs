@@ -27,6 +27,7 @@ namespace EXE201_3CBilliard_Service.Service
         {
             var entity = _mapper.Map<BidaClub>(request);
             entity.CreateAt = DateTime.Now; // Set CreateAt time here
+            entity.Status = BidaClubStatus.INACTIVE; // Set status to INACTIVE
 
             _unitOfWork.BidaClubRepository.Insert(entity);
             _unitOfWork.Save();
@@ -36,13 +37,14 @@ namespace EXE201_3CBilliard_Service.Service
 
         public async Task DeleteBidaClubAsync(long id)
         {
-            var bidaClub =  _unitOfWork.BidaClubRepository.GetById(id);
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(id);
             if (bidaClub == null)
             {
                 throw new KeyNotFoundException($"BidaClub with ID {id} not found");
             }
 
-            _unitOfWork.BidaClubRepository.Delete(bidaClub);
+            bidaClub.Status = BidaClubStatus.DELETED; // Set status to DELETED instead of deleting
+            _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
         }
 
@@ -77,5 +79,26 @@ namespace EXE201_3CBilliard_Service.Service
 
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
+
+        public async Task<BidaClubReponse> ActivateBidaClubAsync(long id)
+        {
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(id);
+            if (bidaClub == null)
+            {
+                throw new KeyNotFoundException($"BidaClub with ID {id} not found");
+            }
+
+            if (!bidaClub.Status.Equals(BidaClubStatus.INACTIVE))
+            {
+                throw new InvalidOperationException($"BidaClub with ID {id} is not in WAITING status");
+            }
+
+            bidaClub.Status = BidaClubStatus.ACTIVE;
+            _unitOfWork.BidaClubRepository.Update(bidaClub);
+            _unitOfWork.Save();
+
+            return _mapper.Map<BidaClubReponse>(bidaClub);
+        }
+
     }
 }

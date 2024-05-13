@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum SlotStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
     [Table("Slot")]
     public class Slot
     {
@@ -16,6 +23,6 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public string SlotTime { get; set; }
         [Required]
-        public string Status { get; set; }
+        public SlotStatus Status { get; set; }
     }
 }

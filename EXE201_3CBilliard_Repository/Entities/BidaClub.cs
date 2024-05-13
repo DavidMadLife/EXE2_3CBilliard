@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
+    public enum BidaClubStatus
+    {
+        ACTIVE,
+        INACTIVE,
+        WAITING,
+        DELETED
+    }
+
     [Table("BidaClub")]
     public class BidaClub
     {
@@ -30,7 +38,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public string Note { get; set; }
         [Required]
-        public string Status { get; set; }
+        public BidaClubStatus Status { get; set; }
         /*[ForeignKey("UserId")]
         public User User { get; set; }*/
     }
