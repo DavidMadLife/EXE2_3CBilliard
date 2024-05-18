@@ -12,8 +12,8 @@ namespace EXE201_3CBilliard_Service.Interface
     {
         Task<IEnumerable<FeedbackResponse>> GetAllFeedbackAsync();
         Task<FeedbackResponse> GetFeedbackByIdAsync(long id);
-        Task<FeedbackResponse> CreateFeedbackAsync(FeedbackRequset request);
-        Task<FeedbackResponse> UpdateFeedbackAsync(long id, FeedbackRequset request);
-        Task<bool> DeleteFeedbackAsync(long id);
+        Task<FeedbackResponse> CreateFeedbackAsync(FeedbackRequest request);
+        Task<FeedbackResponse> UpdateFeedbackAsync(long id, FeedbackRequest request);
+        Task DeleteFeedbackAsync(long id);
     }
 }

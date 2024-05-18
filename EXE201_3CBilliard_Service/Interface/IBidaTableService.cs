@@ -14,6 +14,7 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<BidaTableResponse> GetBidaTableByIdAsync(long id);
         Task<BidaTableResponse> CreateBidaTableAsync(BidaTableRequest request);
         Task<BidaTableResponse> UpdateBidaTableAsync(long id, BidaTableRequest request);
-        Task<bool> DeleteBidaTableAsync(long id);
+        Task DeleteBidaTableAsync(long id);
+        Task InactiveBidaTableAsync(long id);
     }
 }

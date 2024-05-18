@@ -30,7 +30,6 @@ namespace EXE201_3CBilliard_Repository.Entities
         public DateTime CreateAt { get; set; }
         [Required]
         public string Image { get; set; }
-        [Required]
         public FeedbackStatus Status { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }

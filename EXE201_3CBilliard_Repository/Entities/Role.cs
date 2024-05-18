@@ -22,7 +22,6 @@ namespace EXE201_3CBilliard_Repository.Entities
         public long Id { get; set; }
         [Required]
         public string RoleName { get; set; }
-        [Required]
         public RoleStatus Status { get; set; }
     }
 }

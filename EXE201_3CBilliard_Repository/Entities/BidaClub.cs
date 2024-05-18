@@ -29,15 +29,13 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string Image { get; set; }
         [Required]
         public string Address { get; set; }
-        [Required]
+        
         public string Descrpition { get; set; }
         [Required]
         public string Phone { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
-        [Required]
         public string Note { get; set; }
-        [Required]
         public BidaClubStatus Status { get; set; }
         /*[ForeignKey("UserId")]
         public User User { get; set; }*/

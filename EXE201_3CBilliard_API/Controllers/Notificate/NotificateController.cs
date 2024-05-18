@@ -60,20 +60,17 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
         {
             try
             {
-                var result = await _notificateService.DeleteNotificateAsync(id);
-                if (result)
-                    return NoContent();
-                else
-                    return NotFound();
+                await _notificateService.DeleteNotificateAsync(id);
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException)
             {
-                return BadRequest(ex.Message);
+                return NotFound();
             }
         }
     }

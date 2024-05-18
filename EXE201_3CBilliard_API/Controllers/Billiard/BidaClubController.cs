@@ -19,12 +19,17 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _mapper = mapper;
         }
 
-        [HttpPut("{id}/activate")]
-        public async Task<ActionResult<BidaClubReponse>> ActivateBidaClub(long id)
+        [HttpPut("activate/{id}")]
+        public async Task<IActionResult> Activate(long id, [FromBody] NoteRequest noteRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
-                var response = await _bidaClubService.ActivateBidaClubAsync(id);
+                var response = await _bidaClubService.ActivateBidaClubAsync(id, noteRequest);
                 return Ok(response);
             }
             catch (KeyNotFoundException ex)
@@ -35,9 +40,28 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+        }
+
+        [HttpPut("reject/{id}")]
+        public async Task<IActionResult> Reject(long id, [FromBody] NoteRequest noteRequest)
+        {
+            if (!ModelState.IsValid)
             {
-                return StatusCode(500, ex.Message);
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var response = await _bidaClubService.RejectBidaClubAsync(id, noteRequest);
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -80,7 +104,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             try

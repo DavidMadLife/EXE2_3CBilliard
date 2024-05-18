@@ -21,10 +21,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "ModifineAt is required")]
         public DateTime ModifyAt { get; set; }
 
-        [Required(ErrorMessage = "Status is required")]
-        public string Status { get; set; }
-
-        [Required(ErrorMessage = "Note is required")]
-        public string Note { get; set; }
+        
     }
 }

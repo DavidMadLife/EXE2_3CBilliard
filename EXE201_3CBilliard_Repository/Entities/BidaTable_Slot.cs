@@ -25,7 +25,6 @@ namespace EXE201_3CBilliard_Repository.Entities
         public long SlotId { get; set; }
         [Required]
         public long BidaTableId { get; set; }
-        [Required]
         public BidaTable_SlotStatus Status { get; set; }
         [ForeignKey("SlotId")]
         public Slot Slot { get; set; }

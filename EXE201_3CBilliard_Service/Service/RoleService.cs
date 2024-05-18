@@ -38,6 +38,7 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<RoleResponse> CreateRoleAsync(RoleRequest request)
         {
             var role = _mapper.Map<Role>(request);
+            role.Status = RoleStatus.ACTIVE;
             _unitOfWork.RoleRepository.Insert(role);
             _unitOfWork.Save();
             return _mapper.Map<RoleResponse>(role);
@@ -55,15 +56,14 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<RoleResponse>(role);
         }
 
-        public async Task<bool> DeleteRoleAsync(long id)
+        public async Task DeleteRoleAsync(long id)
         {
             var role = _unitOfWork.RoleRepository.GetById(id);
             if (role == null)
                 throw new Exception($"Role with id {id} not found.");
-
-            _unitOfWork.RoleRepository.Delete(role);
+            role.Status = RoleStatus.INACTIVE;
+            _unitOfWork.RoleRepository.Update(role);
             _unitOfWork.Save();
-            return true;
         }
     }
 }

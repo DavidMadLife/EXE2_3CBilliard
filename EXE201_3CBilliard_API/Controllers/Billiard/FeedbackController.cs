@@ -34,7 +34,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPost]
-        public async Task<ActionResult<FeedbackResponse>> Create([FromBody] FeedbackRequset request)
+        public async Task<ActionResult<FeedbackResponse>> Create([FromBody] FeedbackRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -44,7 +44,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<FeedbackResponse>> Update(long id, [FromBody] FeedbackRequset request)
+        public async Task<ActionResult<FeedbackResponse>> Update(long id, [FromBody] FeedbackRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -60,20 +60,17 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
         {
             try
             {
-                var result = await _feedbackService.DeleteFeedbackAsync(id);
-                if (result)
-                    return NoContent();
-                else
-                    return NotFound();
+                await _feedbackService.DeleteFeedbackAsync(id);
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException)
             {
-                return BadRequest(ex.Message);
+                return NotFound();
             }
         }
     }

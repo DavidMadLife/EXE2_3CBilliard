@@ -14,6 +14,6 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<CommentResponse> GetCommentByIdAsync(long id);
         Task<CommentResponse> CreateCommentAsync(CommentRequest request);
         Task<CommentResponse> UpdateCommentAsync(long id, CommentRequest request);
-        Task<bool> DeleteCommentAsync(long id);
+        Task DeleteCommentAsync(long id);
     }
 }

@@ -14,6 +14,6 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<NotificateResponse> GetNotificateByIdAsync(long id);
         Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request);
         Task<NotificateResponse> UpdateNotificateAsync(long id, NotificateRequest request);
-        Task<bool> DeleteNotificateAsync(long id);
+        Task DeleteNotificateAsync(long id);
     }
 }
