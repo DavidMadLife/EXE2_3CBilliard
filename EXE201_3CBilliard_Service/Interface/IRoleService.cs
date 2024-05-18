@@ -14,6 +14,6 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<RoleResponse> GetRoleByIdAsync(long id);
         Task<RoleResponse> CreateRoleAsync(RoleRequest request);
         Task<RoleResponse> UpdateRoleAsync(long id, RoleRequest request);
-        Task<bool> DeleteRoleAsync(long id);
+        Task DeleteRoleAsync(long id);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Respone;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
@@ -38,6 +39,9 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<PostResponse> CreatePostAsync(PostRequest request)
         {
             var post = _mapper.Map<Post>(request);
+            post.Descrpition = request.Description;
+            post.Note = "string";
+            post.Status = PostStatus.WAITING;
             _unitOfWork.PostRepository.Insert(post);
             _unitOfWork.Save();
             return _mapper.Map<PostResponse>(post);
@@ -55,15 +59,56 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<PostResponse>(post);
         }
 
-        public async Task<bool> DeletePostAsync(long id)
+        public async Task DeletePostAsync(long id)
         {
             var post = _unitOfWork.PostRepository.GetById(id);
             if (post == null)
                 throw new Exception($"Post with id {id} not found.");
-
-            _unitOfWork.PostRepository.Delete(post);
+            post.Status = PostStatus.INACTIVE;
+            _unitOfWork.PostRepository.Update(post);
             _unitOfWork.Save();
-            return true;
+        }
+
+        public async Task<PostResponse> ActivatePostAsync(long id, NoteRequest noteRequest)
+        {
+            var post = _unitOfWork.PostRepository.GetById(id);
+            if (post == null)
+            {
+                throw new KeyNotFoundException($"Post with ID {id} not found");
+            }
+
+            if (post.Status != PostStatus.WAITING)
+            {
+                throw new InvalidOperationException($"Post with ID {id} is not in WAITING status");
+            }
+
+            post.Status = PostStatus.ACTIVE;
+            post.Note = noteRequest.Note; // Update note based on NoteRequest
+            _unitOfWork.PostRepository.Update(post);
+            _unitOfWork.Save();
+
+            return _mapper.Map<PostResponse>(post);
+        }
+
+        public async Task<PostResponse> RejectPostAsync(long id, NoteRequest noteRequest)
+        {
+            var post = _unitOfWork.PostRepository.GetById(id);
+            if (post == null)
+            {
+                throw new KeyNotFoundException($"Post with ID {id} not found");
+            }
+
+            if (post.Status != PostStatus.WAITING)
+            {
+                throw new InvalidOperationException($"Post with ID {id} is not in WAITING status");
+            }
+
+            post.Status = PostStatus.DELETED;
+            post.Note = noteRequest.Note; // Update note based on NoteRequest
+            _unitOfWork.PostRepository.Update(post);
+            _unitOfWork.Save();
+
+            return _mapper.Map<PostResponse>(post);
         }
     }
 }

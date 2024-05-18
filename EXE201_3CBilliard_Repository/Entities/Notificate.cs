@@ -27,7 +27,6 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string Descrpition { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
-        [Required]
         public NotificateStatus Status { get; set; }
     }
 }

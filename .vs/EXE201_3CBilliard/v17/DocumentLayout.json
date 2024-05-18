@@ -1,0 +1,341 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_service\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|solutionrelative:exe201_3cbilliard_service\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\models\\request\\registeruserrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\models\\request\\registeruserrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\models\\request\\googleloginview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\models\\request\\googleloginview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_repository\\entities\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|solutionrelative:exe201_3cbilliard_repository\\entities\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\models\\request\\searchuserview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\models\\request\\searchuserview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\models\\request\\feedbackrequset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\models\\request\\feedbackrequset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\models\\request\\notificaterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\models\\request\\notificaterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\models\\request\\rolerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\models\\request\\rolerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_repository\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|solutionrelative:exe201_3cbilliard_repository\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}|EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}|EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj|solutionrelative:exe201_3cbilliard_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_repository\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|solutionrelative:exe201_3cbilliard_repository\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_repository\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|solutionrelative:exe201_3cbilliard_repository\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}|EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_api\\controllers\\billiard\\feedbackcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}|EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj|solutionrelative:exe201_3cbilliard_api\\controllers\\billiard\\feedbackcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_service\\service\\feedbackservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|solutionrelative:exe201_3cbilliard_service\\service\\feedbackservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_service\\interface\\ifeedbackservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|solutionrelative:exe201_3cbilliard_service\\interface\\ifeedbackservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_service\\service\\roleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9931D7EB-8A60-42A2-A12E-6EE737D2ED5A}|EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj|solutionrelative:exe201_3cbilliard_service\\service\\roleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_repository\\entities\\slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|solutionrelative:exe201_3cbilliard_repository\\entities\\slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_model\\mapper\\automapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7BC20D23-4649-4735-AFD9-444E747F0F59}|EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj|solutionrelative:exe201_3cbilliard_model\\mapper\\automapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}|EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_api\\controllers\\billiard\\bidaclubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E159EFEE-2ACF-47C2-92F6-0C4717A60D66}|EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj|solutionrelative:exe201_3cbilliard_api\\controllers\\billiard\\bidaclubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|d:\\semester 8\\exe2\\exe2_3cbilliard\\exe201_3cbilliard_repository\\migrations\\20240517160456_addnew.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31AFAE9E-4668-4F97-AABE-A6464BF0BF69}|EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj|solutionrelative:exe201_3cbilliard_repository\\migrations\\20240517160456_addnew.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FeedbackRequset.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\FeedbackRequset.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Models\\Request\\FeedbackRequset.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\FeedbackRequset.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Models\\Request\\FeedbackRequset.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:19:25.561Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NotificateRequest.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\NotificateRequest.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Models\\Request\\NotificateRequest.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\NotificateRequest.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Models\\Request\\NotificateRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:19:22.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SearchUserView.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\SearchUserView.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Models\\Request\\SearchUserView.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\SearchUserView.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Models\\Request\\SearchUserView.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:19:21.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Role.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Entities\\Role.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Repository\\Entities\\Role.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Entities\\Role.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Repository\\Entities\\Role.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:14:29.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GoogleLoginView.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\GoogleLoginView.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Models\\Request\\GoogleLoginView.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\GoogleLoginView.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Models\\Request\\GoogleLoginView.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:10:30.498Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegisterUserRequest.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\RegisterUserRequest.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Models\\Request\\RegisterUserRequest.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\RegisterUserRequest.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Models\\Request\\RegisterUserRequest.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAAwB4AAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:07:15.659Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Service\\UserService.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Service\\Service\\UserService.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Service\\UserService.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Service\\Service\\UserService.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAAYwDsAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:53:39.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "20240517160456_addnew.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Migrations\\20240517160456_addnew.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Repository\\Migrations\\20240517160456_addnew.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Migrations\\20240517160456_addnew.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Repository\\Migrations\\20240517160456_addnew.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T16:04:56.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\appsettings.json",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Repository\\appsettings.json",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\appsettings.json",
+              "RelativeToolTip": "EXE201_3CBilliard_Repository\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAC3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-17T15:59:15.331Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RoleRequest.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\RoleRequest.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Models\\Request\\RoleRequest.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Models\\Request\\RoleRequest.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Models\\Request\\RoleRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:55:47.093Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Repository\\appsettings.Development.json",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\appsettings.Development.json",
+              "RelativeToolTip": "EXE201_3CBilliard_Repository\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-17T15:59:15.011Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Repository\\Entities\\User.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Entities\\User.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Repository\\Entities\\User.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAADQAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:54:50.609Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "FeedbackController.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\Controllers\\Billiard\\FeedbackController.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_API\\Controllers\\Billiard\\FeedbackController.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\Controllers\\Billiard\\FeedbackController.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_API\\Controllers\\Billiard\\FeedbackController.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAIA7wCQAAABaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:56:57.317Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FeedbackService.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Service\\FeedbackService.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Service\\Service\\FeedbackService.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Service\\FeedbackService.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Service\\Service\\FeedbackService.cs",
+              "ViewState": "AQIAACYAAAAAAAAAAAAtwC0AAABXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:56:51.349Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\appsettings.json",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_API\\appsettings.json",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\appsettings.json",
+              "RelativeToolTip": "EXE201_3CBilliard_API\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-17T15:52:56.05Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IFeedbackService.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Interface\\IFeedbackService.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Service\\Interface\\IFeedbackService.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Interface\\IFeedbackService.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Service\\Interface\\IFeedbackService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:56:32.958Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "RoleService.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Service\\RoleService.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Service\\Service\\RoleService.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\Service\\RoleService.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Service\\Service\\RoleService.cs",
+              "ViewState": "AQIAACMAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:55:58.284Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Slot.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Entities\\Slot.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Repository\\Entities\\Slot.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\Entities\\Slot.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Repository\\Entities\\Slot.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:55:42.917Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "BidaClubController.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\Controllers\\Billiard\\BidaClubController.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_API\\Controllers\\Billiard\\BidaClubController.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\Controllers\\Billiard\\BidaClubController.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_API\\Controllers\\Billiard\\BidaClubController.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAcwBoAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:53:34.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AutoMapperProfile.cs",
+              "DocumentMoniker": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Mapper\\AutoMapperProfile.cs",
+              "RelativeDocumentMoniker": "EXE201_3CBilliard_Model\\Mapper\\AutoMapperProfile.cs",
+              "ToolTip": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\Mapper\\AutoMapperProfile.cs",
+              "RelativeToolTip": "EXE201_3CBilliard_Model\\Mapper\\AutoMapperProfile.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAIwBcAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T15:53:18.6Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

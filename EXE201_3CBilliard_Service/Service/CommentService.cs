@@ -38,6 +38,9 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<CommentResponse> CreateCommentAsync(CommentRequest request)
         {
             var comment = _mapper.Map<Comment>(request);
+            comment.Status = CommentStatus.ACTIVE;
+            comment.Descrpition = request.Description;
+            comment.Note = "string";
             _unitOfWork.CommentRepository.Insert(comment);
             _unitOfWork.Save();
             return _mapper.Map<CommentResponse>(comment);
@@ -55,15 +58,15 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<CommentResponse>(comment);
         }
 
-        public async Task<bool> DeleteCommentAsync(long id)
+        public async Task DeleteCommentAsync(long id)
         {
             var comment = _unitOfWork.CommentRepository.GetById(id);
             if (comment == null)
                 throw new Exception($"Comment with id {id} not found.");
 
-            _unitOfWork.CommentRepository.Delete(comment);
+            comment.Status = CommentStatus.INACTIVE;
+            _unitOfWork.CommentRepository.Update(comment);
             _unitOfWork.Save();
-            return true;
         }
     }
 }

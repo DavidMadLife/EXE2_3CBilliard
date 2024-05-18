@@ -21,7 +21,7 @@ namespace EXE201_3CBilliard_Model.Mapper
             CreateMap<NotificateRequest, Notificate>().ReverseMap();
             CreateMap<CommentRequest, Comment>().ReverseMap();
             CreateMap<PostRequest, Post>().ReverseMap();
-            CreateMap<FeedbackRequset, Feedback>().ReverseMap();
+            CreateMap<FeedbackRequest, Feedback>().ReverseMap();
             CreateMap<RoleRequest, Role>().ReverseMap();
             CreateMap<SlotRequest, Slot>().ReverseMap();
             CreateMap<BookingRequest, Booking>().ReverseMap();

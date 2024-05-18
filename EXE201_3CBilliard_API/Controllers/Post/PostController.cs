@@ -1,6 +1,7 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Post
@@ -60,18 +61,61 @@ namespace EXE201_3CBilliard_API.Controllers.Post
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
         {
             try
             {
-                var result = await _postService.DeletePostAsync(id);
-                if (result)
-                    return NoContent();
-                else
-                    return NotFound();
+                await _postService.DeletePostAsync(id);
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPut("activate/{id}")]
+        public async Task<IActionResult> Activate(long id, [FromBody] NoteRequest noteRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var response = await _postService.ActivatePostAsync(id, noteRequest);
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("reject/{id}")]
+        public async Task<IActionResult> Reject(long id, [FromBody] NoteRequest noteRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var response = await _postService.RejectPostAsync(id, noteRequest);
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
             {
                 return BadRequest(ex.Message);
             }

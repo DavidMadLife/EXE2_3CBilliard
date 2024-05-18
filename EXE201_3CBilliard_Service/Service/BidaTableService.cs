@@ -38,6 +38,7 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<BidaTableResponse> CreateBidaTableAsync(BidaTableRequest request)
         {
             var bidaTable = _mapper.Map<BidaTable>(request);
+            bidaTable.Status = BidaTableStatus.ACTIVE;
             _unitOfWork.BidaTableRepository.Insert(bidaTable);
             _unitOfWork.Save();
             return _mapper.Map<BidaTableResponse>(bidaTable);
@@ -55,15 +56,26 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<BidaTableResponse>(bidaTable);
         }
 
-        public async Task<bool> DeleteBidaTableAsync(long id)
+        public async Task DeleteBidaTableAsync(long id)
         {
             var bidaTable = _unitOfWork.BidaTableRepository.GetById(id);
             if (bidaTable == null)
                 throw new Exception($"BidaTable with id {id} not found.");
 
-            _unitOfWork.BidaTableRepository.Delete(bidaTable);
+            bidaTable.Status = BidaTableStatus.DELETED;
+            _unitOfWork.BidaTableRepository.Update(bidaTable);
             _unitOfWork.Save();
-            return true;
+        }
+
+        public async Task InactiveBidaTableAsync(long id)
+        {
+            var bidaTable = _unitOfWork.BidaTableRepository.GetById(id);
+            if (bidaTable == null)
+                throw new Exception($"BidaTable with id {id} not found.");
+
+            bidaTable.Status = BidaTableStatus.INACTIVE;
+            _unitOfWork.BidaTableRepository.Update(bidaTable);
+            _unitOfWork.Save();
         }
     }
 }

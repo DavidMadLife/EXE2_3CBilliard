@@ -25,9 +25,15 @@ namespace EXE201_3CBilliard_Service.Service
 
         public async Task<BidaClubReponse> CreateBidaClubAsync(BidaClubRequest request)
         {
+            var bida = _unitOfWork.BidaClubRepository.Get(filter: b => b.BidaName == request.BidaName).FirstOrDefault();
+            if (bida != null)
+            {
+                throw new KeyNotFoundException($"BidaClub with Name is dulicated");
+            }
             var entity = _mapper.Map<BidaClub>(request);
+            entity.Descrpition = request.Description;
             entity.CreateAt = DateTime.Now; // Set CreateAt time here
-            entity.Status = BidaClubStatus.INACTIVE; // Set status to INACTIVE
+            entity.Status = BidaClubStatus.WAITING; // Set status to WAITING
 
             _unitOfWork.BidaClubRepository.Insert(entity);
             _unitOfWork.Save();
@@ -80,7 +86,7 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
 
-        public async Task<BidaClubReponse> ActivateBidaClubAsync(long id)
+        public async Task<BidaClubReponse> ActivateBidaClubAsync(long id, NoteRequest noteRequest)
         {
             var bidaClub = _unitOfWork.BidaClubRepository.GetById(id);
             if (bidaClub == null)
@@ -88,17 +94,38 @@ namespace EXE201_3CBilliard_Service.Service
                 throw new KeyNotFoundException($"BidaClub with ID {id} not found");
             }
 
-            if (!bidaClub.Status.Equals(BidaClubStatus.INACTIVE))
+            if (bidaClub.Status != BidaClubStatus.WAITING)
             {
                 throw new InvalidOperationException($"BidaClub with ID {id} is not in WAITING status");
             }
 
             bidaClub.Status = BidaClubStatus.ACTIVE;
+            bidaClub.Note = noteRequest.Note; // Update note based on NoteRequest
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
 
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
 
+        public async Task<BidaClubReponse> RejectBidaClubAsync(long id, NoteRequest noteRequest)
+        {
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(id);
+            if (bidaClub == null)
+            {
+                throw new KeyNotFoundException($"BidaClub with ID {id} not found");
+            }
+
+            if (bidaClub.Status != BidaClubStatus.WAITING)
+            {
+                throw new InvalidOperationException($"BidaClub with ID {id} is not in WAITING status");
+            }
+
+            bidaClub.Status = BidaClubStatus.DELETED;
+            bidaClub.Note = noteRequest.Note; // Update note based on NoteRequest
+            _unitOfWork.BidaClubRepository.Update(bidaClub);
+            _unitOfWork.Save();
+
+            return _mapper.Map<BidaClubReponse>(bidaClub);
+        }
     }
 }

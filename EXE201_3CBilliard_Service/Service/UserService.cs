@@ -57,7 +57,7 @@ namespace EXE201_3CBilliard_Service.Service
                 ModifineAt = DateTime.Now,
                 DoB = new(),
                 Note = "",
-                Status = "Active"
+                Status = UserStatus.ACTIVE
             };
             _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();

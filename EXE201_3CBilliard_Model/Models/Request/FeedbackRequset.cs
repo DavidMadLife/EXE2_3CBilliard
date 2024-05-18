@@ -21,7 +21,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         /*[Url(ErrorMessage = "Image must be a valid URL")]*/
         public string Image { get; set; }
 
-        [Required(ErrorMessage = "Status is required")]
-        public string Status { get; set; }
+        
     }
 }
