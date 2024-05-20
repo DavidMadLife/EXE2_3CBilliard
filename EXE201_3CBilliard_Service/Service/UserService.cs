@@ -32,14 +32,19 @@ namespace EXE201_3CBilliard_Service.Service
 
         public async Task<string> AuthorizeUser(LoginView loginView)
         {
-            var member = _unitOfWork.UserRepository.Get(filter: m => m.Email == loginView.Email && m.Password == loginView.Password).FirstOrDefault();
-            if (member != null)
+            // Retrieve the user by email first
+            var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == loginView.Email && m.Status == UserStatus.ACTIVE).FirstOrDefault();
+
+            if (user != null && VerifyPassword(loginView.Password, user.Password))
             {
-               string token = GenerateToken(member);
+                // Generate token
+                string token = GenerateToken(user);
                 return token;
             }
+
             return null;
         }
+
 
         public async Task<User> CreateUserGoogle(GoogleLoginView googleLoginView)
         {
@@ -48,7 +53,7 @@ namespace EXE201_3CBilliard_Service.Service
                 RoleId = 2,
                 Email = googleLoginView.Email,
                 UserName = googleLoginView.UserName,
-                Password = "123456",
+                Password = HashPassword("123456"),
                 Phone = "",
                 IdentificationCardNumber = "",
                 Image = "",
@@ -79,7 +84,35 @@ namespace EXE201_3CBilliard_Service.Service
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
+            //Check Useremial exist
+            var existingUser = _unitOfWork.UserRepository.Get(filter: v => v.Email == request.Email);
+           /* if (existingUser != null)
+            {
+                return new RegisterUserResponse
+                {
+                    Id = 0, // Use a sentinel value to indicate failure
+                    RoleId = 0,
+                    UserName = null,
+                    Email = request.Email,
+                    Password = null,
+                    Phone = null,
+                    IdentificationCardNumber = null,
+                    Image = null,
+                    Address = null,
+                    CreateAt = DateTime.MinValue,
+                    ModifineAt = DateTime.MinValue,
+                    DoB = DateTime.MinValue,
+                    Note = "Email already exists.",
+                    Status = UserStatus.INACTIVE.ToString() // Use a relevant status or an empty string
+                };
+            }*/
             var user = _mapper.Map<User>(request);
+            user.Status = UserStatus.ACTIVE;
+            user.Password = HashPassword(request.Password);
+            user.CreateAt = DateTime.Now;
+            user.ModifineAt = DateTime.Now;
+            /*user.IdentificationCardNumber = HashPassword()*/
+            user.Note = "Success";
             _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
             return _mapper.Map<RegisterUserResponse>(user);
@@ -106,17 +139,29 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
+
+
+        
+
+
+
         private string GenerateToken(User info)
         {
             List<Claim> claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.Email, info.Email),
+            new Claim(JwtRegisteredClaimNames.Sub, info.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds().ToString(), ClaimValueTypes.Integer64),
+            new Claim("email", info.Email),
+            new Claim("name", info.UserName)
+           
         };
 
             // Add role claim if role information is available
             if (info.Role != null)
             {
-                claims.Add(new Claim(ClaimTypes.Role, info.Role.RoleName));
+                var role = _unitOfWork.RoleRepository.Get(filter: r => r.Id == info.RoleId).FirstOrDefault();
+                claims.Add(new Claim("role", role.RoleName));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
@@ -131,6 +176,44 @@ namespace EXE201_3CBilliard_Service.Service
             return jwt;
         }
 
+        //Encrypt
+        // Method to verify the hashed password
+        private bool VerifyPassword(string providedPassword, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(providedPassword, hashedPassword);
+        }
 
+
+
+        // Method to hash the password
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        public async Task<ChangePasswordResponse> ChangePassword(long id, ChangePasswordRequest changePasswordRequest)
+        {
+            // Retrieve the user from the repository based on user ID or other identifier
+            var user = _unitOfWork.UserRepository.GetById(id);
+
+            // Verify the current password
+            if (!VerifyPassword(changePasswordRequest.CurrentPassword, user.Password))
+            {
+                return new ChangePasswordResponse { Message = "Failed to change password. Current password is incorrect." };
+            }
+
+            // Hash the new password
+            string hashedNewPassword = HashPassword(changePasswordRequest.NewPassword);
+
+            // Update the user's password
+            user.Password = hashedNewPassword;
+            user.ModifineAt = DateTime.Now; // Update modification time
+
+            // Save changes to the database
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.Save();
+
+            return new ChangePasswordResponse { NewPassword = hashedNewPassword, Message = "Password changed successfully." };
+        }
     }
 }

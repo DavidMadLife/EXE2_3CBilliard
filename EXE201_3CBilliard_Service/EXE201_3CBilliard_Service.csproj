@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EXE201_3CBilliard_Model\EXE201_3CBilliard_Model.csproj" />
     <ProjectReference Include="..\EXE201_3CBilliard_Repository\EXE201_3CBilliard_Repository.csproj" />
   </ItemGroup>

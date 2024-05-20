@@ -31,6 +31,19 @@
           "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
+      "BCrypt.Net-Next/4.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
@@ -984,6 +997,37 @@
         "automapper.extensions.microsoft.dependencyinjection.nuspec",
         "icon.png",
         "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll"
+      ]
+    },
+    "BCrypt.Net-Next/4.0.3": {
+      "sha512": "W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
+      "type": "package",
+      "path": "bcrypt.net-next/4.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bcrypt.net-next.4.0.3.nupkg.sha512",
+        "bcrypt.net-next.nuspec",
+        "ico.png",
+        "lib/net20/BCrypt.Net-Next.dll",
+        "lib/net20/BCrypt.Net-Next.xml",
+        "lib/net35/BCrypt.Net-Next.dll",
+        "lib/net35/BCrypt.Net-Next.xml",
+        "lib/net462/BCrypt.Net-Next.dll",
+        "lib/net462/BCrypt.Net-Next.xml",
+        "lib/net472/BCrypt.Net-Next.dll",
+        "lib/net472/BCrypt.Net-Next.xml",
+        "lib/net48/BCrypt.Net-Next.dll",
+        "lib/net48/BCrypt.Net-Next.xml",
+        "lib/net5.0/BCrypt.Net-Next.dll",
+        "lib/net5.0/BCrypt.Net-Next.xml",
+        "lib/net6.0/BCrypt.Net-Next.dll",
+        "lib/net6.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.0/BCrypt.Net-Next.dll",
+        "lib/netstandard2.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.1/BCrypt.Net-Next.dll",
+        "lib/netstandard2.1/BCrypt.Net-Next.xml",
+        "readme.md"
       ]
     },
     "Microsoft.CSharp/4.7.0": {
@@ -2371,28 +2415,29 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "BCrypt.Net-Next >= 4.0.3",
       "EXE201_3CBilliard_Model >= 1.0.0",
       "EXE201_3CBilliard_Repository >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Luong\\.nuget\\packages\\": {},
+    "C:\\Users\\quans\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
+      "projectUniqueName": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
       "projectName": "EXE201_3CBilliard_Service",
-      "projectPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
-      "packagesPath": "C:\\Users\\Luong\\.nuget\\packages\\",
-      "outputPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\obj\\",
+      "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
+      "packagesPath": "C:\\Users\\quans\\.nuget\\packages\\",
+      "outputPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Luong\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\quans\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2401,18 +2446,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj": {
-              "projectPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj"
+            "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj": {
+              "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj"
             },
-            "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj": {
-              "projectPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj"
+            "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj": {
+              "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj"
             }
           }
         }
@@ -2421,11 +2465,22 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
       "net6.0": {
         "targetAlias": "net6.0",
+        "dependencies": {
+          "BCrypt.Net-Next": {
+            "target": "Package",
+            "version": "[4.0.3, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -2442,7 +2497,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

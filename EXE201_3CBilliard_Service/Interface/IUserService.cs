@@ -19,6 +19,8 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<User[]> SearchUser(SearchUserView searchView);
 
         Task<RegisterUserResponse> RegisterUser(RegisterUserRequest registerUserRequest);
+        Task<ChangePasswordResponse> ChangePassword(long id, ChangePasswordRequest changePasswordRequest);
+
 
     }
 }

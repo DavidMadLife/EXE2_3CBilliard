@@ -34,6 +34,8 @@ namespace EXE201_3CBilliard_API.Controllers
             }
         }
 
+
+
         [HttpPost("login-google")]
         public async Task<IActionResult> LoginGoogle([FromBody] GoogleLoginView googleLoginView)
         {
@@ -90,30 +92,12 @@ namespace EXE201_3CBilliard_API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequest request)
+        public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request)
         {
             try
             {
                 var user = await _userService.RegisterUser(request);
-                var response = new RegisterUserResponse
-                {
-                    Id = user.Id,
-                    RoleId = user.RoleId,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Password = user.Password,
-                    Phone = user.Phone,
-                    IdentificationCardNumber = user.IdentificationCardNumber,
-                    Image = user.Image,
-                    Address = user.Address,
-                    CreateAt = user.CreateAt,
-                    ModifineAt = user.ModifineAt,
-                    DoB = user.DoB,
-                    Note = user.Note,
-                    Status = user.Status
-                };
-
-                return Ok(response);
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
             catch (Exception ex)
             {
@@ -122,6 +106,23 @@ namespace EXE201_3CBilliard_API.Controllers
             }
         }
 
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(long id,[FromBody]ChangePasswordRequest changePasswordRequest)
+        {
+            var response = await _userService.ChangePassword(id, changePasswordRequest);
+
+            if (!string.IsNullOrEmpty(response.NewPassword))
+            {
+                // Password changed successfully
+                return Ok(response);
+            }
+            else
+            {
+                // Failed to change password
+                return BadRequest(response);
+            }
+        }
 
     }
 }
