@@ -22,5 +22,10 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<ChangePasswordResponse> ChangePassword(long id, ChangePasswordRequest changePasswordRequest);
 
 
+        Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
+        Task<ValidateOtpResponse> ValidateOtp(ValidateOtpRequest request);
+        Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
+
+
     }
 }
