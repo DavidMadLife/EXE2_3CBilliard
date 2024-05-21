@@ -22,6 +22,7 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Dictionary<string, (string Otp, DateTime Expiry)> _otpStore = new Dictionary<string, (string, DateTime)>();
 
         public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork)
         {
@@ -139,12 +140,6 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-
-
-        
-
-
-
         private string GenerateToken(User info)
         {
             List<Claim> claims = new List<Claim>()
@@ -214,6 +209,73 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.Save();
 
             return new ChangePasswordResponse { NewPassword = hashedNewPassword, Message = "Password changed successfully." };
+        }
+
+
+        //Forgot password
+        public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request)
+        {
+            var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == request.Email).FirstOrDefault();
+            if(user == null)
+            {
+                return new ForgotPasswordResponse { Message = "Email not found" };
+            }
+
+            var otp = GenerateOtp();
+            _otpStore[user.Email] = (otp, DateTime.Now.AddMinutes(3));
+            // await _emailService.SendEmailAsync(user.Email, "Your OTP Code", $"Your OTP code is {otp}");
+
+            return new ForgotPasswordResponse { Message = "OTP has been sent to your email." };
+
+        }
+
+        
+
+        //Generate OTP
+        private string GenerateOtp()
+        {
+            // Simple OTP generation logic. You can replace this with a more secure implementation.
+            var random = new Random();
+            return random.Next(100000, 999999).ToString();
+        }
+
+
+        //Check OTP
+        public async Task<ValidateOtpResponse> ValidateOtp(ValidateOtpRequest request)
+        {
+            if(_otpStore.TryGetValue(request.Email, out var otpInfor))
+            {
+                if(otpInfor.Otp == request.Otp && otpInfor.Expiry > DateTime.Now)
+                {
+                    return new ValidateOtpResponse { Message = "OTP is valid", IsValid = true };
+                }
+            }
+
+            return new ValidateOtpResponse { Message = "Invalid or expired OTP", IsValid = false };
+        }
+
+        public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request)
+        {
+            var valtedateOtpResponse = await ValidateOtp(new ValidateOtpRequest { Email = request.Email,Otp = request.Otp });
+            if(!valtedateOtpResponse.IsValid)
+            {
+                return new ResetPasswordResponse { Message = "Invalid or expired OTP" };
+            }
+
+            var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == request.Email).FirstOrDefault();
+            if(user == null)
+            {
+                return new ResetPasswordResponse { Message = "Invalid email" };
+            }
+            user.Password = HashPassword(request.NewPassword);
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.Save();
+
+
+            //Remove OTP after password reset
+            _otpStore.Remove(request.Email);
+            return new ResetPasswordResponse { Message = "Password has been reset successfully" };
+
         }
     }
 }
