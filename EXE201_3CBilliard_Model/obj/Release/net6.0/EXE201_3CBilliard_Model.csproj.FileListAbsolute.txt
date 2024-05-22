@@ -1,5 +1,3 @@
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Release\net6.0\appsettings.Development.json
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Release\net6.0\appsettings.json
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Release\net6.0\EXE201_3CBilliard_Model.deps.json
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Release\net6.0\EXE201_3CBilliard_Model.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Release\net6.0\EXE201_3CBilliard_Model.pdb

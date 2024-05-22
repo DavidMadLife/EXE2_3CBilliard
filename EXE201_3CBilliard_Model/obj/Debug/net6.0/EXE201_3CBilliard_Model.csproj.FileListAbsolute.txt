@@ -51,8 +51,6 @@ D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\EX
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\EXE201_3CBilliard_Repository.pdb
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Model\obj\Debug\net6.0\EXE201_3CBilliard_Model.csproj.CopyComplete
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Model\obj\Debug\net6.0\ref\EXE201_3CBilliard_Model.dll
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\appsettings.Development.json
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\appsettings.json
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\EXE201_3CBilliard_Model.deps.json
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\EXE201_3CBilliard_Model.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Model\bin\Debug\net6.0\EXE201_3CBilliard_Model.pdb

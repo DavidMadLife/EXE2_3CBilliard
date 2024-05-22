@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EXE201_3CBilliard_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03e5c030ff86e62e16446b1255acbb06831da2f3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0cd4b902749e0d3c57a36a5431983af72d41002")]
 [assembly: System.Reflection.AssemblyProductAttribute("EXE201_3CBilliard_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EXE201_3CBilliard_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
