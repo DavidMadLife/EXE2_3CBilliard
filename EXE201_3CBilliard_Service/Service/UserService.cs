@@ -183,7 +183,7 @@ namespace EXE201_3CBilliard_Service.Service
 
 
         // Method to hash the password
-        private string HashPassword(string password)
+        public string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
@@ -214,7 +214,7 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-        //Forgot password
+        /*//Forgot password
         public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request)
         {
             var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == request.Email).FirstOrDefault();
@@ -229,11 +229,11 @@ namespace EXE201_3CBilliard_Service.Service
 
             return new ForgotPasswordResponse { Message = "OTP has been sent to your email." };
 
-        }
+        }*/
 
         
 
-        //Generate OTP
+        /*//Generate OTP
         private string GenerateOtp()
         {
             // Simple OTP generation logic. You can replace this with a more secure implementation.
@@ -278,6 +278,6 @@ namespace EXE201_3CBilliard_Service.Service
             _otpStore.Remove(request.Email);
             return new ResetPasswordResponse { Message = "Password has been reset successfully" };
 
-        }
+        }*/
     }
 }

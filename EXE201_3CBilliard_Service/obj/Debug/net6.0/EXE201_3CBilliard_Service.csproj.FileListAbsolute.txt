@@ -46,8 +46,6 @@ D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.dll
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\refint\EXE201_3CBilliard_Service.dll
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.pdb
-D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\appsettings.Development.json
-D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\appsettings.json
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Service.deps.json
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Service.dll
 D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Service.pdb

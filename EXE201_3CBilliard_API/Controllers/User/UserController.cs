@@ -124,7 +124,7 @@ namespace EXE201_3CBilliard_API.Controllers
             }
         }
 
-        [HttpPost("forgot-password")]
+        /*[HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
         {
             var response = await _userService.ForgotPassword(request);
@@ -157,7 +157,7 @@ namespace EXE201_3CBilliard_API.Controllers
             {
                 return BadRequest(response);
             }
-        }
+        }*/
 
     }
 }
