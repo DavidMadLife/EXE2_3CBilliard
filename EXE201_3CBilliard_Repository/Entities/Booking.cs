@@ -31,9 +31,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string OrderCode { get; set; }
         [Required]
         public string Descrpition { get; set; }
-        [Required]
         public string Note { get; set; }
-        [Required]
         public BookingStatus Status { get; set; }
         [ForeignKey("BT_SlotId")]
         public BidaTable_Slot Slot { get; set; }

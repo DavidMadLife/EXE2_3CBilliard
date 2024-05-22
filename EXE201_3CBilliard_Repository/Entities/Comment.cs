@@ -36,9 +36,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         public long Evalution { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
-        [Required]
         public string Note { get; set; }
-        [Required]
         public CommentStatus Status { get; set; }
         [ForeignKey("PostId")]
         public Post Post { get; set; }

@@ -60,20 +60,17 @@ namespace EXE201_3CBilliard_API.Controllers.User
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
         {
             try
             {
-                var result = await _roleService.DeleteRoleAsync(id);
-                if (result)
-                    return NoContent();
-                else
-                    return NotFound();
+                await _roleService.DeleteRoleAsync(id);
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException)
             {
-                return BadRequest(ex.Message);
+                return NotFound();
             }
         }
     }

@@ -38,6 +38,7 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request)
         {
             var notificate = _mapper.Map<Notificate>(request);
+            notificate.Status = NotificateStatus.ACTIVE;
             _unitOfWork.NotificateRepository.Insert(notificate);
             _unitOfWork.Save();
             return _mapper.Map<NotificateResponse>(notificate);
@@ -55,15 +56,14 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<NotificateResponse>(notificate);
         }
 
-        public async Task<bool> DeleteNotificateAsync(long id)
+        public async Task DeleteNotificateAsync(long id)
         {
             var notificate = _unitOfWork.NotificateRepository.GetById(id);
             if (notificate == null)
                 throw new Exception($"Notificate with id {id} not found.");
-
-            _unitOfWork.NotificateRepository.Delete(notificate);
+            notificate.Status = NotificateStatus.INACTIVE;
+            _unitOfWork.NotificateRepository.Update(notificate);
             _unitOfWork.Save();
-            return true;
         }
     }
 }

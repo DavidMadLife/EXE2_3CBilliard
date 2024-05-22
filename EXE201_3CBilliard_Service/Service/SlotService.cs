@@ -38,6 +38,7 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<SlotResponse> CreateSlotAsync(SlotRequest request)
         {
             var slot = _mapper.Map<Slot>(request);
+            slot.Status = SlotStatus.ACTIVE;
             _unitOfWork.SlotRepository.Insert(slot);
             _unitOfWork.Save();
             return _mapper.Map<SlotResponse>(slot);
@@ -55,15 +56,14 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<SlotResponse>(slot);
         }
 
-        public async Task<bool> DeleteSlotAsync(long id)
+        public async Task DeleteSlotAsync(long id)
         {
             var slot = _unitOfWork.SlotRepository.GetById(id);
             if (slot == null)
                 throw new Exception($"Slot with id {id} not found.");
-
-            _unitOfWork.SlotRepository.Delete(slot);
+            slot.Status = SlotStatus.INACTIVE;
+            _unitOfWork.SlotRepository.Update(slot);
             _unitOfWork.Save();
-            return true;
         }
     }
 }

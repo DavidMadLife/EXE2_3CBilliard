@@ -14,7 +14,8 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<IEnumerable<BidaClubReponse>> GetAllBidaClubsAsync();
         Task<BidaClubReponse> CreateBidaClubAsync(BidaClubRequest request);
         Task<BidaClubReponse> UpdateBidaClubAsync(long id, BidaClubRequest request);
-        Task<BidaClubReponse> ActivateBidaClubAsync(long id);
+        Task<BidaClubReponse> ActivateBidaClubAsync(long id, NoteRequest noteRequest);
+        Task<BidaClubReponse> RejectBidaClubAsync(long id, NoteRequest noteRequest);
         Task DeleteBidaClubAsync(long id);
     }
 }

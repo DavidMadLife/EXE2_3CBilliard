@@ -21,10 +21,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Note is required")]
-        public string Note { get; set; }
-
-        [Required(ErrorMessage = "Status is required")]
-        public string Status { get; set; }
+        
     }
 }

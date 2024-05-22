@@ -35,15 +35,16 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<FeedbackResponse>(feedback);
         }
 
-        public async Task<FeedbackResponse> CreateFeedbackAsync(FeedbackRequset request)
+        public async Task<FeedbackResponse> CreateFeedbackAsync(FeedbackRequest request)
         {
             var feedback = _mapper.Map<Feedback>(request);
+            feedback.Status = FeedbackStatus.ACTIVE;
             _unitOfWork.FeedbackRepository.Insert(feedback);
             _unitOfWork.Save();
             return _mapper.Map<FeedbackResponse>(feedback);
         }
 
-        public async Task<FeedbackResponse> UpdateFeedbackAsync(long id, FeedbackRequset request)
+        public async Task<FeedbackResponse> UpdateFeedbackAsync(long id, FeedbackRequest request)
         {
             var feedback = _unitOfWork.FeedbackRepository.GetById(id);
             if (feedback == null)
@@ -55,15 +56,14 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<FeedbackResponse>(feedback);
         }
 
-        public async Task<bool> DeleteFeedbackAsync(long id)
+        public async Task DeleteFeedbackAsync(long id)
         {
             var feedback = _unitOfWork.FeedbackRepository.GetById(id);
             if (feedback == null)
                 throw new Exception($"Feedback with id {id} not found.");
-
-            _unitOfWork.FeedbackRepository.Delete(feedback);
+            feedback.Status = FeedbackStatus.INACTIVE;
+            _unitOfWork.FeedbackRepository.Update(feedback);
             _unitOfWork.Save();
-            return true;
         }
     }
 }

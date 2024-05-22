@@ -14,6 +14,6 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<SlotResponse> GetSlotByIdAsync(long id);
         Task<SlotResponse> CreateSlotAsync(SlotRequest request);
         Task<SlotResponse> UpdateSlotAsync(long id, SlotRequest request);
-        Task<bool> DeleteSlotAsync(long id);
+        Task DeleteSlotAsync(long id);
     }
 }

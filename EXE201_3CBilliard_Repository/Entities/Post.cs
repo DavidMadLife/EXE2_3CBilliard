@@ -30,9 +30,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         public DateTime CreateAt { get; set; }
         [Required]
         public DateTime ModifineAt { get; set; }
-        [Required]
         public PostStatus Status { get; set; }
-        [Required]
         public string Note { get; set; }
 
         [ForeignKey("UserId")]

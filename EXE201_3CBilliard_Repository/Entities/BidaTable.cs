@@ -31,9 +31,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string Image { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
-        [Required]
         public string Note { get; set; }
-        [Required]
         public BidaTableStatus Status { get; set; }
         [ForeignKey("BidaCludId")]
         public BidaClub BidaClub { get; set; }

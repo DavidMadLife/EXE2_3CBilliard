@@ -60,20 +60,31 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
         {
             try
             {
-                var result = await _bidaTableService.DeleteBidaTableAsync(id);
-                if (result)
-                    return NoContent();
-                else
-                    return NotFound();
+                await _bidaTableService.DeleteBidaTableAsync(id);
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException)
             {
-                return BadRequest(ex.Message);
+                return NotFound();
+            }
+        }
+
+        [HttpPut("inactive/{id}")]
+        public async Task<ActionResult> Inactive(long id)
+        {
+            try
+            {
+                await _bidaTableService.InactiveBidaTableAsync(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
             }
         }
     }

@@ -14,6 +14,7 @@ public class BidaClubReponse
     public string BidaName { get; set; }
     public string Image { get; set; }
     public string Address { get; set; }
+    public string Email { get; set; }
     public string Descrpition { get; set; }
     public string Phone { get; set; }
     public DateTime CreateAt { get; set; }

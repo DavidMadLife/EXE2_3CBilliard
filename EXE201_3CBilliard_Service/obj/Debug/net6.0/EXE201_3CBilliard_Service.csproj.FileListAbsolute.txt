@@ -37,3 +37,21 @@ C:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EX
 C:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Repository.pdb
 C:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3.0860365A.Up2Date
 C:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\ref\EXE201_3CBilliard_Service.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Service.deps.json
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Service.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Service.pdb
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Model.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Repository.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Model.pdb
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\bin\Debug\net6.0\EXE201_3CBilliard_Repository.pdb
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.csproj.AssemblyReference.cache
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.AssemblyInfoInputs.cache
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.AssemblyInfo.cs
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.csproj.CoreCompileInputs.cache
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.sourcelink.json
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.csproj.CopyComplete
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\refint\EXE201_3CBilliard_Service.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\EXE201_3CBilliard_Service.pdb
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_Service\obj\Debug\net6.0\ref\EXE201_3CBilliard_Service.dll
