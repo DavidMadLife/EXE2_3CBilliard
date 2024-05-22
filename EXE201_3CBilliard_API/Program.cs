@@ -55,6 +55,7 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 
 //Email
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<OtpManager>();
 
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>

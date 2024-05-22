@@ -20,11 +20,11 @@ namespace EXE201_3CBilliard_Service.Interface
 
         Task<RegisterUserResponse> RegisterUser(RegisterUserRequest registerUserRequest);
         Task<ChangePasswordResponse> ChangePassword(long id, ChangePasswordRequest changePasswordRequest);
+        string HashPassword(string password);
 
-
-        Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
+        /*Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
         Task<ValidateOtpResponse> ValidateOtp(ValidateOtpRequest request);
-        Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
+        Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);*/
 
 
     }

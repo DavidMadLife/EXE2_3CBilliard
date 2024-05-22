@@ -1,44 +1,48 @@
 ﻿using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201_3CBilliard_Service.Service
+public class EmailService : IEmailService
 {
-    public class EmailService : IEmailService
+    private readonly IConfiguration _configuration;
+    private readonly OtpManager _otpManager;
+
+    public EmailService(IConfiguration configuration, OtpManager otpManager)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+        _otpManager = otpManager;
+    }
 
-        public EmailService(IConfiguration configuration)
+    public async Task SendOtpEmailAsync(string toEmail)
+    {
+        var otp = _otpManager.GenerateOtp(toEmail);
+        var subject = "Your OTP Code";
+        var message = $"Your OTP code is: {otp}. It is valid for 3 minutes.";
+
+        await SendEmailAsync(toEmail, subject, message);
+    }
+
+    public async Task SendEmailAsync(string toEmail, string subject, string message)
+    {
+        var smtpClient = new SmtpClient(_configuration["EmailSettings:SmtpServer"])
         {
-            _configuration = configuration;
-        }
+            Port = int.Parse(_configuration["EmailSettings:SmtpPort"]),
+            Credentials = new NetworkCredential(_configuration["EmailSettings:SmtpUsername"], _configuration["EmailSettings:SmtpPassword"]),
+            EnableSsl = true,
+        };
 
-        public async Task SendEmailAsync(string toEmail, string subject, string message)
+        var mailMessage = new MailMessage
         {
-            var smtpClient = new SmtpClient(_configuration["EmailSettings:SmtpServer"])
-            {
-                Port = int.Parse(_configuration["EmailSettings:SmtpPort"]),
-                Credentials = new NetworkCredential(_configuration["EmailSettings:SmtpUsername"], _configuration["EmailSettings:SmtpPassword"]),
-                EnableSsl = true,
-            };
+            From = new MailAddress(_configuration["EmailSettings:FromEmail"]),
+            Subject = subject,
+            Body = message,
+            IsBodyHtml = true,
+        };
 
-            var mailMessage = new MailMessage
-            {
-                From = new MailAddress(_configuration["EmailSettings:FromEmail"]),
-                Subject = subject,
-                Body = message,
-                IsBodyHtml = true,
-            };
+        mailMessage.To.Add(toEmail);
 
-            mailMessage.To.Add(toEmail);
-
-            await smtpClient.SendMailAsync(mailMessage);
-        }
+        await smtpClient.SendMailAsync(mailMessage);
     }
 }

@@ -10,5 +10,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
     {
         public string Email { get; set; }
         public string Otp { get; set; }
+        public string Password { get; set; }
     }
 }
