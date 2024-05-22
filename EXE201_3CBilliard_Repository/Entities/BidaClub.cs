@@ -29,7 +29,9 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string Image { get; set; }
         [Required]
         public string Address { get; set; }
-        
+        [Required]
+        public string Email { get; set; }
+
         public string Descrpition { get; set; }
         [Required]
         public string Phone { get; set; }

@@ -342,3 +342,4 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\EXE201
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\EXE201_3CBilliard_API.genruntimeconfig.cache
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\ref\EXE201_3CBilliard_API.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\bin\Debug\net6.0\BCrypt.Net-Next.dll
+D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_API\bin\Debug\net6.0\BCrypt.Net-Next.dll

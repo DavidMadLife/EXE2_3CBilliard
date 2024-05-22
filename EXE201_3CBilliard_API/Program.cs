@@ -53,7 +53,8 @@ builder.Services.AddScoped<ISlotService, SlotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
 
-
+//Email
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>

@@ -2421,23 +2421,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\quans\\.nuget\\packages\\": {},
+    "C:\\Users\\Luong\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
+      "projectUniqueName": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
       "projectName": "EXE201_3CBilliard_Service",
-      "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
-      "packagesPath": "C:\\Users\\quans\\.nuget\\packages\\",
-      "outputPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\obj\\",
+      "projectPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj",
+      "packagesPath": "C:\\Users\\Luong\\.nuget\\packages\\",
+      "outputPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\quans\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Luong\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2446,17 +2446,18 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj": {
-              "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj"
+            "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj": {
+              "projectPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Model\\EXE201_3CBilliard_Model.csproj"
             },
-            "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj": {
-              "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj"
+            "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj": {
+              "projectPath": "D:\\EXE201_3CBilliard\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj"
             }
           }
         }
@@ -2465,11 +2466,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -2497,7 +2493,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

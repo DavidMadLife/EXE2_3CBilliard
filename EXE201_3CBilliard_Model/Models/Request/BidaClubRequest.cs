@@ -18,6 +18,10 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "Address is required")]
         public string Address { get; set; }
 
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Email not valid")]
+        public string Email { get; set; }
+
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
 
@@ -27,7 +31,7 @@ namespace EXE201_3CBilliard_Model.Models.Request
 
         [Required(ErrorMessage = "CreateAt is required")]
         public DateTime CreateAt { get; set; }
-        public string Note { get; set; }
+
 
     }
 }
