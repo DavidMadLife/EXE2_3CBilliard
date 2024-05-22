@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EXE201_3CBilliard_Repository.Migrations
 {
-    public partial class luong : Migration
+    public partial class quanNew : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

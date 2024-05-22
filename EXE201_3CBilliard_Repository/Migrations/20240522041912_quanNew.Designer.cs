@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201_3CBilliard_Repository.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20240522033610_luong")]
-    partial class luong
+    [Migration("20240522041912_quanNew")]
+    partial class quanNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

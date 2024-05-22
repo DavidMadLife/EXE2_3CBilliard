@@ -23,12 +23,14 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Dictionary<string, (string Otp, DateTime Expiry)> _otpStore = new Dictionary<string, (string, DateTime)>();
+        private readonly IEmailService _emailService;
 
-        public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork)
+        public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork, IEmailService emailService)
         {
             _mapper = mapper;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         public async Task<string> AuthorizeUser(LoginView loginView)
@@ -223,7 +225,7 @@ namespace EXE201_3CBilliard_Service.Service
 
             var otp = GenerateOtp();
             _otpStore[user.Email] = (otp, DateTime.Now.AddMinutes(3));
-            // await _emailService.SendEmailAsync(user.Email, "Your OTP Code", $"Your OTP code is {otp}");
+            await _emailService.SendEmailAsync(user.Email, "Your OTP Code", $"Your OTP code is {otp}");
 
             return new ForgotPasswordResponse { Message = "OTP has been sent to your email." };
 
