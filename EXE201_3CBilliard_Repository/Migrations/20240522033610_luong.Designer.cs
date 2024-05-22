@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201_3CBilliard_Repository.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20240517160456_addnew")]
-    partial class addnew
+    [Migration("20240522033610_luong")]
+    partial class luong
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,10 @@ namespace EXE201_3CBilliard_Repository.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descrpition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
