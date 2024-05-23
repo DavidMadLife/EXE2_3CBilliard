@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -67,8 +67,7 @@ namespace EXE201_3CBilliard_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("id")]
+        [HttpGet("{id:long}")]
         public async Task<IActionResult> GetUserById(long id)
         {
             var user = await _userService.GetUserById(id);
@@ -79,7 +78,7 @@ namespace EXE201_3CBilliard_API.Controllers
             return Ok(user);
         }
 
-        [HttpGet]
+        [HttpGet("search")]
         public async Task<IActionResult> SearchUserByKeyWord([FromBody] SearchUserView searchUserView)
         {
             var users = await _userService.SearchUser(searchUserView);
@@ -91,7 +90,7 @@ namespace EXE201_3CBilliard_API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request)
         {
             try
@@ -107,7 +106,7 @@ namespace EXE201_3CBilliard_API.Controllers
         }
 
 
-        [HttpPost("change-password")]
+        [HttpPost("{id:long}/change-password")]
         public async Task<IActionResult> ChangePassword(long id,[FromBody]ChangePasswordRequest changePasswordRequest)
         {
             var response = await _userService.ChangePassword(id, changePasswordRequest);

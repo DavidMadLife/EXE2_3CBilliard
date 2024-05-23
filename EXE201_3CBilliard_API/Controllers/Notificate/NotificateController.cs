@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Notificate
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/notificates")]
     [ApiController]
     public class NotificateController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             _notificateService = notificateService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<NotificateResponse>>> GetAll()
         {
             var notificates = await _notificateService.GetAllNotificateAsync();
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             return Ok(notificate);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<NotificateResponse>> Create([FromBody] NotificateRequest request)
         {
             if (!ModelState.IsValid)

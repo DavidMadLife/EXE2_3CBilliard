@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/bidatables")]
     [ApiController]
     public class BidaTableController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _bidaTableService = bidaTableService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<BidaTableResponse>>> GetAll()
         {
             var bidaTables = await _bidaTableService.GetAllBidaTablesAsync();
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(bidaTable);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<BidaTableResponse>> Create([FromBody] BidaTableRequest request)
         {
             if (!ModelState.IsValid)

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Post
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/comments")]
     [ApiController]
     public class CommentController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace EXE201_3CBilliard_API.Controllers.Post
             _commentService = commentService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<CommentResponse>>> GetAll()
         {
             var comments = await _commentService.GetAllCommentsAsync();
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.Post
             return Ok(comment);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<CommentResponse>> Create([FromBody] CommentRequest request)
         {
             if (!ModelState.IsValid)

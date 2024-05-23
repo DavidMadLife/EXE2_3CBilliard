@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.User
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/roles")]
     [ApiController]
     public class RoleController : ControllerBase
     {
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.User
             return Ok(role);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<RoleResponse>> Create([FromBody] RoleRequest request)
         {
             if (!ModelState.IsValid)

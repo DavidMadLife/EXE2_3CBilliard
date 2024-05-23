@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Post
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/posts")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace EXE201_3CBilliard_API.Controllers.Post
             _postService = postService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<PostResponse>>> GetAll()
         {
             var posts = await _postService.GetAllPostsAsync();
@@ -34,7 +34,7 @@ namespace EXE201_3CBilliard_API.Controllers.Post
             return Ok(post);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<PostResponse>> Create([FromBody] PostRequest request)
         {
             if (!ModelState.IsValid)
