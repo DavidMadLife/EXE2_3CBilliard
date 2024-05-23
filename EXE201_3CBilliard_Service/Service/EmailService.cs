@@ -3,20 +3,28 @@ using EXE201_3CBilliard_Service.Service;
 using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
+using EXE201_3CBilliard_Repository.Repository;
 
 public class EmailService : IEmailService
 {
     private readonly IConfiguration _configuration;
     private readonly OtpManager _otpManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EmailService(IConfiguration configuration, OtpManager otpManager)
+    public EmailService(IConfiguration configuration, OtpManager otpManager, IUnitOfWork unitOfWork)
     {
         _configuration = configuration;
         _otpManager = otpManager;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task SendOtpEmailAsync(string toEmail)
     {
+        var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == toEmail).FirstOrDefault();
+        if (user == null)
+        {
+            throw new Exception($"Email not found.");
+        }
         var otp = _otpManager.GenerateOtp(toEmail);
         var subject = "Your OTP Code";
         var message = $"Your OTP code is: {otp}. It is valid for 3 minutes.";
