@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/bookings")]
     [ApiController]
     public class BookingController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _bookingService = bookingService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<BookingResponse>>> GetAll()
         {
             var bookings = await _bookingService.GetAllBookingsAsync();
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(booking);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<BookingResponse>> Create([FromBody] BookingRequest request)
         {
             if (!ModelState.IsValid)

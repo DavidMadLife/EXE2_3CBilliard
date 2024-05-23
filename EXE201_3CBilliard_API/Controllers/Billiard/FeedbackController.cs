@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/feedbacks")]
     [ApiController]
     public class FeedbackController : ControllerBase
     {
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(feedback);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<FeedbackResponse>> Create([FromBody] FeedbackRequest request)
         {
             if (!ModelState.IsValid)

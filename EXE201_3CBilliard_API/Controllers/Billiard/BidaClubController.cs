@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/bidaclubs")]
     [ApiController]
     public class BidaClubController : ControllerBase
     {
@@ -76,14 +76,14 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(bidaClub);
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<BidaClubReponse>>> GetAll()
         {
             var bidaClubs = await _bidaClubService.GetAllBidaClubsAsync();
             return Ok(bidaClubs);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<BidaClubReponse>> Create(BidaClubRequest request)
         {
             var createdBidaClub = await _bidaClubService.CreateBidaClubAsync(request);

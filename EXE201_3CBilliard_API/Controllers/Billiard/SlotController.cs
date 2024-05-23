@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/slots")]
     [ApiController]
     public class SlotController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _slotService = slotService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<SlotResponse>>> GetAll()
         {
             var slots = await _slotService.GetAllSlotsAsync();
@@ -33,7 +33,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(slot);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<SlotResponse>> Create([FromBody] SlotRequest request)
         {
             if (!ModelState.IsValid)

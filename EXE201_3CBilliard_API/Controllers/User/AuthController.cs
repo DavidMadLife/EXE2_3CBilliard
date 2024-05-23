@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EXE201_3CBilliard_API.Controllers.User
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1.0/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IEmailService _emailService;
