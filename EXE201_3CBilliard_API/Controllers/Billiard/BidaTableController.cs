@@ -88,6 +88,13 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             }
         }
 
-       
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBidaTables(string? tableName, double? price, long? bidaClubId)
+        {
+            var bidaTables = await _bidaTableService.SearchBidaTablesAsync(tableName, price, bidaClubId);
+            return Ok(bidaTables);
+        }
+
+
     }
 }

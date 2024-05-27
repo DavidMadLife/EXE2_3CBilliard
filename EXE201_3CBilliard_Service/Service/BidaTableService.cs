@@ -108,5 +108,16 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }*/
 
+        //Filter
+        public async Task<IEnumerable<BidaTableResponse>> SearchBidaTablesAsync(string? tableName, double? price, long? bidaClubId)
+        {
+            var bidaTables = _unitOfWork.BidaTableRepository.Get(filter: bt =>
+                (string.IsNullOrEmpty(tableName) || bt.TableName.Contains(tableName)) &&
+                (!price.HasValue || bt.Price == price.Value) &&
+                (!bidaClubId.HasValue || bt.BidaCludId == bidaClubId.Value));
+
+            return _mapper.Map<IEnumerable<BidaTableResponse>>(bidaTables);
+        }
+
     }
 }

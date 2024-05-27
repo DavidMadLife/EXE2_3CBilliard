@@ -142,5 +142,18 @@ namespace EXE201_3CBilliard_Service.Service
 
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
+
+
+        //Search
+        public async Task<IEnumerable<BidaClubReponse>> SearchBidaClubsAsync(string? bidaName, string? address)
+        {
+            var bidaClubs = _unitOfWork.BidaClubRepository.Get(
+                filter: x =>
+                    (string.IsNullOrEmpty(bidaName) || x.BidaName.Contains(bidaName)) &&
+                    (string.IsNullOrEmpty(address) || x.Address.Contains(address))
+            );
+
+            return _mapper.Map<IEnumerable<BidaClubReponse>>(bidaClubs);
+        }
     }
 }

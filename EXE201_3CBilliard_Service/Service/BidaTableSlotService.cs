@@ -58,5 +58,79 @@ namespace EXE201_3CBilliard_Service.Service
             };
 
         }
+
+
+        //Update slot in Bidatatble
+        public async Task<GetSlotByBidatableResponse> UpdateSlotsOfBidaTableAsync(long bidaTableId, List<long> slotIds)
+        {
+            var bidaTable = _unitOfWork.BidaTableRepository.GetById(bidaTableId);
+            if (bidaTable == null)
+                throw new Exception($"BidaTable with id {bidaTableId} not found.");
+
+            // Lấy danh sách các slot hiện tại của BidaTable
+            var existingBidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId).ToList();
+
+            // Tạo danh sách các slot mới
+            var newSlotIds = slotIds.Except(existingBidaTableSlots.Select(x => x.SlotId)).ToList();
+            var removedSlotIds = existingBidaTableSlots.Where(x => !slotIds.Contains(x.SlotId)).Select(x => x.SlotId).ToList();
+
+            // Thêm mới các slot
+            foreach (var slotId in newSlotIds)
+            {
+                var slot = _unitOfWork.SlotRepository.GetById(slotId);
+                if (slot == null)
+                    throw new Exception($"Slot with id {slotId} not found.");
+
+                var bidaTableSlot = new BidaTable_Slot
+                {
+                    BidaTableId = bidaTableId,
+                    SlotId = slotId,
+                    Status = BidaTable_SlotStatus.ACTIVE
+                };
+                _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
+            }
+
+            // Xóa các slot không còn tồn tại trong danh sách slot mới
+            foreach (var slotId in removedSlotIds)
+            {
+                var bidaTableSlot = existingBidaTableSlots.FirstOrDefault(x => x.SlotId == slotId);
+                if (bidaTableSlot != null)
+                    _unitOfWork.BidaTableSlotRepository.Delete(bidaTableSlot);
+            }
+
+            _unitOfWork.Save();
+
+            // Trả về danh sách slot mới của BidaTable
+            var updatedBidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot");
+            var slotResponses = updatedBidaTableSlots.Select(bs => _mapper.Map<SlotResponse>(bs.Slot)).ToList();
+            return new GetSlotByBidatableResponse
+            {
+                BidaTableId = bidaTableId,
+                SlotIds = slotResponses
+            };
+        }
+
+        public async Task DeleteBidaTableAndSlotsAsync(long bidaTableId)
+        {
+            var bidaTable = _unitOfWork.BidaTableRepository.GetById(bidaTableId);
+            if (bidaTable == null)
+                throw new Exception($"BidaTable with id {bidaTableId} not found.");
+
+            // Get all BidaTable_Slot entries for this BidaTable
+            var bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId).ToList();
+
+            // Delete all related BidaTable_Slot entries
+            foreach (var bidaTableSlot in bidaTableSlots)
+            {
+                _unitOfWork.BidaTableSlotRepository.Delete(bidaTableSlot);
+            }
+
+            // Delete the BidaTable
+            _unitOfWork.BidaTableRepository.Delete(bidaTable);
+
+            // Save changes
+            _unitOfWork.Save();
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Respone;
+using EXE201_3CBilliard_Model.Models.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,7 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<BidaClubReponse> ActivateBidaClubAsync(long id, NoteRequest noteRequest);
         Task<BidaClubReponse> RejectBidaClubAsync(long id, NoteRequest noteRequest);
         Task DeleteBidaClubAsync(long id);
+
+        Task<IEnumerable<BidaClubReponse>> SearchBidaClubsAsync(string? bidaName, string? address);
     }
 }

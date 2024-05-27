@@ -33,6 +33,29 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(result);
         }
 
+        [HttpPut("{bidaTableId}/update-slots")]
+        public async Task<IActionResult> UpdateSlotsOfBidaTable(long bidaTableId, [FromBody] List<long> slotIds)
+        {
+            if (slotIds == null || !slotIds.Any())
+                return BadRequest("SlotIds cannot be null or empty.");
+
+            var result = await _bidaTableSlotService.UpdateSlotsOfBidaTableAsync(bidaTableId, slotIds);
+            return Ok(result);
+        }
+
+        [HttpDelete("{bidaTableId}/delete")]
+        public async Task<IActionResult> DeleteBidaTableAndSlots(long bidaTableId)
+        {
+            try
+            {
+                await _bidaTableSlotService.DeleteBidaTableAndSlotsAsync(bidaTableId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
     }
 }
