@@ -2,6 +2,7 @@
 using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Respone;
 using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
@@ -117,5 +118,13 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return NotFound();
             }
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBidaClubs([FromQuery] string? bidaName, [FromQuery] string? address)
+        {
+            var bidaClubs = await _bidaClubService.SearchBidaClubsAsync(bidaName, address);
+            return Ok(bidaClubs);
+        }
+
     }
 }
