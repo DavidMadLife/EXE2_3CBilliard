@@ -5,9 +5,8 @@ namespace EXE201_3CBilliard_Model.Models.Request
 {
     public class SlotRequest
     {
-        [Required(ErrorMessage = "SlotTime is required")]
-        public string SlotTime { get; set; }
-
-        
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
     }
+
 }

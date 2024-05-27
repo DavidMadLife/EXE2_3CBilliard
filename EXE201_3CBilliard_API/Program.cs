@@ -52,6 +52,8 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ISlotService, SlotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
+builder.Services.AddScoped<IBidaTableSlotService, BidaTableSlotService>();
+
 
 //Email
 builder.Services.AddScoped<IEmailService, EmailService>();

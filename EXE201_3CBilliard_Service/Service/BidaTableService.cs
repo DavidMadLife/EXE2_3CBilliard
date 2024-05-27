@@ -16,6 +16,7 @@ namespace EXE201_3CBilliard_Service.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        
 
         public BidaTableService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -39,6 +40,7 @@ namespace EXE201_3CBilliard_Service.Service
         {
             var bidaTable = _mapper.Map<BidaTable>(request);
             bidaTable.Status = BidaTableStatus.ACTIVE;
+            bidaTable.CreateAt = DateTime.Now;
             _unitOfWork.BidaTableRepository.Insert(bidaTable);
             _unitOfWork.Save();
             return _mapper.Map<BidaTableResponse>(bidaTable);
@@ -77,5 +79,34 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.BidaTableRepository.Update(bidaTable);
             _unitOfWork.Save();
         }
+
+
+        //Add slot to bida table
+        /*public async Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds)
+        {
+            var bidaTable = _unitOfWork.BidaTableRepository.GetById(bidaTableId);
+            if (bidaTable == null)
+                throw new Exception($"BidaTable with id {bidaTableId} not found.");
+
+            var bidaTableSlots = new List<BidaTable_Slot>();
+            foreach (var slotId in slotIds)
+            {
+                var slot = _unitOfWork.SlotRepository.GetById(slotId);
+                if (slot == null)
+                    throw new Exception($"Slot with id {slotId} not found.");
+
+                var bidaTableSlot = new BidaTable_Slot
+                {
+                    BidaTableId = bidaTableId,
+                    SlotId = slotId,
+                    Status = BidaTable_SlotStatus.ACTIVE
+                };
+                _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
+                bidaTableSlots.Add(bidaTableSlot);
+            }
+            _unitOfWork.Save();
+            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
+        }*/
+
     }
 }
