@@ -38,6 +38,11 @@ namespace EXE201_3CBilliard_Model.Mapper
             CreateMap<SlotResponse, Slot>().ReverseMap();
             CreateMap<BookingResponse, Booking>().ReverseMap();
             CreateMap<RegisterUserResponse, User>().ReverseMap();
+
+
+            CreateMap<BidaTable_Slot, BidaTableSlotResponse>()
+            .ForMember(dest => dest.SlotStartTime, opt => opt.MapFrom(src => src.Slot.StartTime))
+            .ForMember(dest => dest.SlotEndTime, opt => opt.MapFrom(src => src.Slot.EndTime));
         }
     }
 }

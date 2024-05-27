@@ -15,13 +15,20 @@ namespace EXE201_3CBilliard_Repository.Entities
         WAITING,
         DELETED
     }
+
     [Table("Slot")]
     public class Slot
     {
         [Key]
         public long Id { get; set; }
+
         [Required]
-        public string SlotTime { get; set; }
+        public TimeSpan StartTime { get; set; }
+
+        [Required]
+        public TimeSpan EndTime { get; set; }
+
         public SlotStatus Status { get; set; }
     }
+
 }

@@ -19,8 +19,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         /*[Url(ErrorMessage = "Image must be a valid URL")]*/
         public string Image { get; set; }
 
-        [Required(ErrorMessage = "CreateAt is required")]
-        public DateTime CreateAt { get; set; }
         public string Note { get; set; }
     }
 }
