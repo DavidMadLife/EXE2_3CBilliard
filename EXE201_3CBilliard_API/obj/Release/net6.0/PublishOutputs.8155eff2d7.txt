@@ -28,6 +28,9 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubT
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Quartz.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Quartz.Extensions.DependencyInjection.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Quartz.Extensions.Hosting.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Scrutor.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Annotations.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Filters.dll
@@ -48,12 +51,12 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubT
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\EXE201_3CBilliard_Model.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\EXE201_3CBilliard_Repository.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\EXE201_3CBilliard_Service.dll

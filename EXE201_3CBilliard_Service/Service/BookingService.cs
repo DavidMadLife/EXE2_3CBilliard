@@ -149,5 +149,29 @@ namespace EXE201_3CBilliard_Service.Service
 
             return response;
         }*/
+
+        public async Task<IEnumerable<BookingResponse>> SearchBookingsAsync(long? userId, DateTime? createAt, string? orderCode)
+        {
+            var bookings = _unitOfWork.BookingRepository.Get();
+
+            if (userId.HasValue)
+            {
+                bookings = bookings.Where(b => b.UserId == userId.Value);
+            }
+
+            if (createAt.HasValue)
+            {
+                bookings = bookings.Where(b => b.CreateAt.Date == createAt.Value.Date);
+            }
+
+            if (!string.IsNullOrEmpty(orderCode))
+            {
+                bookings = bookings.Where(b => b.OrderCode == orderCode);
+            }
+
+            return _mapper.Map<IEnumerable<BookingResponse>>(bookings);
+        }
+
+
     }
 }

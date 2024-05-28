@@ -76,8 +76,19 @@ namespace EXE201_3CBilliard_Service.Service
             if (bill == null)
                 throw new Exception($"Bill with id {billId} not found.");
 
-            bill.Status = BillStatus.ACTIVE;
-            _unitOfWork.BillRepository.Update(bill);
+            // Lấy danh sách các booking có cùng OrderCode và trạng thái là "WAITING"
+            var bookingsToUpdate = _unitOfWork.BookingRepository.Get()
+                .Where(b => b.OrderCode == bill.OrderCode && b.Status == BookingStatus.WAITING)
+                .ToList();
+
+            // Cập nhật trạng thái của các booking sang "ACTIVE"
+            foreach (var booking in bookingsToUpdate)
+            {
+                booking.Status = BookingStatus.ACTIVE;
+                _unitOfWork.BookingRepository.Update(booking);
+            }
+
+            // Lưu thay đổi vào cơ sở dữ liệu
             _unitOfWork.Save();
 
             var user = _unitOfWork.UserRepository.GetById(bill.UserId);
