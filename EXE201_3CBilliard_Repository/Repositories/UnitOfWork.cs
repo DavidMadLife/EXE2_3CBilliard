@@ -27,6 +27,7 @@ namespace EXE201_3CBilliard_Repository.Repository
         private IGenericRepository<Role> _roleRepo;
         private IGenericRepository<Slot> _slotRepo;
         private IGenericRepository<User> _userRepo;
+        private IGenericRepository<Bill> _billRepo;
 
 
         public UnitOfWork(MyDBContext context)
@@ -94,7 +95,10 @@ namespace EXE201_3CBilliard_Repository.Repository
         {
             get { return _userRepo ??= new GenericRepository<User>(_context); }
         }
-
+        public IGenericRepository<Bill> BillRepository
+        {
+            get { return _billRepo ??= new GenericRepository<Bill>(_context); }
+        }
         public int Save()
         {
             return _context.SaveChanges();

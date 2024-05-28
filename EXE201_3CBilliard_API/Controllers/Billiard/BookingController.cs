@@ -23,7 +23,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(bookings);
         }
 
-        [HttpGet("{id}")]
+        /*[HttpGet("{id}")]
         public async Task<ActionResult<BookingResponse>> GetById(long id)
         {
             var booking = await _bookingService.GetBookingByIdAsync(id);
@@ -31,9 +31,9 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return NotFound();
 
             return Ok(booking);
-        }
+        }*/
 
-        [HttpPost("create")]
+        /*[HttpPost("create")]
         public async Task<ActionResult<BookingResponse>> Create([FromBody] BookingRequest request)
         {
             if (!ModelState.IsValid)
@@ -41,7 +41,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
 
             var createdBooking = await _bookingService.CreateBookingAsync(request);
             return CreatedAtAction(nameof(GetById), new { id = createdBooking.Id }, createdBooking);
-        }
+        }*/
 
         [HttpPut("{id}")]
         public async Task<ActionResult<BookingResponse>> Update(long id, [FromBody] BookingRequest request)
@@ -76,5 +76,33 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("booking")]
+        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds)
+        {
+            try
+            {
+                var result = await _bookingService.BookMultipleSlotsAsync(userId, slotIds);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /*[HttpGet("{orderCode}")]
+        public async Task<IActionResult> GetBookingByOrderCode(string orderCode)
+        {
+            try
+            {
+                var bookingResponse = await _bookingService.GetBookingByOrderCodeAsync(orderCode);
+                return Ok(bookingResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }*/
     }
 }

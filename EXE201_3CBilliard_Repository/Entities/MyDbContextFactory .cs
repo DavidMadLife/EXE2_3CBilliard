@@ -14,7 +14,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         public MyDBContext CreateDbContext(string[] args)
         {
             // Đường dẫn đến thư mục chứa file appsettings.json
-            var path = @"D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API";
+            var path = @"D:\EXE201_3CBilliard\EXE2_3CBilliard\EXE201_3CBilliard_API";
 
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(path)

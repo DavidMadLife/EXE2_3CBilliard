@@ -37,6 +37,7 @@ namespace EXE201_3CBilliard_Model.Mapper
             CreateMap<RoleResponse, Role>().ReverseMap();
             CreateMap<SlotResponse, Slot>().ReverseMap();
             CreateMap<BookingResponse, Booking>().ReverseMap();
+            CreateMap<BillResponse, Bill>().ReverseMap();
             CreateMap<RegisterUserResponse, User>().ReverseMap();
 
 

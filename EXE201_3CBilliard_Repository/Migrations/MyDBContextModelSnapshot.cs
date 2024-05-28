@@ -137,6 +137,39 @@ namespace EXE201_3CBilliard_Repository.Migrations
                     b.ToTable("BidaTable_Slot");
                 });
 
+            modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Bill", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descrpition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bill");
+                });
+
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Booking", b =>
                 {
                     b.Property<long>("Id")
@@ -162,6 +195,9 @@ namespace EXE201_3CBilliard_Repository.Migrations
                     b.Property<string>("OrderCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

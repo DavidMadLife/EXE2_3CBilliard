@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using EXE201_3CBilliard_Model.Mapper;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Quartz;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -35,6 +36,25 @@ builder.Services.AddDbContext<MyDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Thêm các dịch vụ vào container
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionJobFactory();
+
+    // Cấu hình công việc
+    var jobKey = new JobKey("CheckBillStatusJob");
+    q.AddJob<CheckBillStatusJob>(opts => opts.WithIdentity(jobKey));
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("CheckBillStatusJob-trigger")
+        .WithSimpleSchedule(x => x
+            .WithIntervalInHours(1) // Chạy mỗi giờ
+            .RepeatForever())
+    );
+});
+
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
 //Repo
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -51,7 +71,7 @@ builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ISlotService, SlotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
-
+builder.Services.AddScoped<IBillService, BillService>();
 builder.Services.AddScoped<IBidaTableSlotService, BidaTableSlotService>();
 
 

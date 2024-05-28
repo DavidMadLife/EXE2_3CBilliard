@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Model.Models.Response;
 
 public class EmailService : IEmailService
 {
@@ -52,5 +53,21 @@ public class EmailService : IEmailService
         mailMessage.To.Add(toEmail);
 
         await smtpClient.SendMailAsync(mailMessage);
+    }
+
+    public async Task SendBillEmailAsync(string toEmail, BillResponse billResponse)
+    {
+        var subject = "Your Bill Information";
+        var message = $@"
+            <h1>Bill Information</h1>
+            <p>User: {billResponse.User}</p>
+            <p>Price: {billResponse.Price}</p>
+            <p>CreateAt: {billResponse.CreateAt}</p>
+            <p>OrderCode: {billResponse.OrderCode}</p>
+            <p>Description: {billResponse.Descrpition}</p>
+            <p>Status: {billResponse.Status}</p>
+        ";
+
+        await SendEmailAsync(toEmail, subject, message);
     }
 }
