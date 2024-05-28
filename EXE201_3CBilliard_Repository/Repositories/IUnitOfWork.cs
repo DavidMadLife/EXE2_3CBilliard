@@ -23,6 +23,7 @@ namespace EXE201_3CBilliard_Repository.Repository
         public IGenericRepository<Role> RoleRepository { get; }
         public IGenericRepository<Slot> SlotRepository { get; }
         public IGenericRepository<User> UserRepository { get; }
+        public IGenericRepository<Bill> BillRepository { get; }
         public int Save();
     }
 }

@@ -26,6 +26,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         public DbSet<Post> Posts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Slot> Slots { get; set; }
+        public DbSet<Bill> Bills { get; set; }
 
 
 
