@@ -104,5 +104,19 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return BadRequest(ex.Message);
             }
         }*/
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode)
+        {
+            try
+            {
+                var bookings = await _bookingService.SearchBookingsAsync(userId, createAt, orderCode);
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }
