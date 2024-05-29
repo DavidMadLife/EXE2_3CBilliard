@@ -95,6 +95,11 @@ namespace EXE201_3CBilliard_API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 var user = await _userService.RegisterUser(request);
                 return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
