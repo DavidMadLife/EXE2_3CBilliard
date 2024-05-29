@@ -110,11 +110,13 @@ namespace EXE201_3CBilliard_Service.Service
                 };
             }*/
             var user = _mapper.Map<User>(request);
+            user.IdentificationCardNumber = "";
             user.Status = UserStatus.ACTIVE;
             user.Password = HashPassword(request.Password);
             user.CreateAt = DateTime.Now;
             user.ModifineAt = DateTime.Now;
-            /*user.IdentificationCardNumber = HashPassword()*/
+            user.RoleId = 3;
+           
             user.Note = "Success";
             _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
@@ -145,20 +147,27 @@ namespace EXE201_3CBilliard_Service.Service
         private string GenerateToken(User info)
         {
             List<Claim> claims = new List<Claim>()
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, info.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds().ToString(), ClaimValueTypes.Integer64),
-            new Claim("email", info.Email),
-            new Claim("name", info.UserName)
-           
-        };
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, info.Email),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds().ToString(), ClaimValueTypes.Integer64),
+        new Claim("userid", info.Id.ToString()),
+        new Claim("email", info.Email),
+        new Claim("name", info.UserName)
+    };
 
             // Add role claim if role information is available
             if (info.Role != null)
             {
+                claims.Add(new Claim("role", info.Role.RoleName));
+            }
+            else
+            {
                 var role = _unitOfWork.RoleRepository.Get(filter: r => r.Id == info.RoleId).FirstOrDefault();
-                claims.Add(new Claim("role", role.RoleName));
+                if (role != null)
+                {
+                    claims.Add(new Claim("role", role.RoleName));
+                }
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
@@ -172,6 +181,7 @@ namespace EXE201_3CBilliard_Service.Service
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
 
         //Encrypt
         // Method to verify the hashed password
