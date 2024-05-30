@@ -150,26 +150,20 @@ namespace EXE201_3CBilliard_Service.Service
             return response;
         }*/
 
-        public async Task<IEnumerable<BookingResponse>> SearchBookingsAsync(long? userId, DateTime? createAt, string? orderCode)
+        public async Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, string? orderCode, int pageIndex, int pageSize)
         {
-            var bookings = _unitOfWork.BookingRepository.Get();
+            var result = _unitOfWork.BookingRepository.GetWithCount(
+                filter: b => (userId == null || b.UserId == userId) &&
+                             (createAt == null || b.CreateAt.Date == createAt.Value.Date) &&
+                             (string.IsNullOrEmpty(orderCode) || b.OrderCode == orderCode),
+                pageIndex: pageIndex,
+                pageSize: pageSize
+            );
 
-            if (userId.HasValue)
-            {
-                bookings = bookings.Where(b => b.UserId == userId.Value);
-            }
+            var bookings = result.items;
+            var totalCount = result.totalCount;
 
-            if (createAt.HasValue)
-            {
-                bookings = bookings.Where(b => b.CreateAt.Date == createAt.Value.Date);
-            }
-
-            if (!string.IsNullOrEmpty(orderCode))
-            {
-                bookings = bookings.Where(b => b.OrderCode == orderCode);
-            }
-
-            return _mapper.Map<IEnumerable<BookingResponse>>(bookings);
+            return (_mapper.Map<IEnumerable<BookingResponse>>(bookings), totalCount);
         }
 
 

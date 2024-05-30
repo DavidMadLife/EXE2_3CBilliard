@@ -18,7 +18,7 @@ namespace EXE201_3CBilliard_Service.Interface
         /*Task<BookingDetailResponse> GetBookingByOrderCodeAsync(string orderCode);*/
         Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId);
 
-        Task<IEnumerable<BookingResponse>> SearchBookingsAsync(long? userId, DateTime? createAt, string? orderCode);
+        Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, string? orderCode, int pageIndex, int pageSize);
     }
 
 }

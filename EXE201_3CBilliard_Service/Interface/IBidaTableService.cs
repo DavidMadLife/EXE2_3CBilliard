@@ -17,8 +17,7 @@ namespace EXE201_3CBilliard_Service.Interface
         Task DeleteBidaTableAsync(long id);
         Task InactiveBidaTableAsync(long id);
 
-        Task<IEnumerable<BidaTableResponse>> SearchBidaTablesAsync(string? tableName, double? price, long? bidaClubId);
-
+        Task<(IEnumerable<BidaTableResponse> bidaTables, int totalCount)> SearchBidaTablesAsync(string? tableName, double? price, long? bidaClubId, int pageIndex, int pageSize);
 
     }
 }
