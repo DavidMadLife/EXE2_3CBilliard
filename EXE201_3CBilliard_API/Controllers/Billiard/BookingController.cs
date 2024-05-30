@@ -1,7 +1,10 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
+using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
 {
@@ -106,17 +109,11 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }*/
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode)
+        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
-            try
-            {
-                var bookings = await _bookingService.SearchBookingsAsync(userId, createAt, orderCode);
-                return Ok(bookings);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _bookingService.SearchBookingsAsync(userId, createAt, orderCode, pageIndex, pageSize);
+            Response.Headers.Add("X-Total-Count", result.TotalCount.ToString());
+            return Ok(result.bookings);
         }
     }
 }

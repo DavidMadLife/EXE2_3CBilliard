@@ -1,6 +1,7 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
@@ -89,10 +90,11 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBidaTables(string? tableName, double? price, long? bidaClubId)
+        public async Task<IActionResult> SearchBidaTables(string? tableName, double? price, long? bidaClubId, int pageIndex = 1, int pageSize = 10)
         {
-            var bidaTables = await _bidaTableService.SearchBidaTablesAsync(tableName, price, bidaClubId);
-            return Ok(bidaTables);
+            var result = await _bidaTableService.SearchBidaTablesAsync(tableName, price, bidaClubId, pageIndex, pageSize);
+            Response.Headers.Add("X-Total-Count", result.totalCount.ToString());
+            return Ok(result.bidaTables);
         }
 
 

@@ -109,15 +109,22 @@ namespace EXE201_3CBilliard_Service.Service
         }*/
 
         //Filter
-        public async Task<IEnumerable<BidaTableResponse>> SearchBidaTablesAsync(string? tableName, double? price, long? bidaClubId)
+        public async Task<(IEnumerable<BidaTableResponse> bidaTables, int totalCount)> SearchBidaTablesAsync(string? tableName, double? price, long? bidaClubId, int pageIndex = 1, int pageSize = 10)
         {
-            var bidaTables = _unitOfWork.BidaTableRepository.Get(filter: bt =>
+            var bidaTablesResult = _unitOfWork.BidaTableRepository.GetWithCount(filter: bt =>
                 (string.IsNullOrEmpty(tableName) || bt.TableName.Contains(tableName)) &&
                 (!price.HasValue || bt.Price == price.Value) &&
-                (!bidaClubId.HasValue || bt.BidaCludId == bidaClubId.Value));
+                (!bidaClubId.HasValue || bt.BidaCludId == bidaClubId.Value),
+                pageIndex: pageIndex,
+                pageSize: pageSize);
 
-            return _mapper.Map<IEnumerable<BidaTableResponse>>(bidaTables);
+            var bidaTables = bidaTablesResult.items;
+            var totalCount = bidaTablesResult.totalCount;
+
+            return (_mapper.Map<IEnumerable<BidaTableResponse>>(bidaTables), totalCount);
         }
+
+
 
     }
 }
