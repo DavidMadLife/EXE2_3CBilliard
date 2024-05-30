@@ -123,20 +123,20 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<RegisterUserResponse>(user);
         }
 
-        public async Task<User[]> SearchUser(SearchUserView searchView)
+        public async Task<User[]> SearchUser(string? keyword, int pageNumber = 1, int pageSize = 10)
         {
             // Tạo điều kiện lọc dựa trên từ khóa
             Expression<Func<User, bool>> filter = p =>
-                string.IsNullOrEmpty(searchView.Keyword) ||
-                p.UserName.Contains(searchView.Keyword) ||
-                p.Address.Contains(searchView.Keyword);
+                string.IsNullOrEmpty(keyword) ||
+                p.UserName.Contains(keyword) ||
+                p.Email.Contains(keyword);
 
             // Lấy danh sách người dùng từ repository
             var users = _unitOfWork.UserRepository.Get(
                 filter: filter,
-                includeProperties: "Role", // Đảm bảo Repository hỗ trợ IncludeProperties
-                pageIndex: searchView.Page_number, // Sửa lỗi chính tả: Page_number -> PageNumber
-                pageSize: searchView.Page_size // Sửa lỗi chính tả: Page_number -> PageSize
+                includeProperties: "Role",
+                pageIndex: pageNumber,
+                pageSize: pageSize
             );
 
             // Trả về danh sách người dùng
@@ -153,7 +153,8 @@ namespace EXE201_3CBilliard_Service.Service
         new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds().ToString(), ClaimValueTypes.Integer64),
         new Claim("userid", info.Id.ToString()),
         new Claim("email", info.Email),
-        new Claim("name", info.UserName)
+        new Claim("name", info.UserName),
+        new Claim("Phone", info.Phone)
     };
 
             // Add role claim if role information is available

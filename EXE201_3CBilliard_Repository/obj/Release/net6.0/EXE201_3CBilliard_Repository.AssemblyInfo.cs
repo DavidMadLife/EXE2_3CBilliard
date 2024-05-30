@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EXE201_3CBilliard_Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+539ca9cf71205891babe4fe3a1aa2f0c348e93f1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2b4ae7c22cd823c90357ea572f2002c0fb6887d")]
 [assembly: System.Reflection.AssemblyProductAttribute("EXE201_3CBilliard_Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EXE201_3CBilliard_Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
