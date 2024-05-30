@@ -3,6 +3,7 @@ using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -87,56 +88,58 @@ namespace EXE201_3CBilliard_Service.Service
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
-            //Check Useremial exist
-            var existingUser = _unitOfWork.UserRepository.Get(filter: v => v.Email == request.Email);
-           /* if (existingUser != null)
+
+            try
             {
-                return new RegisterUserResponse
-                {
-                    Id = 0, // Use a sentinel value to indicate failure
-                    RoleId = 0,
-                    UserName = null,
-                    Email = request.Email,
-                    Password = null,
-                    Phone = null,
-                    IdentificationCardNumber = null,
-                    Image = null,
-                    Address = null,
-                    CreateAt = DateTime.MinValue,
-                    ModifineAt = DateTime.MinValue,
-                    DoB = DateTime.MinValue,
-                    Note = "Email already exists.",
-                    Status = UserStatus.INACTIVE.ToString() // Use a relevant status or an empty string
-                };
-            }*/
-            var user = _mapper.Map<User>(request);
-            user.IdentificationCardNumber = "";
-            user.Status = UserStatus.ACTIVE;
-            user.Password = HashPassword(request.Password);
-            user.CreateAt = DateTime.Now;
-            user.ModifineAt = DateTime.Now;
-            user.RoleId = 3;
+                CheckDuplicateEmail(request.Email);
+
+                // If the email does not exist, proceed with user registration
+                var user = _mapper.Map<User>(request);
+                user.IdentificationCardNumber = "";
+                user.Status = UserStatus.ACTIVE;
+                user.Password = HashPassword(request.Password);
+                user.CreateAt = DateTime.Now;
+                user.ModifineAt = DateTime.Now;
+                user.RoleId = 3;
+                user.Note = "Success";
+
+                _unitOfWork.UserRepository.Insert(user);
+                _unitOfWork.Save();
+                return _mapper.Map<RegisterUserResponse>(user);
+            }
+            catch (Exception ex)
+            {
+                // Wrap and rethrow the exception
+                throw new EmailAlreadyExistsException("Failed to register user due to duplicate email", ex);
+            }
+        }
            
-            user.Note = "Success";
-            _unitOfWork.UserRepository.Insert(user);
-            _unitOfWork.Save();
-            return _mapper.Map<RegisterUserResponse>(user);
+
+        //Check mail duplicate
+        private void CheckDuplicateEmail(string email)
+        {
+            var existingUser = _unitOfWork.UserRepository.Get(filter: v => v.Email == email).FirstOrDefault();
+            if (existingUser != null)
+            {
+                throw new EmailAlreadyExistsException("Email already exists");
+            }
         }
 
-        public async Task<User[]> SearchUser(SearchUserView searchView)
+
+        public async Task<User[]> SearchUser(string? keyword, int pageNumber = 1, int pageSize = 10)
         {
             // Tạo điều kiện lọc dựa trên từ khóa
             Expression<Func<User, bool>> filter = p =>
-                string.IsNullOrEmpty(searchView.Keyword) ||
-                p.UserName.Contains(searchView.Keyword) ||
-                p.Address.Contains(searchView.Keyword);
+                string.IsNullOrEmpty(keyword) ||
+                p.UserName.Contains(keyword) ||
+                p.Email.Contains(keyword);
 
             // Lấy danh sách người dùng từ repository
             var users = _unitOfWork.UserRepository.Get(
                 filter: filter,
-                includeProperties: "Role", // Đảm bảo Repository hỗ trợ IncludeProperties
-                pageIndex: searchView.Page_number, // Sửa lỗi chính tả: Page_number -> PageNumber
-                pageSize: searchView.Page_size // Sửa lỗi chính tả: Page_number -> PageSize
+                includeProperties: "Role",
+                pageIndex: pageNumber,
+                pageSize: pageSize
             );
 
             // Trả về danh sách người dùng
@@ -153,7 +156,8 @@ namespace EXE201_3CBilliard_Service.Service
         new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds().ToString(), ClaimValueTypes.Integer64),
         new Claim("userid", info.Id.ToString()),
         new Claim("email", info.Email),
-        new Claim("name", info.UserName)
+        new Claim("name", info.UserName),
+        new Claim("Phone", info.Phone)
     };
 
             // Add role claim if role information is available

@@ -78,14 +78,11 @@ namespace EXE201_3CBilliard_API.Controllers
             return Ok(user);
         }
 
+
         [HttpGet("search")]
-        public async Task<IActionResult> SearchUserByKeyWord([FromBody] SearchUserView searchUserView)
+        public async Task<IActionResult> SearchUser([FromQuery] string? keyword, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var users = await _userService.SearchUser(searchUserView);
-            if (users == null)
-            {
-                return NotFound();
-            }
+            var users = await _userService.SearchUser(keyword, pageNumber, pageSize);
             return Ok(users);
         }
 
