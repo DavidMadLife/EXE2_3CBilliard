@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ycPviCVdbLs=",
+  "dgSpecHash": "m0zCKhQ1cJg=",
   "success": true,
-  "projectFilePath": "D:\\Semester 8\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj",
+  "projectFilePath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\quans\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\quans\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

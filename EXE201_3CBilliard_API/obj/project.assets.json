@@ -5583,11 +5583,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Semester 8\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj",
+      "projectUniqueName": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj",
       "projectName": "EXE201_3CBilliard_API",
-      "projectPath": "D:\\Semester 8\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj",
+      "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\EXE201_3CBilliard_API.csproj",
       "packagesPath": "C:\\Users\\quans\\.nuget\\packages\\",
-      "outputPath": "D:\\Semester 8\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\obj\\",
+      "outputPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5609,8 +5609,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Semester 8\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj": {
-              "projectPath": "D:\\Semester 8\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj"
+            "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj": {
+              "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Service\\EXE201_3CBilliard_Service.csproj"
             }
           }
         }
