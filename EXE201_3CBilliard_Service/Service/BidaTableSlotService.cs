@@ -138,5 +138,17 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
 
+
+        public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAsync(DateTime bookingDate)
+        {
+            // Implement logic để lấy các BidaTableSlot đã được đặt vào ngày cụ thể
+            // Có thể sử dụng các phương thức đã được đề cập trong câu trả lời trước
+
+            var bookingsOnDate = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date).ToList();
+            var bookedSlotIds = bookingsOnDate.Select(b => b.BT_SlotId).ToList();
+            var bookedSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => bookedSlotIds.Contains(x.Id), includeProperties: "Slot,BidaTable").ToList();
+
+            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bookedSlots);
+        }
     }
 }
