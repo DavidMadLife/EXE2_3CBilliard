@@ -81,11 +81,11 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPost("booking")]
-        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds)
+        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds, [FromQuery] DateTime bookingDate)
         {
             try
             {
-                var result = await _bookingService.BookMultipleSlotsAsync(userId, slotIds);
+                var result = await _bookingService.BookMultipleSlotsAsync(userId, slotIds, bookingDate);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -93,6 +93,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return StatusCode(500, ex.Message);
             }
         }
+
 
         /*[HttpGet("{orderCode}")]
         public async Task<IActionResult> GetBookingByOrderCode(string orderCode)
@@ -109,9 +110,9 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }*/
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] DateTime? bookingdate, [FromQuery] string? orderCode, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _bookingService.SearchBookingsAsync(userId, createAt, orderCode, pageIndex, pageSize);
+            var result = await _bookingService.SearchBookingsAsync(userId, createAt, bookingdate, orderCode, pageIndex, pageSize);
             Response.Headers.Add("X-Total-Count", result.TotalCount.ToString());
             return Ok(result.bookings);
         }
