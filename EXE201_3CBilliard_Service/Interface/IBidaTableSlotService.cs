@@ -14,6 +14,8 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<GetSlotByBidatableResponse> UpdateSlotsOfBidaTableAsync(long bidaTableId, List<long> slotIds);
         Task DeleteBidaTableAndSlotsAsync(long bidaTableId);
         Task<IEnumerable<BidaTableSlotResponse>> GetAllAsync();
+
+        Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAsync(DateTime bookingDate);
     }
 }
 

@@ -64,5 +64,19 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(bidaTableSlots);
         }
 
+
+        [HttpGet("bookedSlots")]
+        public async Task<IActionResult> GetBookedSlotsByDateAsync([FromQuery] DateTime bookingDate)
+        {
+            try
+            {
+                var bookedSlots = await _bidaTableSlotService.GetBookedSlotsByDateAsync(bookingDate);
+                return Ok(bookedSlots);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
