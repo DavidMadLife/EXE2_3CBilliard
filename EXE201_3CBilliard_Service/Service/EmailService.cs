@@ -59,15 +59,18 @@ public class EmailService : IEmailService
     {
         var subject = "Your Bill Information";
         var message = $@"
-            <h1>Bill Information</h1>
-            <p>User: {billResponse.User}</p>
-            <p>Price: {billResponse.Price}</p>
-            <p>CreateAt: {billResponse.CreateAt}</p>
-            <p>OrderCode: {billResponse.OrderCode}</p>
-            <p>Description: {billResponse.Descrpition}</p>
-            <p>Status: {billResponse.Status}</p>
-        ";
+        <h1>Bill Information</h1>
+        <p>Booker Name: {billResponse.BookerName}</p>
+        <p>Booker Phone: {billResponse.BookerPhone}</p>
+        <p>Booker Email: {billResponse.BookerEmail}</p>
+        <p>Price: {billResponse.Price}</p>
+        <p>CreateAt: {billResponse.CreateAt}</p>
+        <p>OrderCode: {billResponse.OrderCode}</p>
+        <p>Description: {billResponse.Descrpition}</p>
+        <p>Status: {billResponse.Status}</p>
+    ";
 
         await SendEmailAsync(toEmail, subject, message);
     }
+
 }

@@ -26,6 +26,7 @@ namespace EXE201_3CBilliard_Model.Mapper
             CreateMap<SlotRequest, Slot>().ReverseMap();
             CreateMap<BookingRequest, Booking>().ReverseMap();
             CreateMap<RegisterUserRequest, User>().ReverseMap();
+            CreateMap<BidaClubRequest, Bill>().ReverseMap();
 
             //Reponse
             CreateMap<BidaClubReponse, BidaClub>().ReverseMap();

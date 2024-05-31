@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
@@ -25,30 +26,39 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-        public async Task<BillResponse> GetAndSaveBillByOrderCodeAsync(string orderCode)
+        public async Task<BillResponse> GetAndSaveBillByOrderCodeAsync(BillRequest billRequest)
         {
             // Tính tổng giá cả của các đặt bàn có cùng orderCode
             var totalPrice = _unitOfWork.BookingRepository.Get()
-                .Where(b => b.OrderCode == orderCode)
+                .Where(b => b.OrderCode == billRequest.OrderCode)
                 .Sum(b => b.Price);
 
             // Lấy thông tin đặt bàn đầu tiên có cùng orderCode
             var firstBooking = _unitOfWork.BookingRepository.Get()
-                .FirstOrDefault(b => b.OrderCode == orderCode);
+                .FirstOrDefault(b => b.OrderCode == billRequest.OrderCode);
             if (firstBooking == null)
-                throw new Exception($"No booking found with order code {orderCode}");
+                throw new Exception($"No booking found with order code {billRequest.OrderCode}");
 
             // Lấy thông tin người dùng từ đặt bàn
             var user = _unitOfWork.UserRepository.GetById(firstBooking.UserId);
             if (user == null)
                 throw new Exception($"User with id {firstBooking.UserId} not found.");
 
+            // Sử dụng thông tin từ BillRequest nếu có, nếu không thì dùng thông tin từ user
+            var bookerName = !string.IsNullOrEmpty(billRequest.BookerName) ? billRequest.BookerName : user.UserName;
+            var bookerPhone = !string.IsNullOrEmpty(billRequest.BookerPhone) ? billRequest.BookerPhone : user.Phone;
+            var bookerEmail = !string.IsNullOrEmpty(billRequest.BookerEmail) ? billRequest.BookerEmail : user.Email;
+
             var bill = new Bill
             {
                 UserId = firstBooking.UserId,
+                PaymentMethods = billRequest.PaymentMethods,
+                BookerName = bookerName,
+                BookerPhone = bookerPhone,
+                BookerEmail = bookerEmail,
                 Price = totalPrice,
                 CreateAt = DateTime.Now,
-                OrderCode = orderCode,
+                OrderCode = billRequest.OrderCode,
                 Descrpition = firstBooking.Descrpition,
                 Status = BillStatus.WAITING
             };
@@ -59,16 +69,19 @@ namespace EXE201_3CBilliard_Service.Service
             var billResponse = new BillResponse
             {
                 Id = bill.Id,
-                User = user.UserName,
+                BookerName = bookerName,
+                BookerPhone = bookerPhone,
+                BookerEmail = bookerEmail,
                 Price = totalPrice,
                 CreateAt = bill.CreateAt,
-                OrderCode = orderCode,
+                OrderCode = billRequest.OrderCode,
                 Descrpition = bill.Descrpition,
                 Status = BillStatus.WAITING.ToString()
             };
 
             return billResponse;
         }
+
 
         public async Task<BillResponse> UpdateBillStatusToActiveAsync(long billId)
         {
@@ -88,16 +101,23 @@ namespace EXE201_3CBilliard_Service.Service
                 _unitOfWork.BookingRepository.Update(booking);
             }
 
+            // Cập nhật trạng thái của bill sang "ACTIVE"
+            bill.Status = BillStatus.ACTIVE;
+            _unitOfWork.BillRepository.Update(bill);
+
             // Lưu thay đổi vào cơ sở dữ liệu
             _unitOfWork.Save();
 
             var user = _unitOfWork.UserRepository.GetById(bill.UserId);
             if (user == null)
-                throw new Exception($"User with username {user.UserName} not found.");
+                throw new Exception($"User with id {bill.UserId} not found.");
 
             var billResponse = new BillResponse
             {
-                User = user.UserName,
+                Id = bill.Id,
+                BookerName = bill.BookerName,
+                BookerPhone = bill.BookerPhone,
+                BookerEmail = bill.BookerEmail,
                 Price = bill.Price,
                 CreateAt = bill.CreateAt,
                 OrderCode = bill.OrderCode,
@@ -109,6 +129,7 @@ namespace EXE201_3CBilliard_Service.Service
 
             return billResponse;
         }
+
 
         public async Task CheckAndUpdateBillStatusAsync()
         {

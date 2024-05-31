@@ -1,4 +1,5 @@
-﻿using EXE201_3CBilliard_Model.Models.Response;
+﻿using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EXE201_3CBilliard_Service.Interface
 {
     public interface IBillService
     {
-        Task<BillResponse> GetAndSaveBillByOrderCodeAsync(string orderCode);
+        Task<BillResponse> GetAndSaveBillByOrderCodeAsync(BillRequest billRequest);
         Task<BillResponse> UpdateBillStatusToActiveAsync(long billId);
         Task CheckAndUpdateBillStatusAsync();
     }
