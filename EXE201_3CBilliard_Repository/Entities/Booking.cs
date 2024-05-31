@@ -28,6 +28,8 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public DateTime CreateAt { get; set; }
         [Required]
+        public DateTime BookingDate { get; set; }
+        [Required]
         public string OrderCode { get; set; }
         [Required]
         public string Descrpition { get; set; }

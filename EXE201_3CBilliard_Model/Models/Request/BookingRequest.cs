@@ -13,6 +13,8 @@ namespace EXE201_3CBilliard_Model.Models.Request
 
         [Required(ErrorMessage = "CreateAt is required")]
         public DateTime CreateAt { get; set; }
+        [Required(ErrorMessage = "BookingDate is required")]
+        public DateTime BookingDate { get; set; }
 
         [Required(ErrorMessage = "OrderCode is required")]
         [RegularExpression(@"^[A-Z]{3}\d{7}$", ErrorMessage = "OrderCode must have 3 characters followed by 7 digits")]

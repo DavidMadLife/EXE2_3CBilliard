@@ -66,8 +66,16 @@ namespace EXE201_3CBilliard_Service.Service
             return true;
         }
 
-        public async Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId)
+        public async Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
         {
+            var currentDate = DateTime.Now.Date; // Lấy ngày hiện tại
+            var maxDate = currentDate.AddDays(7); // Ngày tối đa là 7 ngày sau
+
+            if (bookingDate.Date <= currentDate || bookingDate.Date > maxDate)
+            {
+                throw new Exception("Ngày đặt chỗ phải lớn hơn ngày hiện tại và nhỏ hơn 7 ngày sau.");
+            }
+
             var user = _unitOfWork.UserRepository.GetById(userId);
             if (user == null)
                 throw new Exception($"User with id {userId} not found.");
@@ -80,7 +88,6 @@ namespace EXE201_3CBilliard_Service.Service
                 if (slot == null)
                     throw new Exception($"Slot with id {slotId} not found.");
 
-                // Lấy thông tin về bảng BidaTable từ slot
                 var bidaTable = _unitOfWork.BidaTableRepository.GetById(slot.BidaTableId);
                 if (bidaTable == null)
                     throw new Exception($"BidaTable with id {slot.BidaTableId} not found.");
@@ -89,12 +96,12 @@ namespace EXE201_3CBilliard_Service.Service
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
-                    CreateAt = DateTime.Now,
+                    CreateAt = bookingDate,  // Use the provided booking date
                     OrderCode = code,
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
                     Note = "Note",
-                    Status = BookingStatus.WAITING, // Assuming default status is WAITING
-                    Price = bidaTable.Price // Assigning price from BidaTable
+                    Status = BookingStatus.WAITING,
+                    Price = bidaTable.Price
                 };
 
                 _unitOfWork.BookingRepository.Insert(booking);
@@ -150,11 +157,12 @@ namespace EXE201_3CBilliard_Service.Service
             return response;
         }*/
 
-        public async Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, string? orderCode, int pageIndex, int pageSize)
+        public async Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, DateTime? bookingDate, string? orderCode, int pageIndex, int pageSize)
         {
             var result = _unitOfWork.BookingRepository.GetWithCount(
                 filter: b => (userId == null || b.UserId == userId) &&
                              (createAt == null || b.CreateAt.Date == createAt.Value.Date) &&
+                             (createAt == null || b.BookingDate.Date == bookingDate.Value.Date) &&
                              (string.IsNullOrEmpty(orderCode) || b.OrderCode == orderCode),
                 pageIndex: pageIndex,
                 pageSize: pageSize
