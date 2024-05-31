@@ -33,11 +33,13 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string BookerEmail { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
+        public DateTime BookingDate { get; set; }
         [Required]
         public string OrderCode { get; set; }
         [Required]
         public string Descrpition { get; set; }
         public double Price { get; set; }
         public BillStatus Status { get; set; }
+        
     }
 }

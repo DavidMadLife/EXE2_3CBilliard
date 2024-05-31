@@ -18,11 +18,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         [HttpPost]
         public async Task<IActionResult> GetAndSaveBillByOrderCode([FromBody] BillRequest billRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            
             try
             {
                 var billResponse = await _billService.GetAndSaveBillByOrderCodeAsync(billRequest);

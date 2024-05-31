@@ -143,7 +143,7 @@ namespace EXE201_3CBilliard_Service.Service
         {
             // Implement logic để lấy các BidaTableSlot đã được đặt vào ngày cụ thể và cho một bàn Bida cụ thể
 
-            var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.Slot.BidaTableId == bidaTableId).ToList();
+            var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.BSlot.BidaTableId == bidaTableId).ToList();
             var bookedSlotIds = bookingsOnDateAndTable.Select(b => b.BT_SlotId).ToList();
             var bookedSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => bookedSlotIds.Contains(x.Id), includeProperties: "Slot,BidaTable").ToList();
 
