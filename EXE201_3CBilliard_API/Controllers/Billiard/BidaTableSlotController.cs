@@ -65,17 +65,43 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
 
-        [HttpGet("bookedSlots")]
-        public async Task<IActionResult> GetBookedSlotsByDateAsync([FromQuery] DateTime bookingDate)
+        [HttpGet("booked-slots")]
+        public async Task<IActionResult> GetBookedSlotsByDateAndTable([FromQuery] DateTime bookingDate, [FromQuery] long bidaTableId)
         {
             try
             {
-                var bookedSlots = await _bidaTableSlotService.GetBookedSlotsByDateAsync(bookingDate);
+                var bookedSlots = await _bidaTableSlotService.GetBookedSlotsByDateAndTableAsync(bookingDate, bidaTableId);
+                if (bookedSlots == null || !bookedSlots.Any())
+                {
+                    return NotFound("No booked slots found for the specified date and table.");
+                }
+
                 return Ok(bookedSlots);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                // Log the exception
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+
+        [HttpGet("{bidaTableId}")]
+        public async Task<IActionResult> GetBidaTableSlotById(long bidaTableId)
+        {
+            try
+            {
+                var bidaTableSlot = await _bidaTableSlotService.GetBidaTableSlotByIdAsync(bidaTableId);
+                if (bidaTableSlot == null)
+                {
+                    return NotFound($"BidaTableSlot with id {bidaTableId} not found.");
+                }
+                return Ok(bidaTableSlot);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
     }

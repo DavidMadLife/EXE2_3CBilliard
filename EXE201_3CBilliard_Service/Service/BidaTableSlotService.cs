@@ -139,16 +139,29 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-        public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAsync(DateTime bookingDate)
+        public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAndTableAsync(DateTime bookingDate, long bidaTableId)
         {
-            // Implement logic để lấy các BidaTableSlot đã được đặt vào ngày cụ thể
-            // Có thể sử dụng các phương thức đã được đề cập trong câu trả lời trước
+            // Implement logic để lấy các BidaTableSlot đã được đặt vào ngày cụ thể và cho một bàn Bida cụ thể
 
-            var bookingsOnDate = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date).ToList();
-            var bookedSlotIds = bookingsOnDate.Select(b => b.BT_SlotId).ToList();
+            var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.Slot.BidaTableId == bidaTableId).ToList();
+            var bookedSlotIds = bookingsOnDateAndTable.Select(b => b.BT_SlotId).ToList();
             var bookedSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => bookedSlotIds.Contains(x.Id), includeProperties: "Slot,BidaTable").ToList();
 
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bookedSlots);
         }
+
+        public async Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotByIdAsync(long bidaTableId)
+        {
+            var bidaTableSlot = _unitOfWork.BidaTableSlotRepository.Get(filter: bts => bts.BidaTableId == bidaTableId, includeProperties: "Slot,BidaTable").ToList();
+
+            if (bidaTableSlot == null)
+            {
+                throw new Exception($"BidaTableSlot with id {bidaTableId} not found.");
+            }
+
+            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlot);
+        }
+
+
     }
 }

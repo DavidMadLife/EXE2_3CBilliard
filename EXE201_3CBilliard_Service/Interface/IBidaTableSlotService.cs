@@ -1,4 +1,5 @@
 ﻿using EXE201_3CBilliard_Model.Models.Response;
+using EXE201_3CBilliard_Repository.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace EXE201_3CBilliard_Service.Interface
         Task DeleteBidaTableAndSlotsAsync(long bidaTableId);
         Task<IEnumerable<BidaTableSlotResponse>> GetAllAsync();
 
-        Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAsync(DateTime bookingDate);
+        Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAndTableAsync(DateTime bookingDate, long bidaTableId);
+
+        Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotByIdAsync(long bidaTableId);
     }
 }
 
