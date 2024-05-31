@@ -132,5 +132,11 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.Save();
         }
 
+        public async Task<IEnumerable<BidaTableSlotResponse>> GetAllAsync()
+        {
+            var bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(includeProperties: "Slot,BidaTable").ToList();
+            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
+        }
+
     }
 }
