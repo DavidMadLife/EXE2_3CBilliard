@@ -58,19 +58,47 @@ public class EmailService : IEmailService
     public async Task SendBillEmailAsync(string toEmail, BillResponse billResponse)
     {
         var subject = "Your Bill Information";
+
+        // Tạo danh sách các Slot đã đặt
+        var bookedSlotInfo = new List<string>();
+        long bidaTable = 0;
+        foreach (var slotId in billResponse.BookedSlotIds)
+        {
+            var bidaTableSlot = _unitOfWork.BidaTableSlotRepository.GetById(slotId);
+            if (bidaTableSlot != null)
+            {
+                bidaTable = bidaTableSlot.BidaTableId;
+                bookedSlotInfo.Add($"Slot {bidaTableSlot.SlotId}");
+            }
+        }
+        //tìm tableName
+        var tableName = _unitOfWork.BidaTableRepository.GetById(bidaTable);
+        long bidaClub = tableName.BidaCludId;
+        //Tìm clubName
+        var clubName = _unitOfWork.BidaClubRepository.GetById(bidaClub); 
+        // Tạo message email với thông tin Bill và danh sách các Slot đã đặt
         var message = $@"
-        <h1>Bill Information</h1>
-        <p>Booker Name: {billResponse.BookerName}</p>
-        <p>Booker Phone: {billResponse.BookerPhone}</p>
-        <p>Booker Email: {billResponse.BookerEmail}</p>
-        <p>Price: {billResponse.Price}</p>
-        <p>CreateAt: {billResponse.CreateAt}</p>
-        <p>OrderCode: {billResponse.OrderCode}</p>
-        <p>Description: {billResponse.Descrpition}</p>
-        <p>Status: {billResponse.Status}</p>
+    <h1>Bill Information</h1>
+    <p>Booker Name: {billResponse.BookerName}</p>
+    <p>Booker Phone: {billResponse.BookerPhone}</p>
+    <p>Booker Email: {billResponse.BookerEmail}</p>
+    <p>Booked Slots: {string.Join(", ", bookedSlotInfo)}</p>
+    <p>Table Name: {tableName.TableName}</p>
+    <p>Club Name: {clubName.BidaName}</p>
+    <p>Price: {billResponse.Price}</p>
+    <p>CreateAt: {billResponse.CreateAt}</p>
+    <p>Booking Date: {billResponse.BookingDate}</p>
+    <p>OrderCode: {billResponse.OrderCode}</p>
+    <p>Description: {billResponse.Descrpition}</p>
+    <p>Status: {billResponse.Status}</p>
+    
     ";
 
+        // Gửi email
         await SendEmailAsync(toEmail, subject, message);
     }
+
+
+
 
 }

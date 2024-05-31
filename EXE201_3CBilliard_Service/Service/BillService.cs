@@ -39,6 +39,21 @@ namespace EXE201_3CBilliard_Service.Service
             if (firstBooking == null)
                 throw new Exception($"No booking found with order code {billRequest.OrderCode}");
 
+            // Lấy danh sách các booking có cùng OrderCode 
+            var bookingsToUpdate = _unitOfWork.BookingRepository.Get()
+                .Where(b => b.OrderCode == billRequest.OrderCode)
+                .ToList();
+
+            // Danh sách để lưu trữ ID của các slot đã được đặt
+            var bookedSlotIds = new List<long>();
+
+            // Cập nhật trạng thái của các booking sang "ACTIVE" và thêm ID của slot vào danh sách
+            foreach (var booking in bookingsToUpdate)
+            {
+                bookedSlotIds.Add(booking.BT_SlotId);
+                _unitOfWork.BookingRepository.Update(booking);
+            }
+
             // Lấy thông tin người dùng từ đặt bàn
             var user = _unitOfWork.UserRepository.GetById(firstBooking.UserId);
             if (user == null)
@@ -58,6 +73,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
                 CreateAt = DateTime.Now,
+                BookingDate = firstBooking.BookingDate,
                 OrderCode = billRequest.OrderCode,
                 Descrpition = firstBooking.Descrpition,
                 Status = BillStatus.WAITING
@@ -74,9 +90,11 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
                 CreateAt = bill.CreateAt,
+                BookingDate = firstBooking.BookingDate,
                 OrderCode = billRequest.OrderCode,
                 Descrpition = bill.Descrpition,
-                Status = BillStatus.WAITING.ToString()
+                Status = BillStatus.WAITING.ToString(),
+                BookedSlotIds = bookedSlotIds // Thêm danh sách ID của các slot đã được đặt vào BillResponse
             };
 
             return billResponse;
@@ -94,10 +112,15 @@ namespace EXE201_3CBilliard_Service.Service
                 .Where(b => b.OrderCode == bill.OrderCode && b.Status == BookingStatus.WAITING)
                 .ToList();
 
-            // Cập nhật trạng thái của các booking sang "ACTIVE"
+            // Danh sách để lưu trữ ID của các slot đã được đặt
+            var bookedSlotIds = new List<long>();
+
+            // Cập nhật trạng thái của các booking sang "ACTIVE" và thêm ID của slot vào danh sách
             foreach (var booking in bookingsToUpdate)
             {
+                long slots = booking.BT_SlotId;
                 booking.Status = BookingStatus.ACTIVE;
+                bookedSlotIds.Add(slots);
                 _unitOfWork.BookingRepository.Update(booking);
             }
 
@@ -120,15 +143,19 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerEmail = bill.BookerEmail,
                 Price = bill.Price,
                 CreateAt = bill.CreateAt,
+                BookingDate = bill.BookingDate,
                 OrderCode = bill.OrderCode,
                 Descrpition = bill.Descrpition,
-                Status = BillStatus.ACTIVE.ToString()
+                Status = BillStatus.ACTIVE.ToString(),
+                BookedSlotIds = bookedSlotIds // Thêm danh sách ID của các slot đã được đặt vào BillResponse
             };
 
             await _emailService.SendBillEmailAsync(user.Email, billResponse);
 
             return billResponse;
         }
+
+
 
 
         public async Task CheckAndUpdateBillStatusAsync()

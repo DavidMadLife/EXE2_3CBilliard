@@ -96,7 +96,8 @@ namespace EXE201_3CBilliard_Service.Service
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
-                    CreateAt = bookingDate,  // Use the provided booking date
+                    CreateAt = DateTime.Now,
+                    BookingDate = bookingDate,// Use the provided booking date
                     OrderCode = code,
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
                     Note = "Note",
