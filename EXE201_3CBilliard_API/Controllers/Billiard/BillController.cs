@@ -1,4 +1,5 @@
-﻿using EXE201_3CBilliard_Service.Interface;
+﻿using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Billiard
@@ -14,17 +15,36 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _billService = billService;
         }
 
-        [HttpPost("{orderCode}")]
-        public async Task<IActionResult> SaveBookingByOrderCode(string orderCode)
+        [HttpPost]
+        public async Task<IActionResult> GetAndSaveBillByOrderCode([FromBody] BillRequest billRequest)
         {
-            var bill = await _billService.GetAndSaveBillByOrderCodeAsync(orderCode);
-            return Ok(bill);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var billResponse = await _billService.GetAndSaveBillByOrderCodeAsync(billRequest);
+                return Ok(billResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
         [HttpPut("activate/{billId}")]
-        public async Task<IActionResult> ActivateBill(long billId)
+        public async Task<IActionResult> UpdateBillStatusToActive(long billId)
         {
-            var billResponse = await _billService.UpdateBillStatusToActiveAsync(billId);
-            return Ok(billResponse);
+            try
+            {
+                var billResponse = await _billService.UpdateBillStatusToActiveAsync(billId);
+                return Ok(billResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
