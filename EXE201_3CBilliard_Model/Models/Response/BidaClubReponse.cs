@@ -19,4 +19,7 @@ public class BidaClubReponse
     public DateTime CreateAt { get; set; }
     public string Note { get; set; }
     public string Status { get; set; }
+    public string OpeningHours { get; set; } // Giờ mở cửa
+    public decimal AveragePrice { get; set; }
+
 }

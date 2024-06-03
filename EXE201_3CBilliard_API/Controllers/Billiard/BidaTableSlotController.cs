@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +20,22 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _bidaTableSlotService = bidaTableSlotService;
             _mapper = mapper;
         }
-        [HttpPost("{bidaTableId}/slots")]
+        [HttpPost("{bidaTableId:long}/slots")]
         public async Task<IActionResult> AddSlotsToBidaTable(long bidaTableId, [FromBody] List<long> slotIds)
         {
-            var result = await _bidaTableSlotService.AddSlotsToBidaTableAsync(bidaTableId, slotIds);
-            return Ok(result);
+            try
+            {
+                var response = await _bidaTableSlotService.AddSlotsToBidaTableAsync(bidaTableId, slotIds);
+                return Ok(response);
+            }
+            catch (SlotAlreadyExistsException ex)
+            {
+                return Conflict(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
         }
 
         [HttpGet("{bidaTableId}/slot-ids")]
@@ -33,14 +45,22 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(result);
         }
 
-        [HttpPut("{bidaTableId}/update-slots")]
+        [HttpPut("{bidaTableId:long}/slots")]
         public async Task<IActionResult> UpdateSlotsOfBidaTable(long bidaTableId, [FromBody] List<long> slotIds)
         {
-            if (slotIds == null || !slotIds.Any())
-                return BadRequest("SlotIds cannot be null or empty.");
-
-            var result = await _bidaTableSlotService.UpdateSlotsOfBidaTableAsync(bidaTableId, slotIds);
-            return Ok(result);
+            try
+            {
+                var response = await _bidaTableSlotService.UpdateSlotsOfBidaTableAsync(bidaTableId, slotIds);
+                return Ok(response);
+            }
+            catch (SlotAlreadyExistsException ex)
+            {
+                return Conflict(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
         }
 
         [HttpDelete("{bidaTableId}/delete")]

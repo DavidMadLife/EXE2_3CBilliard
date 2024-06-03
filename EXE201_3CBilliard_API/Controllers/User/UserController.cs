@@ -1,6 +1,7 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
+using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Http;
@@ -99,10 +100,14 @@ namespace EXE201_3CBilliard_API.Controllers
                 var user = await _userService.RegisterUser(request);
                 return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
+            catch (EmailAlreadyExistsException ex)
+            {
+                return Conflict(new { Message = ex.Message });
+            }
             catch (Exception ex)
             {
-                // Xử lý lỗi và trả về thông báo lỗi
-                return BadRequest(ex.Message);
+                // Handle other exceptions
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
@@ -124,40 +129,7 @@ namespace EXE201_3CBilliard_API.Controllers
             }
         }
 
-        /*[HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
-        {
-            var response = await _userService.ForgotPassword(request);
-            return Ok(response);
-        }
-
-        [HttpPost("validate-otp")]
-        public async Task<IActionResult> ValidateOtp([FromBody] ValidateOtpRequest request)
-        {
-            var response = await _userService.ValidateOtp(request);
-            if (response.IsValid)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return BadRequest(response);
-            }
-        }
-
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
-        {
-            var response = await _userService.ResetPassword(request);
-            if (response.Message.Contains("successfully"))
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return BadRequest(response);
-            }
-        }*/
+       
 
     }
 }

@@ -12,7 +12,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         public string BidaName { get; set; }
 
         [Required(ErrorMessage = "Image is required")]
-        /*[Url(ErrorMessage = "Image must be a valid URL")]*/
         public string Image { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
@@ -26,11 +25,43 @@ namespace EXE201_3CBilliard_Model.Models.Request
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Phone is required")]
-        /*[RegularExpression(@"^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$", ErrorMessage = "Phone must be a 10-digit number")]*/
+        [PhoneValidation(ErrorMessage = "Phone must be between 8 and 11 digits and contain only numbers.")]
         public string Phone { get; set; }
 
-        
+        [Required(ErrorMessage = "OpeningHours is required")]
+        [RegularExpression(@"^[0-9]{1,2}:[0-5][0-9] - [0-9]{1,2}:[0-5][0-9]$", ErrorMessage = "OpeningHours must be in the format 'HH:mm - HH:mm'.")]
+        public string OpeningHours { get; set; }
 
+    }
 
+    // Custom validation attribute for phone number
+    public class PhoneValidationAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var phone = value as string;
+            if (phone == null)
+            {
+                // Null phone numbers are handled by the Required attribute
+                return ValidationResult.Success;
+            }
+
+            // Validate phone number format
+            if (!IsValidPhoneFormat(phone))
+            {
+                return new ValidationResult(ErrorMessage);
+            }
+
+            return ValidationResult.Success;
+        }
+
+        private bool IsValidPhoneFormat(string phone)
+        {
+            // Remove non-digit characters from phone number
+            string cleanedPhone = new string(phone.Where(char.IsDigit).ToArray());
+
+            // Check if the phone number has a valid length and contains only digits
+            return cleanedPhone.Length >= 8 && cleanedPhone.Length <= 11;
+        }
     }
 }

@@ -3,6 +3,7 @@ using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -88,27 +89,13 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
             //Check Useremial exist
-            var existingUser = _unitOfWork.UserRepository.Get(filter: v => v.Email == request.Email);
-           /* if (existingUser != null)
+            var existingUser = _unitOfWork.UserRepository.Get(filter: v => v.Email == request.Email).FirstOrDefault();
+            if (existingUser != null)
             {
-                return new RegisterUserResponse
-                {
-                    Id = 0, // Use a sentinel value to indicate failure
-                    RoleId = 0,
-                    UserName = null,
-                    Email = request.Email,
-                    Password = null,
-                    Phone = null,
-                    IdentificationCardNumber = null,
-                    Image = null,
-                    Address = null,
-                    CreateAt = DateTime.MinValue,
-                    ModifineAt = DateTime.MinValue,
-                    DoB = DateTime.MinValue,
-                    Note = "Email already exists.",
-                    Status = UserStatus.INACTIVE.ToString() // Use a relevant status or an empty string
-                };
-            }*/
+                throw new EmailAlreadyExistsException($"Email {request.Email} already exists.");
+            }
+
+
             var user = _mapper.Map<User>(request);
             user.IdentificationCardNumber = "";
             user.Status = UserStatus.ACTIVE;
@@ -224,71 +211,6 @@ namespace EXE201_3CBilliard_Service.Service
             return new ChangePasswordResponse { NewPassword = hashedNewPassword, Message = "Password changed successfully." };
         }
 
-
-        /*//Forgot password
-        public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request)
-        {
-            var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == request.Email).FirstOrDefault();
-            if(user == null)
-            {
-                return new ForgotPasswordResponse { Message = "Email not found" };
-            }
-
-            var otp = GenerateOtp();
-            _otpStore[user.Email] = (otp, DateTime.Now.AddMinutes(3));
-            await _emailService.SendEmailAsync(user.Email, "Your OTP Code", $"Your OTP code is {otp}");
-
-            return new ForgotPasswordResponse { Message = "OTP has been sent to your email." };
-
-        }*/
-
         
-
-        /*//Generate OTP
-        private string GenerateOtp()
-        {
-            // Simple OTP generation logic. You can replace this with a more secure implementation.
-            var random = new Random();
-            return random.Next(100000, 999999).ToString();
-        }
-
-
-        //Check OTP
-        public async Task<ValidateOtpResponse> ValidateOtp(ValidateOtpRequest request)
-        {
-            if(_otpStore.TryGetValue(request.Email, out var otpInfor))
-            {
-                if(otpInfor.Otp == request.Otp && otpInfor.Expiry > DateTime.Now)
-                {
-                    return new ValidateOtpResponse { Message = "OTP is valid", IsValid = true };
-                }
-            }
-
-            return new ValidateOtpResponse { Message = "Invalid or expired OTP", IsValid = false };
-        }
-
-        public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request)
-        {
-            var valtedateOtpResponse = await ValidateOtp(new ValidateOtpRequest { Email = request.Email,Otp = request.Otp });
-            if(!valtedateOtpResponse.IsValid)
-            {
-                return new ResetPasswordResponse { Message = "Invalid or expired OTP" };
-            }
-
-            var user = _unitOfWork.UserRepository.Get(filter: m => m.Email == request.Email).FirstOrDefault();
-            if(user == null)
-            {
-                return new ResetPasswordResponse { Message = "Invalid email" };
-            }
-            user.Password = HashPassword(request.NewPassword);
-            _unitOfWork.UserRepository.Update(user);
-            _unitOfWork.Save();
-
-
-            //Remove OTP after password reset
-            _otpStore.Remove(request.Email);
-            return new ResetPasswordResponse { Message = "Password has been reset successfully" };
-
-        }*/
     }
 }

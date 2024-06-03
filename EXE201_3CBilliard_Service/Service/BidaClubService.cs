@@ -36,7 +36,7 @@ namespace EXE201_3CBilliard_Service.Service
             entity.Descrpition = request.Description;
             entity.CreateAt = DateTime.Now; // Set CreateAt time here
             entity.Status = BidaClubStatus.WAITING; // Set status to WAITING
-            entity.Note = "note";
+            entity.Note = "Waiting for confirm !!";
 
             _unitOfWork.BidaClubRepository.Insert(entity);
             _unitOfWork.Save();
@@ -161,5 +161,22 @@ namespace EXE201_3CBilliard_Service.Service
             var bidaClubResponses = _mapper.Map<IEnumerable<BidaClubReponse>>(bidaClubs);
             return (bidaClubResponses, totalCount);
         }
+
+        public async Task<decimal> CalculateAveragePriceAsync(long bidaClubId)
+        {
+            var bidaTables = _unitOfWork.BidaTableRepository.Get(filter: bt => bt.BidaCludId == bidaClubId);
+            if (bidaTables.Any())
+            {
+                var averagePrice = bidaTables.Select(bt => bt.Price).Average();
+                return (decimal)averagePrice;
+            }
+            else
+            {
+                // Trả về 0 nếu không có bàn bi-da nào trong câu lạc bộ
+                return 0;
+            }
+        }
+
+
     }
 }

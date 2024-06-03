@@ -41,5 +41,14 @@ namespace EXE201_3CBilliard_Repository.Entities
         public BidaClubStatus Status { get; set; }
         /*[ForeignKey("UserId")]
         public User User { get; set; }*/
+
+
+        // Giờ mở cửa
+        [Required]
+        public string OpeningHours { get; set; }
+
+        // Giá tiền trung bình
+        [Required]
+        public decimal AveragePrice { get; set; }
     }
 }

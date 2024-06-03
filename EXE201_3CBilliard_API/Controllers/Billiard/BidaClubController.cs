@@ -127,5 +127,26 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(result.bidaClubs);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<ActionResult<BidaClubReponse>> GetBidaClubDetailsByIdAsync(long id)
+        {
+            var bidaClub = await _bidaClubService.GetBidaClubByIdAsync(id);
+            if (bidaClub == null)
+            {
+                return NotFound();
+            }
+
+            // Tính giá trung bình của các bàn bi-da trong câu lạc bộ
+            var averagePrice = await _bidaClubService.CalculateAveragePriceAsync(id);
+
+            // Thêm giá trị trung bình vào response
+            bidaClub.AveragePrice = averagePrice;
+
+            return bidaClub;
+        }
+
+
+
+
     }
 }

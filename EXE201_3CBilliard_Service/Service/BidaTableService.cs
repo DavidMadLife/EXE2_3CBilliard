@@ -81,32 +81,7 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-        //Add slot to bida table
-        /*public async Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds)
-        {
-            var bidaTable = _unitOfWork.BidaTableRepository.GetById(bidaTableId);
-            if (bidaTable == null)
-                throw new Exception($"BidaTable with id {bidaTableId} not found.");
-
-            var bidaTableSlots = new List<BidaTable_Slot>();
-            foreach (var slotId in slotIds)
-            {
-                var slot = _unitOfWork.SlotRepository.GetById(slotId);
-                if (slot == null)
-                    throw new Exception($"Slot with id {slotId} not found.");
-
-                var bidaTableSlot = new BidaTable_Slot
-                {
-                    BidaTableId = bidaTableId,
-                    SlotId = slotId,
-                    Status = BidaTable_SlotStatus.ACTIVE
-                };
-                _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
-                bidaTableSlots.Add(bidaTableSlot);
-            }
-            _unitOfWork.Save();
-            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
-        }*/
+        
 
         //Filter
         public async Task<(IEnumerable<BidaTableResponse> bidaTables, int totalCount)> SearchBidaTablesAsync(string? tableName, double? price, long? bidaClubId, int pageIndex = 1, int pageSize = 10)
