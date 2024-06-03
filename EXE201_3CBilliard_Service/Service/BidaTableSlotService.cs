@@ -2,6 +2,7 @@
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,17 @@ namespace EXE201_3CBilliard_Service.Service
             if (bidaTable == null)
                 throw new Exception($"BidaTable with id {bidaTableId} not found.");
 
+            var existingSlotIds = _unitOfWork.BidaTableSlotRepository
+                .Get(filter: x => x.BidaTableId == bidaTableId)
+                .Select(x => x.SlotId)
+                .ToHashSet();
+
             var bidaTableSlots = new List<BidaTable_Slot>();
             foreach (var slotId in slotIds)
             {
+                if (existingSlotIds.Contains(slotId))
+                    throw new SlotAlreadyExistsException($"Slot with id {slotId} already exists in BidaTable with id {bidaTableId}.");
+
                 var slot = _unitOfWork.SlotRepository.GetById(slotId);
                 if (slot == null)
                     throw new Exception($"Slot with id {slotId} not found.");
@@ -47,6 +56,8 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
 
+
+
         public async Task<GetSlotByBidatableResponse> GetSlotIdsByBidaTableIdAsync(long bidaTableId)
         {
             var bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot");
@@ -60,9 +71,11 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-        //Update slot in Bidatatble
         public async Task<GetSlotByBidatableResponse> UpdateSlotsOfBidaTableAsync(long bidaTableId, List<long> slotIds)
         {
+            if (slotIds == null || !slotIds.Any())
+                throw new ArgumentException("SlotIds list is null or empty.");
+
             var bidaTable = _unitOfWork.BidaTableRepository.GetById(bidaTableId);
             if (bidaTable == null)
                 throw new Exception($"BidaTable with id {bidaTableId} not found.");
@@ -73,6 +86,14 @@ namespace EXE201_3CBilliard_Service.Service
             // Tạo danh sách các slot mới
             var newSlotIds = slotIds.Except(existingBidaTableSlots.Select(x => x.SlotId)).ToList();
             var removedSlotIds = existingBidaTableSlots.Where(x => !slotIds.Contains(x.SlotId)).Select(x => x.SlotId).ToList();
+
+            // Kiểm tra trùng lặp slotId
+            var duplicateSlotIds = slotIds.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+            if (duplicateSlotIds.Any())
+            {
+                var duplicateSlotIdString = string.Join(", ", duplicateSlotIds);
+                throw new Exception($"Slot IDs {duplicateSlotIdString} are duplicated.");
+            }
 
             // Thêm mới các slot
             foreach (var slotId in newSlotIds)
@@ -109,6 +130,7 @@ namespace EXE201_3CBilliard_Service.Service
                 SlotIds = slotResponses
             };
         }
+
 
         public async Task DeleteBidaTableAndSlotsAsync(long bidaTableId)
         {
