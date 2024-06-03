@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EXE201_3CBilliard_Model.Models.Request
@@ -23,7 +24,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         public string Image { get; set; }
         public string Address { get; set; }
         public DateTime DoB { get; set; }
-
        
        
     }

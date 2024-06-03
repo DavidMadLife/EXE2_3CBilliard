@@ -88,7 +88,7 @@ namespace EXE201_3CBilliard_API.Controllers
 
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request)
+        public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromForm] RegisterUserRequest request)
         {
             try
             {

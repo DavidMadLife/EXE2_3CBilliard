@@ -3,6 +3,7 @@ using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Repository.Tools;
 using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using Microsoft.Extensions.Configuration;
@@ -25,13 +26,16 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly Dictionary<string, (string Otp, DateTime Expiry)> _otpStore = new Dictionary<string, (string, DateTime)>();
         private readonly IEmailService _emailService;
+        private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
 
-        public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork, IEmailService emailService)
+
+        public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork, IEmailService emailService, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
         {
             _mapper = mapper;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _emailService = emailService;
+            _firebase = firebase;
         }
 
         public async Task<string> AuthorizeUser(LoginView loginView)
@@ -105,6 +109,12 @@ namespace EXE201_3CBilliard_Service.Service
             user.RoleId = 3;
            
             user.Note = "Success";
+
+           
+
+
+
+
             _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
             return _mapper.Map<RegisterUserResponse>(user);
