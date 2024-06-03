@@ -439,3 +439,6 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\EXE201
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\EXE201_3CBilliard_API.genruntimeconfig.cache
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\ref\EXE201_3CBilliard_API.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Debug\net6.0\EXE201_3.5960D4D5.Up2Date
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\bin\Debug\net6.0\Firebase.Auth.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\bin\Debug\net6.0\Firebase.Storage.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\bin\Debug\net6.0\System.ServiceModel.dll

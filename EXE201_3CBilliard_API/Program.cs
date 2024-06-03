@@ -98,7 +98,12 @@ var config = new MapperConfiguration(cfg =>
 });
 builder.Services.AddSingleton<IMapper>(config.CreateMapper());
 
+//FireBase
+builder.Services.AddScoped<EXE201_3CBilliard_Repository.Tools.Firebase>();
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
