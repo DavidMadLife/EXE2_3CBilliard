@@ -114,13 +114,30 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
 
-            // Send email notification
+            // Send email notification with detailed information
             var emailSubject = "Your BidaClub has been activated!";
-            var emailMessage = $"Dear {bidaClub.BidaName},<br>Your BidaClub has been successfully activated.";
+            var emailMessage = $@"
+                Dear {bidaClub.BidaName},<br><br>
+                Your BidaClub has been successfully activated.<br><br>
+                Here are the details of your BidaClub:<br>
+                <strong>Name:</strong> {bidaClub.BidaName}<br>
+                <strong>Address:</strong> {bidaClub.Address}<br>
+                <strong>Email:</strong> {bidaClub.Email}<br>
+                <strong>Description:</strong> {bidaClub.Descrpition}<br>
+                <strong>Phone:</strong> {bidaClub.Phone}<br>
+                <strong>Opening Hours:</strong> {bidaClub.OpeningHours}<br>
+                <strong>Average Price:</strong> {bidaClub.AveragePrice:C}<br>
+                <br>
+                If you have any questions or need further assistance, please do not hesitate to contact us.<br><br>
+                Best regards,<br>
+                3CBilliard Team
+                ";
+
             await _emailService.SendEmailAsync(bidaClub.Email, emailSubject, emailMessage);
 
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
+
 
         public async Task<BidaClubReponse> RejectBidaClubAsync(long id, NoteRequest noteRequest)
         {
@@ -140,8 +157,22 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
 
+            // Send email notification with rejection details
+            var emailSubject = "Your BidaClub registration has been rejected";
+            var emailMessage = $@"
+                Dear {bidaClub.BidaName},<br><br>
+                We regret to inform you that your BidaClub registration has been rejected.<br><br>
+                <strong>Reason:</strong> {noteRequest.Note}<br><br>
+                If you have any questions or need further assistance, please do not hesitate to contact us.<br><br>
+                Best regards,<br>
+                3CBilliard Team
+                ";
+
+            await _emailService.SendEmailAsync(bidaClub.Email, emailSubject, emailMessage);
+
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
+
 
 
         //Search

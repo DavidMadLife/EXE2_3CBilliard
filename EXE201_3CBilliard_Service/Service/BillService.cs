@@ -155,8 +155,36 @@ namespace EXE201_3CBilliard_Service.Service
             return billResponse;
         }
 
+        public BillTotalResponse GetTotalAmountByDateRange(BillTotalRequest request)
+        {
+            var totalAmount = _unitOfWork.BillRepository.Get()
+                .Where(b => b.Status == BillStatus.ACTIVE && b.CreateAt >= request.StartDate && b.CreateAt <= request.EndDate)
+                .Sum(b => b.Price);
 
+            return new BillTotalResponse
+            {
+                TotalAmount = totalAmount
+            };
+        }
 
+        public async Task<(IEnumerable<BillResponse> bills, int totalCount)> SearchBillsAsync(long? userId, string? bookerName, DateTime? createAt, string? orderCode, int pageIndex, int pageSize)
+        {
+            var billsWithCount = _unitOfWork.BillRepository.GetWithCount(
+                filter: x =>
+                    (!userId.HasValue || x.UserId == userId.Value) &&
+                    (string.IsNullOrEmpty(bookerName) || x.BookerName.Contains(bookerName)) &&
+                    (!createAt.HasValue || x.CreateAt.Date == createAt.Value.Date) &&
+                    (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)),
+                pageIndex: pageIndex,
+                pageSize: pageSize
+            );
+
+            var bills = billsWithCount.items;
+            var totalCount = billsWithCount.totalCount;
+
+            var billResponses = _mapper.Map<IEnumerable<BillResponse>>(bills);
+            return (billResponses, totalCount);
+        }
 
         public async Task CheckAndUpdateBillStatusAsync()
         {

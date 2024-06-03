@@ -1,4 +1,5 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,22 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost("total-amount")]
+        public async Task<ActionResult<BillTotalResponse>> GetTotalAmountByDateRange([FromBody] BillTotalRequest request)
+        {
+            var response = _billService.GetTotalAmountByDateRange(request);
+            return Ok(response);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBills([FromQuery] long? userId, [FromQuery] string? bookerName, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        {
+            var result = await _billService.SearchBillsAsync(userId, bookerName, createAt, orderCode, pageIndex, pageSize);
+            Response.Headers.Add("X-Total-Count", result.totalCount.ToString());
+            return Ok(result.bills);
+        }
+
         [HttpPut("activate/{billId}")]
         public async Task<IActionResult> UpdateBillStatusToActive(long billId)
         {
