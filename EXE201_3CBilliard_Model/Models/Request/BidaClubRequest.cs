@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EXE201_3CBilliard_Model.Models.Request
@@ -11,8 +12,8 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "BidaName is required")]
         public string BidaName { get; set; }
 
-        [Required(ErrorMessage = "Image is required")]
-        public string Image { get; set; }
+        
+        public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
         public string Address { get; set; }

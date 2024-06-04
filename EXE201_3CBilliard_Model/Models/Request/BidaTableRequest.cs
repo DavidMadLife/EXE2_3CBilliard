@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EXE201_3CBilliard_Model.Models.Request
@@ -15,9 +16,9 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "TableName is required")]
         public string TableName { get; set; }
 
-        [Required(ErrorMessage = "Image is required")]
+        
         /*[Url(ErrorMessage = "Image must be a valid URL")]*/
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         public string Note { get; set; }
     }

@@ -64,7 +64,7 @@ namespace EXE201_3CBilliard_Service.Service
                 Password = HashPassword("123456"),
                 Phone = "",
                 IdentificationCardNumber = "",
-                Image = "",
+                Image = null,
                 Address = "",
                 CreateAt = DateTime.Now,
                 ModifineAt = DateTime.Now,
@@ -110,14 +110,25 @@ namespace EXE201_3CBilliard_Service.Service
            
             user.Note = "Success";
 
-           
 
+            if (request.Image != null)
+            {
+                if (request.Image.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(request.Image);
+                user.Image = imageDownloadUrl;
+            }
 
+            
 
 
             _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
-            return _mapper.Map<RegisterUserResponse>(user);
+
+            var registerResponse = _mapper.Map<RegisterUserResponse>(user);
+            return  registerResponse;
         }
 
         public async Task<User[]> SearchUser(string? keyword, int pageNumber = 1, int pageSize = 10)
