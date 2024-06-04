@@ -85,14 +85,14 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<BidaClubReponse>> Create(BidaClubRequest request)
+        public async Task<ActionResult<BidaClubReponse>> Create([FromForm]BidaClubRequest request)
         {
             var createdBidaClub = await _bidaClubService.CreateBidaClubAsync(request);
             return CreatedAtAction(nameof(Get), new { id = createdBidaClub.Id }, createdBidaClub);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<BidaClubReponse>> Update(long id, BidaClubRequest request)
+        public async Task<ActionResult<BidaClubReponse>> Update([FromForm]long id, BidaClubRequest request)
         {
             try
             {

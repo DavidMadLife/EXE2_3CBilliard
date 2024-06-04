@@ -3,7 +3,9 @@ using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Repository.Tools;
 using EXE201_3CBilliard_Service.Interface;
+using Firebase.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,15 @@ namespace EXE201_3CBilliard_Service.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        
+        private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
 
-        public BidaTableService(IUnitOfWork unitOfWork, IMapper mapper)
+
+
+        public BidaTableService(IUnitOfWork unitOfWork, IMapper mapper, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _firebase = firebase;
         }
 
         public async Task<IEnumerable<BidaTableResponse>> GetAllBidaTablesAsync()
@@ -41,6 +46,19 @@ namespace EXE201_3CBilliard_Service.Service
             var bidaTable = _mapper.Map<BidaTable>(request);
             bidaTable.Status = BidaTableStatus.ACTIVE;
             bidaTable.CreateAt = DateTime.Now;
+
+            if (request.Image != null)
+            {
+                if (request.Image.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(request.Image);
+                bidaTable.Image = imageDownloadUrl;
+            }
+
+
+
             _unitOfWork.BidaTableRepository.Insert(bidaTable);
             _unitOfWork.Save();
             return _mapper.Map<BidaTableResponse>(bidaTable);
@@ -53,6 +71,17 @@ namespace EXE201_3CBilliard_Service.Service
                 throw new Exception($"BidaTable with id {id} not found.");
 
             _mapper.Map(request, bidaTable);
+
+            if (request.Image != null)
+            {
+                if (request.Image.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(request.Image);
+                bidaTable.Image = imageDownloadUrl;
+            }
+
             _unitOfWork.BidaTableRepository.Update(bidaTable);
             _unitOfWork.Save();
             return _mapper.Map<BidaTableResponse>(bidaTable);

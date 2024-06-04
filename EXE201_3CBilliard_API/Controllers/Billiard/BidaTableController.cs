@@ -35,7 +35,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<BidaTableResponse>> Create([FromBody] BidaTableRequest request)
+        public async Task<ActionResult<BidaTableResponse>> Create([FromForm] BidaTableRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -45,7 +45,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<BidaTableResponse>> Update(long id, [FromBody] BidaTableRequest request)
+        public async Task<ActionResult<BidaTableResponse>> Update([FromForm] long id, [FromBody] BidaTableRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

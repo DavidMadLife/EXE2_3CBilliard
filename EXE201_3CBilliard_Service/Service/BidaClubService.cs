@@ -3,6 +3,7 @@ using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Respone;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Repository.Tools;
 using EXE201_3CBilliard_Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,15 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
 
-        public BidaClubService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService)
+
+        public BidaClubService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailService = emailService;
+            _firebase = firebase;
         }
 
         public async Task<BidaClubReponse> CreateBidaClubAsync(BidaClubRequest request)
@@ -32,16 +36,27 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 throw new KeyNotFoundException($"BidaClub with Name is dulicated");
             }
-            var entity = _mapper.Map<BidaClub>(request);
-            entity.Descrpition = request.Description;
-            entity.CreateAt = DateTime.Now; // Set CreateAt time here
-            entity.Status = BidaClubStatus.WAITING; // Set status to WAITING
-            entity.Note = "Waiting for confirm !!";
+            var bidaClub = _mapper.Map<BidaClub>(request);
+            bidaClub.Descrpition = request.Description;
+            bidaClub.CreateAt = DateTime.Now; // Set CreateAt time here
+            bidaClub.Status = BidaClubStatus.WAITING; // Set status to WAITING
+            bidaClub.Note = "Waiting for confirm !!";
 
-            _unitOfWork.BidaClubRepository.Insert(entity);
+
+            if (request.Image != null)
+            {
+                if (request.Image.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(request.Image);
+                bidaClub.Image = imageDownloadUrl;
+            }
+
+            _unitOfWork.BidaClubRepository.Insert(bidaClub);
             _unitOfWork.Save();
 
-            return _mapper.Map<BidaClubReponse>(entity);
+            return _mapper.Map<BidaClubReponse>(bidaClub);
         }
 
         public async Task DeleteBidaClubAsync(long id)
@@ -91,6 +106,15 @@ namespace EXE201_3CBilliard_Service.Service
                 throw new InvalidOperationException($"BidaClub with ID {id} is not in ACTIVE status");
             }
             _mapper.Map(request, bidaClub);
+            if (request.Image != null)
+            {
+                if (request.Image.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(request.Image);
+                bidaClub.Image = imageDownloadUrl;
+            }
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
 
