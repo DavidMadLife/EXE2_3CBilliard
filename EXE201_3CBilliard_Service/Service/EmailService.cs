@@ -87,7 +87,7 @@ public class EmailService : IEmailService
     <p>Club Name: {clubName.BidaName}</p>
     <p>Price: {billResponse.Price}</p>
     <p>CreateAt: {billResponse.CreateAt}</p>
-    <p>Booking Date: {billResponse.BookingDate}</p>
+    <p>Booking Date: {billResponse.BookingDate.Date}</p>
     <p>OrderCode: {billResponse.OrderCode}</p>
     <p>Description: {billResponse.Descrpition}</p>
     <p>Status: {billResponse.Status}</p>

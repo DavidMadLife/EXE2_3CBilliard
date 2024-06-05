@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EXE201_3CBilliard_Service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+122129b9b5b62aea9f76dbf31479bc8f78318012")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05f91ee7757963b5a3f0b6070180c3a9aeb14c1f")]
 [assembly: System.Reflection.AssemblyProductAttribute("EXE201_3CBilliard_Service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EXE201_3CBilliard_Service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

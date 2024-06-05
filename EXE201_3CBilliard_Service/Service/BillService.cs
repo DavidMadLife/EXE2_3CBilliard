@@ -73,7 +73,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
                 CreateAt = DateTime.Now,
-                BookingDate = firstBooking.BookingDate,
+                BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = billRequest.OrderCode,
                 Descrpition = firstBooking.Descrpition,
                 Status = BillStatus.WAITING
@@ -90,7 +90,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
                 CreateAt = bill.CreateAt,
-                BookingDate = firstBooking.BookingDate,
+                BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = billRequest.OrderCode,
                 Descrpition = bill.Descrpition,
                 Status = BillStatus.WAITING.ToString(),
@@ -167,14 +167,25 @@ namespace EXE201_3CBilliard_Service.Service
             };
         }
 
-        public async Task<(IEnumerable<BillResponse> bills, int totalCount)> SearchBillsAsync(long? userId, string? bookerName, DateTime? createAt, string? orderCode, int pageIndex, int pageSize)
+        public async Task<(IEnumerable<BillResponse> bills, int totalCount)> SearchBillsAsync(long? userId, string? bookerName, DateTime? createAt, string? orderCode, string? status, int pageIndex, int pageSize)
         {
+            // Khai báo biến statusEnum để lưu trữ giá trị enum BillStatus sau khi chuyển đổi
+            BillStatus? statusEnum = null;
+
+            // Thử chuyển đổi chuỗi status thành giá trị enum BillStatus
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse(status, true, out BillStatus parsedStatus))
+            {
+                statusEnum = parsedStatus;
+            }
+
+            // Áp dụng bộ lọc tìm kiếm
             var billsWithCount = _unitOfWork.BillRepository.GetWithCount(
                 filter: x =>
                     (!userId.HasValue || x.UserId == userId.Value) &&
                     (string.IsNullOrEmpty(bookerName) || x.BookerName.Contains(bookerName)) &&
                     (!createAt.HasValue || x.CreateAt.Date == createAt.Value.Date) &&
-                    (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)),
+                    (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)) &&
+                    (!statusEnum.HasValue || x.Status == statusEnum.Value), // Sử dụng enum trực tiếp trong bộ lọc
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );
@@ -185,6 +196,7 @@ namespace EXE201_3CBilliard_Service.Service
             var billResponses = _mapper.Map<IEnumerable<BillResponse>>(bills);
             return (billResponses, totalCount);
         }
+
 
         public async Task CheckAndUpdateBillStatusAsync()
         {
