@@ -217,20 +217,7 @@ namespace EXE201_3CBilliard_Service.Service
             return (bidaClubResponses, totalCount);
         }
 
-        public async Task<decimal> CalculateAveragePriceAsync(long bidaClubId)
-        {
-            var bidaTables = _unitOfWork.BidaTableRepository.Get(filter: bt => bt.BidaCludId == bidaClubId);
-            if (bidaTables.Any())
-            {
-                var averagePrice = bidaTables.Select(bt => bt.Price).Average();
-                return (decimal)averagePrice;
-            }
-            else
-            {
-                // Trả về 0 nếu không có bàn bi-da nào trong câu lạc bộ
-                return 0;
-            }
-        }
+        
 
 
     }

@@ -127,7 +127,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(result.bidaClubs);
         }
 
-        [HttpGet("details/{id}")]
+       /* [HttpGet("details/{id}")]
         public async Task<ActionResult<BidaClubReponse>> GetBidaClubDetailsByIdAsync(long id)
         {
             var bidaClub = await _bidaClubService.GetBidaClubByIdAsync(id);
@@ -144,7 +144,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
 
             return bidaClub;
         }
-
+*/
 
 
 
