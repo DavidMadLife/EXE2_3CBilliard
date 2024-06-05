@@ -21,6 +21,6 @@ namespace EXE201_3CBilliard_Service.Interface
 
         Task<(IEnumerable<BidaClubReponse> bidaClubs, int totalCount)> SearchBidaClubsAsync(string? bidaName, string? address, int pageIndex, int pageSize);
 
-        Task<decimal> CalculateAveragePriceAsync(long bidaClubId);
+       /* Task<decimal> CalculateAveragePriceAsync(long bidaClubId);*/
     }
 }

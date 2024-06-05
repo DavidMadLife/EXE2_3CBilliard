@@ -57,10 +57,18 @@ namespace EXE201_3CBilliard_Service.Service
                 bidaTable.Image = imageDownloadUrl;
             }
 
-
-
             _unitOfWork.BidaTableRepository.Insert(bidaTable);
             _unitOfWork.Save();
+
+            // Tính lại giá trung bình cho BidaClub và cập nhật
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(bidaTable.BidaCludId);
+            if (bidaClub != null)
+            {
+                bidaClub.AveragePrice = await CalculateAveragePriceAsync(bidaTable.BidaCludId);
+                _unitOfWork.BidaClubRepository.Update(bidaClub);
+                _unitOfWork.Save();
+            }
+
             return _mapper.Map<BidaTableResponse>(bidaTable);
         }
 
@@ -84,6 +92,16 @@ namespace EXE201_3CBilliard_Service.Service
 
             _unitOfWork.BidaTableRepository.Update(bidaTable);
             _unitOfWork.Save();
+
+            // Tính lại giá trung bình cho BidaClub và cập nhật
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(bidaTable.BidaCludId);
+            if (bidaClub != null)
+            {
+                bidaClub.AveragePrice = await CalculateAveragePriceAsync(bidaTable.BidaCludId);
+                _unitOfWork.BidaClubRepository.Update(bidaClub);
+                _unitOfWork.Save();
+            }
+
             return _mapper.Map<BidaTableResponse>(bidaTable);
         }
 
@@ -96,7 +114,17 @@ namespace EXE201_3CBilliard_Service.Service
             bidaTable.Status = BidaTableStatus.DELETED;
             _unitOfWork.BidaTableRepository.Update(bidaTable);
             _unitOfWork.Save();
+
+            // Tính lại giá trung bình cho BidaClub và cập nhật
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(bidaTable.BidaCludId);
+            if (bidaClub != null)
+            {
+                bidaClub.AveragePrice = await CalculateAveragePriceAsync(bidaTable.BidaCludId);
+                _unitOfWork.BidaClubRepository.Update(bidaClub);
+                _unitOfWork.Save();
+            }
         }
+
 
         public async Task InactiveBidaTableAsync(long id)
         {
@@ -129,6 +157,21 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
+
+        public async Task<decimal> CalculateAveragePriceAsync(long bidaClubId)
+        {
+            var bidaTables = _unitOfWork.BidaTableRepository.Get(filter: bt => bt.BidaCludId == bidaClubId);
+            if (bidaTables.Any())
+            {
+                var averagePrice = bidaTables.Select(bt => bt.Price).Average();
+                return (decimal)averagePrice;
+            }
+            else
+            {
+                // Trả về 0 nếu không có bàn bi-da nào trong câu lạc bộ
+                return 0;
+            }
+        }
 
     }
 }

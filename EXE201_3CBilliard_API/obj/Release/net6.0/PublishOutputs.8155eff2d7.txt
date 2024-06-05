@@ -7,6 +7,8 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubT
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\AutoMapper.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\BCrypt.Net-Next.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Firebase.Auth.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Firebase.Storage.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.DotNet.PlatformAbstractions.dll
@@ -25,6 +27,7 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubT
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\System.ServiceModel.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll

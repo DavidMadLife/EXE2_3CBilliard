@@ -17,16 +17,31 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BidaTableSlotService(IUnitOfWork unitOfWork, IMapper mapper) 
+        public BidaTableSlotService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         public async Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds)
         {
+            if (slotIds == null || !slotIds.Any())
+                throw new ArgumentException("SlotIds list is null or empty.");
+
             var bidaTable = _unitOfWork.BidaTableRepository.GetById(bidaTableId);
             if (bidaTable == null)
                 throw new Exception($"BidaTable with id {bidaTableId} not found.");
+
+            // Validate if provided slot IDs are unique
+            var duplicateSlotIds = slotIds.GroupBy(x => x)
+                                          .Where(g => g.Count() > 1)
+                                          .Select(y => y.Key)
+                                          .ToList();
+            if (duplicateSlotIds.Any())
+            {
+                var duplicateSlotIdString = string.Join(", ", duplicateSlotIds);
+                throw new Exception($"Provided slot IDs {duplicateSlotIdString} are duplicated.");
+            }
 
             var existingSlotIds = _unitOfWork.BidaTableSlotRepository
                 .Get(filter: x => x.BidaTableId == bidaTableId)
@@ -56,8 +71,6 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
 
-
-
         public async Task<GetSlotByBidatableResponse> GetSlotIdsByBidaTableIdAsync(long bidaTableId)
         {
             var bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot");
@@ -67,9 +80,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BidaTableId = bidaTableId,
                 SlotIds = slotResponses
             };
-
         }
-
 
         public async Task<GetSlotByBidatableResponse> UpdateSlotsOfBidaTableAsync(long bidaTableId, List<long> slotIds)
         {
@@ -80,22 +91,25 @@ namespace EXE201_3CBilliard_Service.Service
             if (bidaTable == null)
                 throw new Exception($"BidaTable with id {bidaTableId} not found.");
 
-            // Lấy danh sách các slot hiện tại của BidaTable
-            var existingBidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId).ToList();
-
-            // Tạo danh sách các slot mới
-            var newSlotIds = slotIds.Except(existingBidaTableSlots.Select(x => x.SlotId)).ToList();
-            var removedSlotIds = existingBidaTableSlots.Where(x => !slotIds.Contains(x.SlotId)).Select(x => x.SlotId).ToList();
-
-            // Kiểm tra trùng lặp slotId
-            var duplicateSlotIds = slotIds.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+            // Validate if provided slot IDs are unique
+            var duplicateSlotIds = slotIds.GroupBy(x => x)
+                                          .Where(g => g.Count() > 1)
+                                          .Select(y => y.Key)
+                                          .ToList();
             if (duplicateSlotIds.Any())
             {
                 var duplicateSlotIdString = string.Join(", ", duplicateSlotIds);
-                throw new Exception($"Slot IDs {duplicateSlotIdString} are duplicated.");
+                throw new Exception($"Provided slot IDs {duplicateSlotIdString} are duplicated.");
             }
 
-            // Thêm mới các slot
+            // Get existing slots of BidaTable
+            var existingBidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId).ToList();
+
+            // Create new and removed slot lists
+            var newSlotIds = slotIds.Except(existingBidaTableSlots.Select(x => x.SlotId)).ToList();
+            var removedSlotIds = existingBidaTableSlots.Where(x => !slotIds.Contains(x.SlotId)).Select(x => x.SlotId).ToList();
+
+            // Add new slots
             foreach (var slotId in newSlotIds)
             {
                 var slot = _unitOfWork.SlotRepository.GetById(slotId);
@@ -111,7 +125,7 @@ namespace EXE201_3CBilliard_Service.Service
                 _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
             }
 
-            // Xóa các slot không còn tồn tại trong danh sách slot mới
+            // Remove old slots
             foreach (var slotId in removedSlotIds)
             {
                 var bidaTableSlot = existingBidaTableSlots.FirstOrDefault(x => x.SlotId == slotId);
@@ -121,7 +135,7 @@ namespace EXE201_3CBilliard_Service.Service
 
             _unitOfWork.Save();
 
-            // Trả về danh sách slot mới của BidaTable
+            // Return updated slots of BidaTable
             var updatedBidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot");
             var slotResponses = updatedBidaTableSlots.Select(bs => _mapper.Map<SlotResponse>(bs.Slot)).ToList();
             return new GetSlotByBidatableResponse
@@ -130,7 +144,6 @@ namespace EXE201_3CBilliard_Service.Service
                 SlotIds = slotResponses
             };
         }
-
 
         public async Task DeleteBidaTableAndSlotsAsync(long bidaTableId)
         {
@@ -160,11 +173,8 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
 
-
         public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAndTableAsync(DateTime bookingDate, long bidaTableId)
         {
-            // Implement logic để lấy các BidaTableSlot đã được đặt vào ngày cụ thể và cho một bàn Bida cụ thể
-
             var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.BSlot.BidaTableId == bidaTableId).ToList();
             var bookedSlotIds = bookingsOnDateAndTable.Select(b => b.BT_SlotId).ToList();
             var bookedSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => bookedSlotIds.Contains(x.Id), includeProperties: "Slot,BidaTable").ToList();
@@ -183,7 +193,5 @@ namespace EXE201_3CBilliard_Service.Service
 
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlot);
         }
-
-
     }
 }
