@@ -69,12 +69,11 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
         {
             var currentDate = DateTime.Now; // Lấy ngày hiện tại
-            var minDate = currentDate.AddHours(1);
             var maxDate = currentDate.AddDays(7); // Ngày tối đa là 7 ngày sau
 
-            if (minDate <= currentDate || bookingDate.Date > maxDate)
+            if (bookingDate.Date > maxDate)
             {
-                throw new Exception("Ngày đặt chỗ phải lớn hơn ngày hiện tại và nhỏ hơn 7 ngày sau.");
+                throw new Exception("Ngày đặt chỗ phải nhỏ hơn 7 ngày sau.");
             }
 
             var user = _unitOfWork.UserRepository.GetById(userId);
@@ -102,12 +101,22 @@ namespace EXE201_3CBilliard_Service.Service
                     throw new Exception($"Slot with id {slotId} is already booked for {bookingDate.ToShortDateString()}.");
                 }
 
+                // Check if the booking is at least 2 hours in advance
+                var slotTime = _unitOfWork.SlotRepository.GetById(slot.SlotId);
+                if (slotTime == null)
+                    throw new Exception($"{slotTime} not found.");
+                var slotStartTime = bookingDate.Date.Add(slotTime.StartTime);
+                if (slotStartTime <= currentDate.AddHours(1))
+                {
+                    throw new Exception($"Booking for slot with id {slotId} must be made at least 1 hours in advance.");
+                }
+
                 var booking = new Booking
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
                     CreateAt = DateTime.Now,
-                    BookingDate = bookingDate.Date,// Use the provided booking date
+                    BookingDate = bookingDate.Date, // Use the provided booking date
                     OrderCode = code,
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
                     Note = "Note",
@@ -122,6 +131,7 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.Save();
             return _mapper.Map<IEnumerable<BookingResponse>>(bookings);
         }
+
 
 
 
