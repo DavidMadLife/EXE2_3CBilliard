@@ -53,6 +53,16 @@ namespace EXE201_3CBilliard_Service.Service
                 bidaClub.Image = imageDownloadUrl;
             }
 
+            //Change role user
+            var user = _unitOfWork.UserRepository.GetById(request.UserId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User with ID {request.UserId} not found");
+            }
+
+            // Update user's role to Bida Owner (role ID 4)
+            user.RoleId = 4;
+            _unitOfWork.UserRepository.Update(user);
             _unitOfWork.BidaClubRepository.Insert(bidaClub);
             _unitOfWork.Save();
 
@@ -115,6 +125,10 @@ namespace EXE201_3CBilliard_Service.Service
                 string imageDownloadUrl = await _firebase.UploadImage(request.Image);
                 bidaClub.Image = imageDownloadUrl;
             }
+
+            
+
+
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
 
@@ -200,12 +214,13 @@ namespace EXE201_3CBilliard_Service.Service
 
 
         //Search
-        public async Task<(IEnumerable<BidaClubReponse> bidaClubs, int totalCount)> SearchBidaClubsAsync(string? bidaName, string? address, int pageIndex, int pageSize)
+        public async Task<(IEnumerable<BidaClubReponse> bidaClubs, int totalCount)> SearchBidaClubsAsync(string? bidaName, long? userId, string? address,  int pageIndex, int pageSize)
         {
             var bidaClubsWithCount = _unitOfWork.BidaClubRepository.GetWithCount(
                 filter: x =>
                     (string.IsNullOrEmpty(bidaName) || x.BidaName.Contains(bidaName)) &&
-                    (string.IsNullOrEmpty(address) || x.Address.Contains(address)),
+                    (string.IsNullOrEmpty(address) || x.Address.Contains(address)) &&
+                    (!userId.HasValue || x.UserId == userId.Value),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );
@@ -216,8 +231,6 @@ namespace EXE201_3CBilliard_Service.Service
             var bidaClubResponses = _mapper.Map<IEnumerable<BidaClubReponse>>(bidaClubs);
             return (bidaClubResponses, totalCount);
         }
-
-        
 
 
     }
