@@ -4,6 +4,7 @@ using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,6 +70,7 @@ namespace EXE201_3CBilliard_API.Controllers
             }
         }
         [HttpGet("{id:long}")]
+       
         public async Task<IActionResult> GetUserById(long id)
         {
             var user = await _userService.GetUserById(id);
@@ -80,6 +82,7 @@ namespace EXE201_3CBilliard_API.Controllers
         }
 
         [HttpGet("search")]
+        
         public async Task<IActionResult> SearchUser([FromQuery] string? keyword, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             var users = await _userService.SearchUser(keyword, pageNumber, pageSize);

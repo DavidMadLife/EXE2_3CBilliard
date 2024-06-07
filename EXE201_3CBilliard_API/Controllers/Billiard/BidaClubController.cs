@@ -120,9 +120,9 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBidaClubs([FromQuery] string? bidaName, [FromQuery] string? address, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchBidaClubs([FromQuery] string? bidaName,[FromQuery]long? userId , [FromQuery] string? address, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _bidaClubService.SearchBidaClubsAsync(bidaName, address, pageIndex, pageSize);
+            var result = await _bidaClubService.SearchBidaClubsAsync(bidaName,userId, address, pageIndex, pageSize);
             Response.Headers.Add("X-Total-Count", result.totalCount.ToString());
             return Ok(result.bidaClubs);
         }
