@@ -14,6 +14,7 @@ namespace EXE201_3CBilliard_Model.Models.Response
         public TimeSpan SlotStartTime { get; set; }
         public TimeSpan SlotEndTime { get; set; }
         public string Status { get; set; }
+        public bool Booked { get; set; }
     }
 }
 

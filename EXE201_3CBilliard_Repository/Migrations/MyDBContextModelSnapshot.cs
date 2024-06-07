@@ -76,7 +76,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BidaClub");
+                    b.ToTable("BidaClub", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.BidaTable", b =>
@@ -115,7 +115,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("BidaCludId");
 
-                    b.ToTable("BidaTable");
+                    b.ToTable("BidaTable", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.BidaTable_Slot", b =>
@@ -141,7 +141,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("SlotId");
 
-                    b.ToTable("BidaTable_Slot");
+                    b.ToTable("BidaTable_Slot", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Bill", b =>
@@ -192,7 +192,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bill");
+                    b.ToTable("Bill", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Booking", b =>
@@ -239,7 +239,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Booking");
+                    b.ToTable("Booking", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Comment", b =>
@@ -284,7 +284,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Feedback", b =>
@@ -321,7 +321,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Feedback");
+                    b.ToTable("Feedback", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.JwtCode", b =>
@@ -347,7 +347,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JwtCode");
+                    b.ToTable("JwtCode", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Notificate", b =>
@@ -374,7 +374,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notificate");
+                    b.ToTable("Notificate", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Post", b =>
@@ -413,7 +413,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Post", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Role", b =>
@@ -433,7 +433,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Slot", b =>
@@ -455,7 +455,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Slot");
+                    b.ToTable("Slot", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.User", b =>
@@ -517,7 +517,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.BidaTable", b =>

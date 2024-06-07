@@ -173,14 +173,39 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
 
-        public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAndTableAsync(DateTime bookingDate, long bidaTableId)
+        /*public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAndTableAsync(DateTime bookingDate, long bidaTableId)
         {
             var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.BSlot.BidaTableId == bidaTableId).ToList();
             var bookedSlotIds = bookingsOnDateAndTable.Select(b => b.BT_SlotId).ToList();
             var bookedSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => bookedSlotIds.Contains(x.Id), includeProperties: "Slot,BidaTable").ToList();
 
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bookedSlots);
+        }*/
+
+        public async Task<IEnumerable<BidaTableSlotResponse>> GetBookedSlotsByDateAndTableAsync(DateTime bookingDate, long bidaTableId)
+        {
+            // Get all slots for the given table on the given date
+            var allSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot,BidaTable").ToList();
+
+            // Get bookings for the given table and date
+            var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.BSlot.BidaTableId == bidaTableId).ToList();
+            var bookedSlotIds = bookingsOnDateAndTable.Select(b => b.BT_SlotId).ToList();
+
+            // Map all slots to BidaTableSlotResponse and set Booked property
+            var slotResponses = allSlots.Select(slot => new BidaTableSlotResponse
+            {
+                Id = slot.Id,
+                BidaTableId = slot.BidaTableId,
+                SlotId = slot.SlotId,
+                Status = slot.Status.ToString(),
+                SlotStartTime = slot.Slot.StartTime,
+                SlotEndTime = slot.Slot.EndTime,
+                Booked = bookedSlotIds.Contains(slot.Id) // Set Booked property
+            });
+
+            return slotResponses;
         }
+
 
         public async Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotByIdAsync(long bidaTableId)
         {
