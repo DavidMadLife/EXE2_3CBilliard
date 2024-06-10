@@ -73,6 +73,7 @@ builder.Services.AddScoped<ISlotService, SlotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBillService, BillService>();
 builder.Services.AddScoped<IBidaTableSlotService, BidaTableSlotService>();
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 
 
 //Email
