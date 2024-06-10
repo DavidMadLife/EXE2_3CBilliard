@@ -12,7 +12,6 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "BidaName is required")]
         public string BidaName { get; set; }
 
-        
         public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
@@ -29,10 +28,13 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [PhoneValidation(ErrorMessage = "Phone must be between 8 and 11 digits and contain only numbers.")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "OpeningHours is required")]
-        [RegularExpression(@"^[0-9]{1,2}:[0-5][0-9] - [0-9]{1,2}:[0-5][0-9]$", ErrorMessage = "OpeningHours must be in the format 'HH:mm - HH:mm'.")]
-        public string OpeningHours { get; set; }
+        [Required(ErrorMessage = "OpenTime is required")]
+        [TimeSpanValidation(ErrorMessage = "OpenTime must be in the format 'HH:mm'.")]
+        public string OpenTime { get; set; }
 
+        [Required(ErrorMessage = "CloseTime is required")]
+        [TimeSpanValidation(ErrorMessage = "CloseTime must be in the format 'HH:mm'.")]
+        public string CloseTime { get; set; }
     }
 
     // Custom validation attribute for phone number
@@ -63,6 +65,27 @@ namespace EXE201_3CBilliard_Model.Models.Request
 
             // Check if the phone number has a valid length and contains only digits
             return cleanedPhone.Length >= 8 && cleanedPhone.Length <= 11;
+        }
+    }
+
+    // Custom validation attribute for TimeSpan
+    public class TimeSpanValidationAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var timeString = value as string;
+            if (timeString == null)
+            {
+                return ValidationResult.Success;
+            }
+
+            // Validate TimeSpan format (HH:mm)
+            if (!TimeSpan.TryParseExact(timeString, "hh\\:mm", null, out _))
+            {
+                return new ValidationResult(ErrorMessage);
+            }
+
+            return ValidationResult.Success;
         }
     }
 }

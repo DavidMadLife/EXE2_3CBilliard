@@ -41,7 +41,7 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<BidaTableResponse>(bidaTable);
         }
 
-        public async Task<BidaTableResponse> CreateBidaTableAsync(BidaTableRequest request)
+        /*public async Task<BidaTableResponse> CreateBidaTableAsync(BidaTableRequest request)
         {
             var bidaTable = _mapper.Map<BidaTable>(request);
             bidaTable.Status = BidaTableStatus.ACTIVE;
@@ -70,7 +70,81 @@ namespace EXE201_3CBilliard_Service.Service
             }
 
             return _mapper.Map<BidaTableResponse>(bidaTable);
+        }*/
+
+        public void AddExistingSlotsToBidaTable(long bidaTableId, TimeSpan openTime, TimeSpan closeTime)
+        {
+            // Truy vấn danh sách các slot có sẵn
+            var existingSlots = _unitOfWork.SlotRepository.Get().ToList();
+
+            // Lọc ra các slot trong khoảng thời gian mở cửa của BidaClub
+            var slotsWithinOpeningHours = existingSlots.Where(slot =>
+            {
+                var slotStartTime = slot.StartTime;
+                return slotStartTime >= openTime && slotStartTime < closeTime;
+            }).ToList();
+
+            // Thêm các slot vào bảng BidaTable_Slot với BidaTableId tương ứng
+            foreach (var slot in slotsWithinOpeningHours)
+            {
+                var bidaTableSlot = new BidaTable_Slot
+                {
+                    BidaTableId = bidaTableId,
+                    SlotId = slot.Id,
+                    Status = BidaTable_SlotStatus.ACTIVE
+                };
+
+                _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
+            }
+
+            _unitOfWork.Save();
         }
+
+
+        public async Task<BidaTableResponse> CreateBidaTableAsync(BidaTableRequest request)
+        {
+            var bidaTable = _mapper.Map<BidaTable>(request);
+            bidaTable.Status = BidaTableStatus.ACTIVE;
+            bidaTable.CreateAt = DateTime.Now;
+            
+
+            if (request.Image != null)
+            {
+                if (request.Image.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception("Image size exceeds the limit.");
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(request.Image);
+                bidaTable.Image = imageDownloadUrl;
+            }
+
+            _unitOfWork.BidaTableRepository.Insert(bidaTable);
+            _unitOfWork.Save();
+
+            // Lấy thông tin về giờ mở và giờ kết thúc của BidaClub
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(bidaTable.BidaCludId);
+            if (bidaClub == null)
+            {
+                throw new Exception($"BidaClub with id {bidaTable.BidaCludId} not found.");
+            }
+            var openTime = bidaClub.OpenTime;
+            var closeTime = bidaClub.CloseTime;
+
+            // Thêm các slot có sẵn vào bảng BidaTable_Slot
+            AddExistingSlotsToBidaTable(bidaTable.Id, openTime, closeTime);
+
+            // Tính lại giá trung bình cho BidaClub và cập nhật
+            bidaClub.AveragePrice = await CalculateAveragePriceAsync(bidaTable.BidaCludId);
+            _unitOfWork.BidaClubRepository.Update(bidaClub);
+            _unitOfWork.Save();
+
+            return _mapper.Map<BidaTableResponse>(bidaTable);
+        }
+
+
+
+
+
 
         public async Task<BidaTableResponse> UpdateBidaTableAsync(long id, BidaTableRequest request)
         {

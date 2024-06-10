@@ -23,7 +23,7 @@ namespace EXE201_3CBilliard_Service.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds)
+        /*public async Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds)
         {
             if (slotIds == null || !slotIds.Any())
                 throw new ArgumentException("SlotIds list is null or empty.");
@@ -70,7 +70,7 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.Save();
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
-
+*/
         public async Task<GetSlotByBidatableResponse> GetSlotIdsByBidaTableIdAsync(long bidaTableId)
         {
             var bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot");
