@@ -10,7 +10,7 @@ namespace EXE201_3CBilliard_Service.Interface
 {
     public interface IBidaTableSlotService
     {
-        Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds);
+        /*Task<IEnumerable<BidaTableSlotResponse>> AddSlotsToBidaTableAsync(long bidaTableId, List<long>? slotIds);*/
         Task<GetSlotByBidatableResponse> GetSlotIdsByBidaTableIdAsync(long bidaTableId);
         Task<GetSlotByBidatableResponse> UpdateSlotsOfBidaTableAsync(long bidaTableId, List<long> slotIds);
         Task DeleteBidaTableAndSlotsAsync(long bidaTableId);

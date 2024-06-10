@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EXE201_3CBilliard_Model.Models.Request;
-using EXE201_3CBilliard_Model.Models.Respone;
+
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
 using EXE201_3CBilliard_Repository.Tools;
@@ -41,6 +42,7 @@ namespace EXE201_3CBilliard_Service.Service
             bidaClub.CreateAt = DateTime.Now; // Set CreateAt time here
             bidaClub.Status = BidaClubStatus.WAITING; // Set status to WAITING
             bidaClub.Note = "Waiting for confirm !!";
+            /*bidaClub.OpeningHours = null;*/
 
 
             if (request.Image != null)
@@ -163,7 +165,6 @@ namespace EXE201_3CBilliard_Service.Service
                 <strong>Email:</strong> {bidaClub.Email}<br>
                 <strong>Description:</strong> {bidaClub.Descrpition}<br>
                 <strong>Phone:</strong> {bidaClub.Phone}<br>
-                <strong>Opening Hours:</strong> {bidaClub.OpeningHours}<br>
                 <strong>Average Price:</strong> {bidaClub.AveragePrice:C}<br>
                 <br>
                 If you have any questions or need further assistance, please do not hesitate to contact us.<br><br>

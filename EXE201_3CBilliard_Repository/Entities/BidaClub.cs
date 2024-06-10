@@ -45,8 +45,13 @@ namespace EXE201_3CBilliard_Repository.Entities
 
 
         // Giờ mở cửa
+        
+        
         [Required]
-        public string OpeningHours { get; set; }
+        public TimeSpan OpenTime { get; set; }
+        [Required]
+        public TimeSpan CloseTime { get; set; }
+
 
         // Giá tiền trung bình
         [Required]

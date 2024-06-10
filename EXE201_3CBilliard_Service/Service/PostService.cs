@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EXE201_3CBilliard_Model.Models.Request;
-using EXE201_3CBilliard_Model.Models.Respone;
+
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;

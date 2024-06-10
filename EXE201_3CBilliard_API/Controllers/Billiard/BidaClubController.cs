@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EXE201_3CBilliard_Model.Models.Request;
-using EXE201_3CBilliard_Model.Models.Respone;
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Mvc;

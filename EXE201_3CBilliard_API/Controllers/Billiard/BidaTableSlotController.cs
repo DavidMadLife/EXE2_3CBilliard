@@ -20,7 +20,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             _bidaTableSlotService = bidaTableSlotService;
             _mapper = mapper;
         }
-        [HttpPost("{bidaTableId:long}/slots")]
+       /* [HttpPost("{bidaTableId:long}/slots")]
         public async Task<IActionResult> AddSlotsToBidaTable(long bidaTableId, [FromBody] List<long> slotIds)
         {
             try
@@ -36,7 +36,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             {
                 return BadRequest(new { Message = ex.Message });
             }
-        }
+        }*/
 
         [HttpGet("{bidaTableId}/slot-ids")]
         public async Task<IActionResult> GetSlotIdsByBidaTableId(long bidaTableId)
