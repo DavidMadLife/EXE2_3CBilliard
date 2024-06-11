@@ -35,6 +35,8 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "CloseTime is required")]
         [TimeSpanValidation(ErrorMessage = "CloseTime must be in the format 'HH:mm'.")]
         public string CloseTime { get; set; }
+
+        public string GoogleMapLink { get; set; }
     }
 
     // Custom validation attribute for phone number

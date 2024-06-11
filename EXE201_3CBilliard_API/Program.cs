@@ -1,10 +1,13 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using EXE201_3CBilliard_Model.Mapper;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -101,6 +104,14 @@ builder.Services.AddSingleton<IMapper>(config.CreateMapper());
 
 //FireBase
 builder.Services.AddScoped<EXE201_3CBilliard_Repository.Tools.Firebase>();
+
+// Khởi tạo Firebase Admin SDK
+/*FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile("D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_API\\cbilliard-b45db-firebase-adminsdk-mqrmk-6be88d2e72.json")
+});*/
+
+
 
 var app = builder.Build();
 

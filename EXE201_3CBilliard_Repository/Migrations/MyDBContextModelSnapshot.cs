@@ -55,6 +55,10 @@ namespace EXE201_3CBilliard_Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GoogleMapLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -65,10 +69,6 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     b.Property<TimeSpan>("OpenTime")
                         .HasColumnType("time");
-
-                    b.Property<string>("OpeningHours")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
