@@ -77,28 +77,50 @@ namespace EXE201_3CBilliard_Service.Service
             // Truy vấn danh sách các slot có sẵn
             var existingSlots = _unitOfWork.SlotRepository.Get().ToList();
 
-            // Lọc ra các slot trong khoảng thời gian mở cửa của BidaClub
-            var slotsWithinOpeningHours = existingSlots.Where(slot =>
-            {
-                var slotStartTime = slot.StartTime;
-                return slotStartTime >= openTime && slotStartTime < closeTime;
-            }).ToList();
+            // Truy vấn danh sách các slot đã tồn tại cho BidaTableId
+            var existingBidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: bts => bts.BidaTableId == bidaTableId).ToList();
 
-            // Thêm các slot vào bảng BidaTable_Slot với BidaTableId tương ứng
+            // Lọc ra các slot trong khoảng thời gian mở cửa của BidaClub
+            List<Slot> slotsWithinOpeningHours;
+
+            if (openTime < closeTime)
+            {
+                // Trường hợp thời gian mở cửa và đóng cửa không qua nửa đêm
+                slotsWithinOpeningHours = existingSlots.Where(slot =>
+                {
+                    var slotStartTime = slot.StartTime;
+                    return slotStartTime >= openTime && slotStartTime < closeTime;
+                }).ToList();
+            }
+            else
+            {
+                // Trường hợp thời gian mở cửa và đóng cửa qua nửa đêm
+                slotsWithinOpeningHours = existingSlots.Where(slot =>
+                {
+                    var slotStartTime = slot.StartTime;
+                    return slotStartTime >= openTime || slotStartTime < closeTime;
+                }).ToList();
+            }
+
+            // Thêm các slot vào bảng BidaTable_Slot với BidaTableId tương ứng nếu chưa tồn tại
             foreach (var slot in slotsWithinOpeningHours)
             {
-                var bidaTableSlot = new BidaTable_Slot
+                if (!existingBidaTableSlots.Any(bts => bts.SlotId == slot.Id))
                 {
-                    BidaTableId = bidaTableId,
-                    SlotId = slot.Id,
-                    Status = BidaTable_SlotStatus.ACTIVE
-                };
+                    var bidaTableSlot = new BidaTable_Slot
+                    {
+                        BidaTableId = bidaTableId,
+                        SlotId = slot.Id,
+                        Status = BidaTable_SlotStatus.ACTIVE
+                    };
 
-                _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
+                    _unitOfWork.BidaTableSlotRepository.Insert(bidaTableSlot);
+                }
             }
 
             _unitOfWork.Save();
         }
+
 
 
         public async Task<BidaTableResponse> CreateBidaTableAsync(BidaTableRequest request)
@@ -158,7 +180,7 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 if (request.Image.Length >= 10 * 1024 * 1024)
                 {
-                    throw new Exception();
+                    throw new Exception("Image size exceeds the limit.");
                 }
                 string imageDownloadUrl = await _firebase.UploadImage(request.Image);
                 bidaTable.Image = imageDownloadUrl;
@@ -167,17 +189,26 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.BidaTableRepository.Update(bidaTable);
             _unitOfWork.Save();
 
-            // Tính lại giá trung bình cho BidaClub và cập nhật
+            // Lấy thông tin về giờ mở và giờ kết thúc của BidaClub
             var bidaClub = _unitOfWork.BidaClubRepository.GetById(bidaTable.BidaCludId);
-            if (bidaClub != null)
+            if (bidaClub == null)
             {
-                bidaClub.AveragePrice = await CalculateAveragePriceAsync(bidaTable.BidaCludId);
-                _unitOfWork.BidaClubRepository.Update(bidaClub);
-                _unitOfWork.Save();
+                throw new Exception($"BidaClub with id {bidaTable.BidaCludId} not found.");
             }
+            var openTime = bidaClub.OpenTime;
+            var closeTime = bidaClub.CloseTime;
+
+            // Thêm các slot có sẵn vào bảng BidaTable_Slot
+            AddExistingSlotsToBidaTable(bidaTable.Id, openTime, closeTime);
+
+            // Tính lại giá trung bình cho BidaClub và cập nhật
+            bidaClub.AveragePrice = await CalculateAveragePriceAsync(bidaTable.BidaCludId);
+            _unitOfWork.BidaClubRepository.Update(bidaClub);
+            _unitOfWork.Save();
 
             return _mapper.Map<BidaTableResponse>(bidaTable);
         }
+
 
         public async Task DeleteBidaTableAsync(long id)
         {

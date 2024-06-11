@@ -8,8 +8,16 @@ D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubT
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\BCrypt.Net-Next.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Firebase.Auth.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\FirebaseAdmin.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Firebase.Storage.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Google.Api.Gax.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Google.Api.Gax.Rest.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Google.Apis.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Google.Apis.Auth.PlatformServices.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Google.Apis.Auth.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Google.Apis.Core.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.DotNet.PlatformAbstractions.dll
 D:\Semester 8\EXE2\EXE2_3CBilliard\EXE201_3CBilliard_API\obj\Release\net6.0\PubTmp\Out\Microsoft.EntityFrameworkCore.dll

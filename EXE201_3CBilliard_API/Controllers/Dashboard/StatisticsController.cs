@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Dashboard
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/statistics")]
     [ApiController]
     public class StatisticsController : ControllerBase
     {

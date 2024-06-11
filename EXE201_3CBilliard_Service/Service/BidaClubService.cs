@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FirebaseAdmin.Messaging;
 
 namespace EXE201_3CBilliard_Service.Service
 {
@@ -67,6 +68,20 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.UserRepository.Update(user);
             _unitOfWork.BidaClubRepository.Insert(bidaClub);
             _unitOfWork.Save();
+
+
+            // Gửi thông báo Firebase
+            var message = new Message()
+            {
+                Notification = new Notification
+                {
+                    Title = "Câu lạc bộ Bida được tạo",
+                    Body = $"Câu lạc bộ bida của bạn '{bidaClub.BidaName}' đã được tạo và đang chờ xác nhận."
+                },
+                Topic = "bidaClubUpdates"
+            };
+
+            await FirebaseMessaging.DefaultInstance.SendAsync(message);
 
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }

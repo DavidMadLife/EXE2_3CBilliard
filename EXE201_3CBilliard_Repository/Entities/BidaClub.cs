@@ -46,7 +46,7 @@ namespace EXE201_3CBilliard_Repository.Entities
 
         // Giờ mở cửa
         
-        
+
         [Required]
         public TimeSpan OpenTime { get; set; }
         [Required]
@@ -56,5 +56,7 @@ namespace EXE201_3CBilliard_Repository.Entities
         // Giá tiền trung bình
         [Required]
         public decimal AveragePrice { get; set; }
+
+        public string GoogleMapLink { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace EXE201_3CBilliard_Model.Models.Response
         public TimeSpan OpenTime { get; set; } // Giờ mở cửa
         public TimeSpan CloseTime { get; set; } // Giờ đóng cửa
         public decimal AveragePrice { get; set; }
+        public string GoogleMapLink { get; set; }
     }
 }
