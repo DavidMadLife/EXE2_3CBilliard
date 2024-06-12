@@ -151,7 +151,7 @@ namespace EXE201_3CBilliard_Service.Service
             return randomLetters + randomNumber;
         }
 
-        public async Task<BillResponse> BookSlotsAndGenerateBillAsync(long userId, List<long> BT_SlotIds, DateTime bookingDate, BillRequest billRequest/*, IFormFile img*/)
+        public async Task<BillResponse> BookSlotsAndGenerateBillAsync(long userId, List<long> BT_SlotIds, DateTime bookingDate, BillRequest billRequest, IFormFile img)
         {
             var currentDate = DateTime.Now;
             var maxDate = currentDate.AddDays(7);
@@ -240,7 +240,7 @@ namespace EXE201_3CBilliard_Service.Service
                 Status = BillStatus.WAITING
             };
 
-            /*if (img != null)
+            if (img != null)
             {
                 if (img.Length >= 10 * 1024 * 1024)
                 {
@@ -248,7 +248,7 @@ namespace EXE201_3CBilliard_Service.Service
                 }
                 string imageDownloadUrl = await _firebase.UploadImage(img);
                 bill.Image = imageDownloadUrl;
-            }*/
+            }
             _unitOfWork.BillRepository.Insert(bill);
             _unitOfWork.Save();
 
@@ -259,7 +259,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerPhone = bookerPhone,
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
-                /*Image = bill.Image,*/
+                Image = bill.Image,
                 CreateAt = bill.CreateAt,
                 BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = orderCode,
