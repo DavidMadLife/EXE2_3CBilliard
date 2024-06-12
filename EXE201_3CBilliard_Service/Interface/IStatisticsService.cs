@@ -9,6 +9,7 @@ namespace EXE201_3CBilliard_Service.Interface
 {
     public interface IStatisticsService
     {
+        double CalculateDailyRevenue(long clubId, DateTime date);
         Task<StatisticsResponse> GetStatisticsSummary();
     }
 }

@@ -31,6 +31,8 @@ namespace EXE201_3CBilliard_Repository.Entities
         public string BookerPhone { get; set; }
         [Required]
         public string BookerEmail { get; set; }
+        /*[Required]
+        public string Image { get; set; }*/
         [Required]
         public DateTime CreateAt { get; set; }
         public DateTime BookingDate { get; set; }

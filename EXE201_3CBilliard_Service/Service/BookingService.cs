@@ -3,7 +3,9 @@ using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
+using EXE201_3CBilliard_Repository.Tools;
 using EXE201_3CBilliard_Service.Interface;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +18,13 @@ namespace EXE201_3CBilliard_Service.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
 
-        public BookingService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _firebase = firebase;
         }
 
         public async Task<IEnumerable<BookingResponse>> GetAllBookingsAsync()
@@ -147,45 +151,143 @@ namespace EXE201_3CBilliard_Service.Service
             return randomLetters + randomNumber;
         }
 
-        /*public async Task<BookingDetailResponse> GetBookingByOrderCodeAsync(string orderCode)
+        public async Task<BillResponse> BookSlotsAndGenerateBillAsync(long userId, List<long> BT_SlotIds, DateTime bookingDate, BillRequest billRequest/*, IFormFile img*/)
         {
-            // Tính tổng giá cả của các đặt bàn có cùng orderCode
-            var totalPrice = _unitOfWork.BookingRepository.Get()
-                .Where(b => b.OrderCode == orderCode)
-                .Sum(b => b.Price);
+            var currentDate = DateTime.Now;
+            var maxDate = currentDate.AddDays(7);
 
-            // Lấy thông tin đặt bàn đầu tiên có cùng orderCode
-            var firstBooking = _unitOfWork.BookingRepository.Get()
-                .FirstOrDefault(b => b.OrderCode == orderCode);
-            if (firstBooking == null)
-                throw new Exception($"No booking found with order code {orderCode}");
-
-            // Lấy thông tin người dùng từ đặt bàn
-            var user = _unitOfWork.UserRepository.GetById(firstBooking.UserId);
-            if (user == null)
-                throw new Exception($"User with id {firstBooking.UserId} not found.");
-
-            // Tạo response theo định dạng
-            var response = new BookingDetailResponse
+            if (bookingDate.Date > maxDate)
             {
-                User = user.UserName, // Thay userId bằng tên người dùng
-                CreateAt = firstBooking.CreateAt,
+                throw new Exception("Ngày đặt chỗ phải nhỏ hơn 7 ngày sau.");
+            }
+
+            var user = _unitOfWork.UserRepository.GetById(userId);
+            if (user == null)
+                throw new Exception($"User with id {userId} not found.");
+
+            var bookings = new List<Booking>();
+            string orderCode = GenerateRandomString();
+
+            foreach (var slotId in BT_SlotIds)
+            {
+                var slot = _unitOfWork.BidaTableSlotRepository.GetById(slotId);
+                if (slot == null)
+                    throw new Exception($"Slot with id {slotId} not found.");
+
+                var bidaTable = _unitOfWork.BidaTableRepository.GetById(slot.BidaTableId);
+                if (bidaTable == null)
+                    throw new Exception($"BidaTable with id {slot.BidaTableId} not found.");
+
+                var existingBooking = _unitOfWork.BookingRepository.Get()
+                    .FirstOrDefault(b => b.BT_SlotId == slotId && b.BookingDate.Date == bookingDate.Date && (b.Status == BookingStatus.ACTIVE || b.Status == BookingStatus.WAITING));
+
+                if (existingBooking != null)
+                {
+                    throw new Exception($"Slot with id {slotId} is already booked for {bookingDate.ToShortDateString()}.");
+                }
+
+                var slotTime = _unitOfWork.SlotRepository.GetById(slot.SlotId);
+                if (slotTime == null)
+                    throw new Exception($"{slotTime} not found.");
+                var slotStartTime = bookingDate.Date.Add(slotTime.StartTime);
+                if (slotStartTime <= currentDate.AddHours(1))
+                {
+                    throw new Exception($"Booking for slot with id {slotId} must be made at least 1 hour in advance.");
+                }
+
+                var booking = new Booking
+                {
+                    BT_SlotId = slotId,
+                    UserId = userId,
+                    CreateAt = DateTime.Now,
+                    BookingDate = bookingDate.Date,
+                    OrderCode = orderCode,
+                    Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
+                    Note = "Note",
+                    Status = BookingStatus.WAITING,
+                    Price = bidaTable.Price
+                };
+
+                _unitOfWork.BookingRepository.Insert(booking);
+                bookings.Add(booking);
+            }
+
+            _unitOfWork.Save();
+
+            var totalPrice = bookings.Sum(b => b.Price);
+            var firstBooking = bookings.FirstOrDefault();
+            if (firstBooking == null)
+                throw new Exception("No bookings found to generate bill.");
+
+            var bookedSlotIds = bookings.Select(b => b.BT_SlotId).ToList();
+
+            var bookerName = !string.IsNullOrEmpty(billRequest.BookerName) ? billRequest.BookerName : user.UserName;
+            var bookerPhone = !string.IsNullOrEmpty(billRequest.BookerPhone) ? billRequest.BookerPhone : user.Phone;
+            var bookerEmail = !string.IsNullOrEmpty(billRequest.BookerEmail) ? billRequest.BookerEmail : user.Email;
+
+            var bill = new Bill
+            {
+                UserId = firstBooking.UserId,
+                PaymentMethods = billRequest.PaymentMethods,
+                BookerName = bookerName,
+                BookerPhone = bookerPhone,
+                BookerEmail = bookerEmail,
+                Price = totalPrice,
+                CreateAt = DateTime.Now,
+                BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = orderCode,
                 Descrpition = firstBooking.Descrpition,
-                Price = totalPrice,
-                Status = firstBooking.Status.ToString()
+                Status = BillStatus.WAITING
             };
 
-            return response;
-        }*/
+            /*if (img != null)
+            {
+                if (img.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(img);
+                bill.Image = imageDownloadUrl;
+            }*/
+            _unitOfWork.BillRepository.Insert(bill);
+            _unitOfWork.Save();
 
-        public async Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, DateTime? bookingDate, string? orderCode, int pageIndex, int pageSize)
+            var billResponse = new BillResponse
+            {
+                Id = bill.Id,
+                BookerName = bookerName,
+                BookerPhone = bookerPhone,
+                BookerEmail = bookerEmail,
+                Price = totalPrice,
+                /*Image = bill.Image,*/
+                CreateAt = bill.CreateAt,
+                BookingDate = firstBooking.BookingDate.Date,
+                OrderCode = orderCode,
+                Descrpition = bill.Descrpition,
+                Status = BillStatus.WAITING.ToString(),
+                BookedSlotIds = bookedSlotIds
+            };
+
+            return billResponse;
+        }
+
+        public async Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, DateTime? bookingDate, string? orderCode, string? status, int pageIndex, int pageSize)
         {
+            // Khai báo biến statusEnum để lưu trữ giá trị enum BookingStatus sau khi chuyển đổi
+            BookingStatus? statusEnum = null;
+
+            // Thử chuyển đổi chuỗi status thành giá trị enum BookingStatus
+            if (!string.IsNullOrEmpty(status.ToUpper()) && Enum.TryParse(status.ToUpper(), true, out BookingStatus parsedStatus))
+            {
+                statusEnum = parsedStatus;
+            }
+
             var result = _unitOfWork.BookingRepository.GetWithCount(
                 filter: b => (userId == null || b.UserId == userId) &&
                              (createAt == null || b.CreateAt.Date == createAt.Value.Date) &&
                              (createAt == null || b.BookingDate.Date == bookingDate.Value.Date) &&
-                             (string.IsNullOrEmpty(orderCode) || b.OrderCode == orderCode),
+                             (string.IsNullOrEmpty(orderCode) || b.OrderCode == orderCode) &&
+                            (!statusEnum.HasValue || b.Status == statusEnum.Value),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );

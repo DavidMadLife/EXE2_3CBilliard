@@ -81,7 +81,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPost("booking")]
-        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds, [FromQuery] DateTime bookingDate)
+        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds, [FromQuery] string? status,[FromQuery] DateTime bookingDate)
         {
             try
             {
@@ -95,24 +95,27 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
 
-        /*[HttpGet("{orderCode}")]
-        public async Task<IActionResult> GetBookingByOrderCode(string orderCode)
+        [HttpPost("book-and-generate-bill")]
+        public async Task<IActionResult> BookSlotsAndGenerateBill([FromBody] BookAndBillRequest request/*, [FromBody] IFormFile img*/)
         {
+
             try
             {
-                var bookingResponse = await _bookingService.GetBookingByOrderCodeAsync(orderCode);
-                return Ok(bookingResponse);
+                var billResponse = await _bookingService.BookSlotsAndGenerateBillAsync(request.UserId, request.BT_SlotIds, request.BookingDate, request.BillRequest/*, img*/);
+                return Ok(billResponse);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
-        }*/
+        }
+    
+
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] DateTime? bookingdate, [FromQuery] string? orderCode, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchBookings([FromQuery] long? userId, [FromQuery] DateTime? createAt, [FromQuery] DateTime? bookingdate, [FromQuery] string? orderCode, [FromQuery] string? status, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _bookingService.SearchBookingsAsync(userId, createAt, bookingdate, orderCode, pageIndex, pageSize);
+            var result = await _bookingService.SearchBookingsAsync(userId, createAt, bookingdate, orderCode, status, pageIndex, pageSize);
             Response.Headers.Add("X-Total-Count", result.TotalCount.ToString());
             return Ok(result.bookings);
         }

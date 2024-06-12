@@ -173,7 +173,7 @@ namespace EXE201_3CBilliard_Service.Service
             BillStatus? statusEnum = null;
 
             // Thử chuyển đổi chuỗi status thành giá trị enum BillStatus
-            if (!string.IsNullOrEmpty(status) && Enum.TryParse(status, true, out BillStatus parsedStatus))
+            if (!string.IsNullOrEmpty(status.ToUpper()) && Enum.TryParse(status.ToUpper(), true, out BillStatus parsedStatus))
             {
                 statusEnum = parsedStatus;
             }
@@ -203,6 +203,17 @@ namespace EXE201_3CBilliard_Service.Service
             var bills = _unitOfWork.BillRepository.Get()
                 .Where(b => b.Status == BillStatus.WAITING && b.CreateAt.AddHours(1) <= DateTime.Now)
                 .ToList();
+
+            var bookings = _unitOfWork.BookingRepository.Get()
+                .Where(bk => bk.Status == BookingStatus.WAITING && bk.CreateAt.AddHours(1) <= DateTime.Now)
+                .ToList();
+
+            foreach (var booking in bookings)
+            {
+                booking.Status = BookingStatus.DELETED;
+                _unitOfWork.BookingRepository.Update(booking);
+                _unitOfWork.Save();
+            }
 
             foreach (var bill in bills)
             {

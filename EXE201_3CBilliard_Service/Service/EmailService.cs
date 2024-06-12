@@ -68,6 +68,7 @@ public class EmailService : IEmailService
             if (bidaTableSlot != null)
             {
                 bidaTable = bidaTableSlot.BidaTableId;
+
                 bookedSlotInfo.Add($"Slot {bidaTableSlot.SlotId}");
             }
         }

@@ -19,6 +19,21 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork = unitOfWork;
         }
 
+        public double CalculateDailyRevenue(long bidaClubId, DateTime date)
+        {
+            // Fetch all active bookings for the specified Bida Club and date
+            var bookings = _unitOfWork.BookingRepository.Get(
+                filter: b => b.BSlot.BidaTable.BidaCludId == bidaClubId
+                          && b.CreateAt.Date == date.Date
+                          && b.Status == BookingStatus.ACTIVE,
+                includeProperties: "BSlot.BidaTable");
+
+            // Calculate the total price
+            double totalRevenue = bookings.Sum(b => b.Price);
+
+            return totalRevenue;
+        }
+
         public async Task<StatisticsResponse> GetStatisticsSummary()
         {
             var totalActiveClubs = _unitOfWork.BidaClubRepository.CountFilter(c => c.Status == BidaClubStatus.ACTIVE);
