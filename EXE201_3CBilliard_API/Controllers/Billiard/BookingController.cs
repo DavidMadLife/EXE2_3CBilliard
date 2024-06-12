@@ -96,12 +96,12 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
 
 
         [HttpPost("book-and-generate-bill")]
-        public async Task<IActionResult> BookSlotsAndGenerateBill([FromBody] BookAndBillRequest request/*, [FromBody] IFormFile img*/)
+        public async Task<IActionResult> BookSlotsAndGenerateBill([FromForm] BookAndBillRequest request)
         {
 
             try
             {
-                var billResponse = await _bookingService.BookSlotsAndGenerateBillAsync(request.UserId, request.BT_SlotIds, request.BookingDate, request.BillRequest/*, img*/);
+                var billResponse = await _bookingService.BookSlotsAndGenerateBillAsync(request.UserId, request.BT_SlotIds, request.BookingDate, request.BillRequest, request.Image);
                 return Ok(billResponse);
             }
             catch (Exception ex)

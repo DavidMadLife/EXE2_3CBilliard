@@ -12,5 +12,6 @@ namespace EXE201_3CBilliard_Service.Interface
         Task SendOtpEmailAsync(string toEmail);
         Task SendEmailAsync(string toEmail, string subject, string message);
         Task SendBillEmailAsync(string toEmail, BillResponse billResponse);
+        Task SendRejectBookingEmailAsync(string toEmail);
     }
 }

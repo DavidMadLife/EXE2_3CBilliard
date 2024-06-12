@@ -100,6 +100,27 @@ public class EmailService : IEmailService
     }
 
 
+    public async Task SendRejectBookingEmailAsync(string toEmail)
+    {
+        try
+        {
+            var subject = "Your Booking Failed";
+            var message = $@"
+            <h1>Booking Failed</h1>
+            <p>Sorry, your booking could not be completed at this time.</p>
+            <p>Please contact support for further assistance.</p>
+            <p>Best regards,<br>
+               3CBilliard Team</p>";
+            await SendEmailAsync(toEmail, subject, message);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception for debugging purposes
+            Console.WriteLine($"Error sending booking failure email: {ex.Message}");
+            // Throw a custom exception or handle the error as appropriate for your application
+            throw new Exception("Failed to send booking failure email.");
+        }
+    }
 
 
 }

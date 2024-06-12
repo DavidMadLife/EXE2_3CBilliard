@@ -25,14 +25,14 @@ namespace EXE201_3CBilliard_Repository.Entities
         public long UserId { get; set; }
         [Required]
         public int PaymentMethods { get; set; }
-        [Required]
+        
         public string BookerName { get; set; }
-        [Required]
+        
         public string BookerPhone { get; set; }
-        [Required]
+        
         public string BookerEmail { get; set; }
-        /*[Required]
-        public string Image { get; set; }*/
+        [Required]
+        public string Image { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
         public DateTime BookingDate { get; set; }

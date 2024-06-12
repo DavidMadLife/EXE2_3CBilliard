@@ -59,5 +59,18 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpPut("reject/{billId}")]
+        public async Task<IActionResult> UpdateBillStatusToInactive(long billId)
+        {
+            try
+            {
+                var billResponse = await _billService.UpdateBillStatusToInactiveAsync(billId);
+                return Ok(billResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

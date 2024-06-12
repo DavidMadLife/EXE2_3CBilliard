@@ -12,6 +12,7 @@ namespace EXE201_3CBilliard_Service.Interface
     {
         Task<BillResponse> GetAndSaveBillByOrderCodeAsync(BillRequest billRequest);
         Task<BillResponse> UpdateBillStatusToActiveAsync(long billId);
+        Task<BillResponse> UpdateBillStatusToInactiveAsync(long billId);
         BillTotalResponse GetTotalAmountByDateRange(BillTotalRequest request);
         Task<(IEnumerable<BillResponse> bills, int totalCount)> SearchBillsAsync(long? userId, string? bookerName, DateTime? createAt, string? orderCode, string? status, int pageIndex, int pageSize);
         Task CheckAndUpdateBillStatusAsync();

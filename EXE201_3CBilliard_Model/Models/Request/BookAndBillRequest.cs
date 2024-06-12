@@ -16,8 +16,8 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "BT_SlotIds is required")]
         public List<long> BT_SlotIds { get; set; }
 
-        /*[Required]
-        public IFormFile Image { get; set; }*/
+        [Required]
+        public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "BookingDate is required")]
         public DateTime BookingDate { get; set; }

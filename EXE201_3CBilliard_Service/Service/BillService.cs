@@ -155,6 +155,60 @@ namespace EXE201_3CBilliard_Service.Service
             return billResponse;
         }
 
+        public async Task<BillResponse> UpdateBillStatusToInactiveAsync(long billId)
+        {
+            var bill = _unitOfWork.BillRepository.GetById(billId);
+            if (bill == null)
+                throw new Exception($"Bill with id {billId} not found.");
+
+            // Lấy danh sách các booking có cùng OrderCode và trạng thái là "WAITING"
+            var bookingsToUpdate = _unitOfWork.BookingRepository.Get()
+                .Where(b => b.OrderCode == bill.OrderCode && b.Status == BookingStatus.WAITING)
+                .ToList();
+
+            // Danh sách để lưu trữ ID của các slot đã được đặt
+            var bookedSlotIds = new List<long>();
+
+            // Cập nhật trạng thái của các booking sang "INACTIVE" và thêm ID của slot vào danh sách
+            foreach (var booking in bookingsToUpdate)
+            {
+                long slots = booking.BT_SlotId;
+                booking.Status = BookingStatus.INACTIVE;
+                bookedSlotIds.Add(slots);
+                _unitOfWork.BookingRepository.Update(booking);
+            }
+
+            // Cập nhật trạng thái của bill sang "INACTIVE"
+            bill.Status = BillStatus.INACTIVE;
+            _unitOfWork.BillRepository.Update(bill);
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            _unitOfWork.Save();
+
+            var user = _unitOfWork.UserRepository.GetById(bill.UserId);
+            if (user == null)
+                throw new Exception($"User with id {bill.UserId} not found.");
+
+            var billResponse = new BillResponse
+            {
+                Id = bill.Id,
+                BookerName = bill.BookerName,
+                BookerPhone = bill.BookerPhone,
+                BookerEmail = bill.BookerEmail,
+                Price = bill.Price,
+                CreateAt = bill.CreateAt,
+                BookingDate = bill.BookingDate,
+                OrderCode = bill.OrderCode,
+                Descrpition = bill.Descrpition,
+                Status = BillStatus.INACTIVE.ToString(),
+                BookedSlotIds = bookedSlotIds // Thêm danh sách ID của các slot đã được đặt vào BillResponse
+            };
+
+            await _emailService.SendRejectBookingEmailAsync(user.Email);
+
+            return billResponse;
+        }
+
         public BillTotalResponse GetTotalAmountByDateRange(BillTotalRequest request)
         {
             var totalAmount = _unitOfWork.BillRepository.Get()
