@@ -72,5 +72,19 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPut("update-bill-image/{billId}")]
+        public async Task<IActionResult> UpdateBillImage(long billId, IFormFile img)
+        {
+            try
+            {
+                string imageUrl = await _billService.UpdateBillImageAsync(billId, img);
+                return Ok(new { message = "Bill image updated successfully.", imageUrl = imageUrl });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while updating the bill image.", error = ex.Message });
+            }
+        }
     }
 }

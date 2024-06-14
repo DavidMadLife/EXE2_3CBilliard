@@ -14,6 +14,7 @@ namespace EXE201_3CBilliard_Model.Models.Response
         public string BookerName { get; set; }
         public string BookerPhone { get; set; }
         public string BookerEmail { get; set; }
+        public int PaymentMethods { get; set; }
         public double Price { get; set; }
         public string Image { get; set; }
         public DateTime CreateAt { get; set; }
