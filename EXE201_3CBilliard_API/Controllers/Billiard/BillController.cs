@@ -39,9 +39,9 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBills([FromQuery] long? userId, [FromQuery] string? bookerName, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode, [FromQuery] string? status, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchBills([FromQuery] long? userId, [FromQuery] long? clubId, [FromQuery] string? bookerName, [FromQuery] DateTime? createAt, [FromQuery] string? orderCode, [FromQuery] string? status, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _billService.SearchBillsAsync(userId, bookerName, createAt, orderCode, status, pageIndex, pageSize);
+            var result = await _billService.SearchBillsAsync(userId, clubId, bookerName, createAt, orderCode, status, pageIndex, pageSize);
             Response.Headers.Add("X-Total-Count", result.totalCount.ToString());
             return Ok(result.bills);
         }

@@ -85,6 +85,7 @@ namespace EXE201_3CBilliard_Service.Service
             var billResponse = new BillResponse
             {
                 Id = bill.Id,
+                ClubId = bill.ClubId,
                 BookerName = bookerName,
                 BookerPhone = bookerPhone,
                 BookerEmail = bookerEmail,
@@ -138,6 +139,7 @@ namespace EXE201_3CBilliard_Service.Service
             var billResponse = new BillResponse
             {
                 Id = bill.Id,
+                ClubId = bill.ClubId,
                 BookerName = bill.BookerName,
                 BookerPhone = bill.BookerPhone,
                 BookerEmail = bill.BookerEmail,
@@ -192,6 +194,7 @@ namespace EXE201_3CBilliard_Service.Service
             var billResponse = new BillResponse
             {
                 Id = bill.Id,
+                ClubId = bill.ClubId,
                 BookerName = bill.BookerName,
                 BookerPhone = bill.BookerPhone,
                 BookerEmail = bill.BookerEmail,
@@ -221,13 +224,13 @@ namespace EXE201_3CBilliard_Service.Service
             };
         }
 
-        public async Task<(IEnumerable<BillResponse> bills, int totalCount)> SearchBillsAsync(long? userId, string? bookerName, DateTime? createAt, string? orderCode, string? status, int pageIndex, int pageSize)
+        public async Task<(IEnumerable<BillResponse> bills, int totalCount)> SearchBillsAsync(long? userId, long? clubId, string? bookerName, DateTime? createAt, string? orderCode, string? status, int pageIndex, int pageSize)
         {
             // Khai báo biến statusEnum để lưu trữ giá trị enum BillStatus sau khi chuyển đổi
             BillStatus? statusEnum = null;
 
             // Thử chuyển đổi chuỗi status thành giá trị enum BillStatus
-            if (!string.IsNullOrEmpty(status.ToUpper()) && Enum.TryParse(status.ToUpper(), true, out BillStatus parsedStatus))
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse(status, true, out BillStatus parsedStatus))
             {
                 statusEnum = parsedStatus;
             }
@@ -236,6 +239,7 @@ namespace EXE201_3CBilliard_Service.Service
             var billsWithCount = _unitOfWork.BillRepository.GetWithCount(
                 filter: x =>
                     (!userId.HasValue || x.UserId == userId.Value) &&
+                    (!clubId.HasValue || x.ClubId == clubId.Value) &&
                     (string.IsNullOrEmpty(bookerName) || x.BookerName.Contains(bookerName)) &&
                     (!createAt.HasValue || x.CreateAt.Date == createAt.Value.Date) &&
                     (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)) &&

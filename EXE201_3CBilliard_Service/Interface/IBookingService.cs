@@ -18,6 +18,7 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<bool> DeleteBookingAsync(long id);
         /*Task<BookingDetailResponse> GetBookingByOrderCodeAsync(string orderCode);*/
         Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate);
+        Task<IEnumerable<BookingResponse>> ClubOwnerBookSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate);
         Task<BillResponse> BookSlotsAndGenerateBillAsync(long userId, List<long> BT_SlotIds, DateTime bookingDate, BillRequest billRequest, IFormFile img);
         Task<(IEnumerable<BookingResponse> bookings, int TotalCount)> SearchBookingsAsync(long? userId, DateTime? createAt, DateTime? bookingDate, string? orderCode, string? status, int pageIndex, int pageSize);
     }
