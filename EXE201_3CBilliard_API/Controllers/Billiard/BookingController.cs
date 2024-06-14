@@ -81,7 +81,7 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpPost("club-owner-book-slot")]
-        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds,[FromQuery] DateTime bookingDate)
+        public async Task<IActionResult> ClubOwnerBookSlots(long userId, [FromBody] List<long> slotIds,[FromQuery] DateTime bookingDate)
         {
             try
             {
@@ -94,6 +94,19 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             }
         }
 
+        [HttpPost("booking")]
+        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds, [FromQuery] DateTime bookingDate)
+        {
+            try
+            {
+                var result = await _bookingService.BookMultipleSlotsAsync(userId, slotIds, bookingDate);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         [HttpPost("book-and-generate-bill")]
         public async Task<IActionResult> BookSlotsAndGenerateBill([FromForm] BookAndBillRequest request)
