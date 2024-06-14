@@ -4,6 +4,7 @@ using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Repository.Repository;
 using EXE201_3CBilliard_Service.Interface;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
 
-        public BillService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService)
+        public BillService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailService = emailService;
+            _firebase = firebase;
         }
 
 
@@ -257,10 +260,53 @@ namespace EXE201_3CBilliard_Service.Service
             var bills = billsWithCount.items;
             var totalCount = billsWithCount.totalCount;
 
-            var billResponses = _mapper.Map<IEnumerable<BillResponse>>(bills);
+            // Create a list of BillResponse objects
+            var billResponses = new List<BillResponse>();
+
+            foreach (var bill in bills)
+            {
+                // Get the list of booked slot IDs for the current bill
+                var bookedSlotIds = _unitOfWork.BookingRepository.Get(b => b.OrderCode == bill.OrderCode)
+                                                                 .Select(b => b.BT_SlotId)
+                                                                 .ToList();
+
+                // Map the bill to a BillResponse object and include the booked slot IDs
+                var billResponse = _mapper.Map<BillResponse>(bill);
+                billResponse.BookedSlotIds = bookedSlotIds;
+
+                billResponses.Add(billResponse);
+            }
+
             return (billResponses, totalCount);
         }
 
+
+        public async Task<string> UpdateBillImageAsync(long billId, IFormFile img)
+        {
+            var bill = _unitOfWork.BillRepository.GetById(billId);
+            if (bill == null)
+            {
+                throw new Exception($"Bill with id {billId} not found.");
+            }
+
+            if (img == null || img.Length == 0)
+            {
+                throw new Exception("No image file provided.");
+            }
+
+            if (img.Length >= 10 * 1024 * 1024)
+            {
+                throw new Exception("Image file size must be less than 10MB.");
+            }
+
+            string imageDownloadUrl = await _firebase.UploadImage(img);
+            bill.Image = imageDownloadUrl;
+
+            _unitOfWork.BillRepository.Update(bill);
+            _unitOfWork.Save();
+
+            return imageDownloadUrl;
+        }
 
         public async Task CheckAndUpdateBillStatusAsync()
         {
