@@ -24,6 +24,8 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public long UserId { get; set; }
         [Required]
+        public long ClubId { get; set; }
+        [Required]
         public int PaymentMethods { get; set; }
         
         public string BookerName { get; set; }

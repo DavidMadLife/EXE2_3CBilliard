@@ -80,12 +80,12 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             }
         }
 
-        [HttpPost("booking")]
-        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds, [FromQuery] string? status,[FromQuery] DateTime bookingDate)
+        [HttpPost("club-owner-book-slot")]
+        public async Task<IActionResult> BookMultipleSlots(long userId, [FromBody] List<long> slotIds,[FromQuery] DateTime bookingDate)
         {
             try
             {
-                var result = await _bookingService.BookMultipleSlotsAsync(userId, slotIds, bookingDate);
+                var result = await _bookingService.ClubOwnerBookSlotsAsync(userId, slotIds, bookingDate);
                 return Ok(result);
             }
             catch (Exception ex)

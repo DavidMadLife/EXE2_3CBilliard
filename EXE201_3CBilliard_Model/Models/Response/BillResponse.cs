@@ -10,6 +10,7 @@ namespace EXE201_3CBilliard_Model.Models.Response
     public class BillResponse
     {
         public long Id { get; set; }
+        public long ClubId { get; set; }
         public string BookerName { get; set; }
         public string BookerPhone { get; set; }
         public string BookerEmail { get; set; }

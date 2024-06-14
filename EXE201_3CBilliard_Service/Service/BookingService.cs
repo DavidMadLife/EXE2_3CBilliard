@@ -6,6 +6,7 @@ using EXE201_3CBilliard_Repository.Repository;
 using EXE201_3CBilliard_Repository.Tools;
 using EXE201_3CBilliard_Service.Interface;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,7 +106,7 @@ namespace EXE201_3CBilliard_Service.Service
                     throw new Exception($"Slot with id {slotId} is already booked for {bookingDate.ToShortDateString()}.");
                 }
 
-                // Check if the booking is at least 2 hours in advance
+                // Check if the booking is at least 1 hours in advance
                 var slotTime = _unitOfWork.SlotRepository.GetById(slot.SlotId);
                 if (slotTime == null)
                     throw new Exception($"{slotTime} not found.");
@@ -125,6 +126,72 @@ namespace EXE201_3CBilliard_Service.Service
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
                     Note = "Note",
                     Status = BookingStatus.WAITING,
+                    Price = bidaTable.Price
+                };
+
+                _unitOfWork.BookingRepository.Insert(booking);
+                bookings.Add(booking);
+            }
+
+            _unitOfWork.Save();
+            return _mapper.Map<IEnumerable<BookingResponse>>(bookings);
+        }
+
+        public async Task<IEnumerable<BookingResponse>> ClubOwnerBookSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
+        {
+            var currentDate = DateTime.Now; // Lấy ngày hiện tại
+            var maxDate = currentDate.AddDays(7); // Ngày tối đa là 7 ngày sau
+
+            if (bookingDate.Date > maxDate)
+            {
+                throw new Exception("Ngày đặt chỗ phải nhỏ hơn 7 ngày sau.");
+            }
+
+            var user = _unitOfWork.UserRepository.GetById(userId);
+            if (user == null)
+                throw new Exception($"User with id {userId} not found.");
+
+            var bookings = new List<Booking>();
+            string code = GenerateRandomString();
+            foreach (var slotId in BT_SlotId)
+            {
+                var slot = _unitOfWork.BidaTableSlotRepository.GetById(slotId);
+                if (slot == null)
+                    throw new Exception($"Slot with id {slotId} not found.");
+
+                var bidaTable = _unitOfWork.BidaTableRepository.GetById(slot.BidaTableId);
+                if (bidaTable == null)
+                    throw new Exception($"BidaTable with id {slot.BidaTableId} not found.");
+
+                // Check if the slot is already booked for the given date
+                var existingBooking = _unitOfWork.BookingRepository.Get()
+                    .FirstOrDefault(b => b.BT_SlotId == slotId && b.BookingDate.Date == bookingDate.Date && (b.Status == BookingStatus.ACTIVE || b.Status == BookingStatus.WAITING));
+
+                if (existingBooking != null)
+                {
+                    throw new Exception($"Slot with id {slotId} is already booked for {bookingDate.ToShortDateString()}.");
+                }
+
+                //Club Owner don't check time at least 1 hours
+                var slotTime = _unitOfWork.SlotRepository.GetById(slot.SlotId);
+                if (slotTime == null)
+                    throw new Exception($"{slotTime} not found.");
+                var slotStartTime = bookingDate.Date.Add(slotTime.StartTime);
+                if (slotStartTime <= currentDate)
+                {
+                    throw new Exception($"Booking for slot with id {slotId} must be made at least 1 hours in advance.");
+                }
+
+                var booking = new Booking
+                {
+                    BT_SlotId = slotId,
+                    UserId = userId,
+                    CreateAt = DateTime.Now,
+                    BookingDate = bookingDate.Date, // Use the provided booking date
+                    OrderCode = code,
+                    Descrpition = "CLUB OWNER BOOK SLOT",
+                    Note = "Note",
+                    Status = BookingStatus.ACTIVE,
                     Price = bidaTable.Price
                 };
 
@@ -167,13 +234,14 @@ namespace EXE201_3CBilliard_Service.Service
 
             var bookings = new List<Booking>();
             string orderCode = GenerateRandomString();
+            long tableId = 0;
 
             foreach (var slotId in BT_SlotIds)
             {
                 var slot = _unitOfWork.BidaTableSlotRepository.GetById(slotId);
                 if (slot == null)
                     throw new Exception($"Slot with id {slotId} not found.");
-
+                tableId = slot.BidaTableId;
                 var bidaTable = _unitOfWork.BidaTableRepository.GetById(slot.BidaTableId);
                 if (bidaTable == null)
                     throw new Exception($"BidaTable with id {slot.BidaTableId} not found.");
@@ -225,9 +293,13 @@ namespace EXE201_3CBilliard_Service.Service
             var bookerPhone = !string.IsNullOrEmpty(billRequest.BookerPhone) ? billRequest.BookerPhone : user.Phone;
             var bookerEmail = !string.IsNullOrEmpty(billRequest.BookerEmail) ? billRequest.BookerEmail : user.Email;
 
+            var bibaTable = _unitOfWork.BidaTableRepository.Get()
+                .FirstOrDefault(bc => bc.Id == tableId && bc.Status == BidaTableStatus.ACTIVE);
+
             var bill = new Bill
             {
                 UserId = firstBooking.UserId,
+                ClubId = bibaTable.BidaCludId,
                 PaymentMethods = billRequest.PaymentMethods,
                 BookerName = bookerName,
                 BookerPhone = bookerPhone,
@@ -255,6 +327,7 @@ namespace EXE201_3CBilliard_Service.Service
             var billResponse = new BillResponse
             {
                 Id = bill.Id,
+                ClubId = bill.ClubId,
                 BookerName = bookerName,
                 BookerPhone = bookerPhone,
                 BookerEmail = bookerEmail,
@@ -277,7 +350,7 @@ namespace EXE201_3CBilliard_Service.Service
             BookingStatus? statusEnum = null;
 
             // Thử chuyển đổi chuỗi status thành giá trị enum BookingStatus
-            if (!string.IsNullOrEmpty(status.ToUpper()) && Enum.TryParse(status.ToUpper(), true, out BookingStatus parsedStatus))
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse(status, true, out BookingStatus parsedStatus))
             {
                 statusEnum = parsedStatus;
             }
@@ -285,7 +358,7 @@ namespace EXE201_3CBilliard_Service.Service
             var result = _unitOfWork.BookingRepository.GetWithCount(
                 filter: b => (userId == null || b.UserId == userId) &&
                              (createAt == null || b.CreateAt.Date == createAt.Value.Date) &&
-                             (createAt == null || b.BookingDate.Date == bookingDate.Value.Date) &&
+                             (bookingDate == null || b.BookingDate.Date == bookingDate.Value.Date) &&
                              (string.IsNullOrEmpty(orderCode) || b.OrderCode == orderCode) &&
                             (!statusEnum.HasValue || b.Status == statusEnum.Value),
                 pageIndex: pageIndex,
