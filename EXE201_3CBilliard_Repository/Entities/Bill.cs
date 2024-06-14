@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EXE201_3CBilliard_Repository.Entities
 {
@@ -27,13 +28,13 @@ namespace EXE201_3CBilliard_Repository.Entities
         public long ClubId { get; set; }
         [Required]
         public int PaymentMethods { get; set; }
-        
+        [AllowNull]
         public string BookerName { get; set; }
-        
+        [AllowNull]
         public string BookerPhone { get; set; }
-        
+        [AllowNull]
         public string BookerEmail { get; set; }
-        [Required]
+        [AllowNull]
         public string Image { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
