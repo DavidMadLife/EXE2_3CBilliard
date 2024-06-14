@@ -12,7 +12,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
                 name: "ClubId",
                 table: "Bill",
                 type: "bigint",
-                nullable: false,
+                nullable: true,
                 defaultValue: 0L);
         }
 

@@ -39,6 +39,11 @@ namespace EXE201_3CBilliard_Service.Service
             if (firstBooking == null)
                 throw new Exception($"No booking found with order code {billRequest.OrderCode}");
 
+            var bslot = _unitOfWork.BidaTableSlotRepository.GetById(firstBooking.BT_SlotId);
+
+            var table = _unitOfWork.BidaTableRepository.GetById(bslot.BidaTableId);
+                
+
             // Lấy danh sách các booking có cùng OrderCode 
             var bookingsToUpdate = _unitOfWork.BookingRepository.Get()
                 .Where(b => b.OrderCode == billRequest.OrderCode)
@@ -67,6 +72,7 @@ namespace EXE201_3CBilliard_Service.Service
             var bill = new Bill
             {
                 UserId = firstBooking.UserId,
+                ClubId = table.BidaCludId,
                 PaymentMethods = billRequest.PaymentMethods,
                 BookerName = bookerName,
                 BookerPhone = bookerPhone,
