@@ -372,5 +372,136 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
+        public async Task<BillResponse> BookSlotsAndGenerateBillAsyncv2(CombinedBookAndBillRequest request)
+        {
+            var userId = request.UserId;
+            var BT_SlotIds = request.BT_SlotIds;
+            var bookingDate = request.BookingDate;
+            var img = request.Image;
+
+            var currentDate = DateTime.Now;
+            var maxDate = currentDate.AddDays(7);
+
+            if (bookingDate.Date > maxDate)
+            {
+                throw new Exception("Ngày đặt chỗ phải nhỏ hơn 7 ngày sau.");
+            }
+
+            var user = _unitOfWork.UserRepository.GetById(userId);
+            if (user == null)
+                throw new Exception($"User with id {userId} not found.");
+
+            var bookings = new List<Booking>();
+            string orderCode = request.OrderCode;
+            long tableId = 0;
+
+            foreach (var slotId in BT_SlotIds)
+            {
+                var slot = _unitOfWork.BidaTableSlotRepository.GetById(slotId);
+                if (slot == null)
+                    throw new Exception($"Slot with id {slotId} not found.");
+                tableId = slot.BidaTableId;
+                var bidaTable = _unitOfWork.BidaTableRepository.GetById(slot.BidaTableId);
+                if (bidaTable == null)
+                    throw new Exception($"BidaTable with id {slot.BidaTableId} not found.");
+
+                var existingBooking = _unitOfWork.BookingRepository.Get()
+                    .FirstOrDefault(b => b.BT_SlotId == slotId && b.BookingDate.Date == bookingDate.Date && (b.Status == BookingStatus.ACTIVE || b.Status == BookingStatus.WAITING));
+
+                if (existingBooking != null)
+                {
+                    throw new Exception($"Slot with id {slotId} is already booked for {bookingDate.ToShortDateString()}.");
+                }
+
+                var slotTime = _unitOfWork.SlotRepository.GetById(slot.SlotId);
+                if (slotTime == null)
+                    throw new Exception($"{slotTime} not found.");
+                var slotStartTime = bookingDate.Date.Add(slotTime.StartTime);
+                if (slotStartTime <= currentDate.AddHours(1))
+                {
+                    throw new Exception($"Booking for slot with id {slotId} must be made at least 1 hour in advance.");
+                }
+
+                var booking = new Booking
+                {
+                    BT_SlotId = slotId,
+                    UserId = userId,
+                    CreateAt = DateTime.Now,
+                    BookingDate = bookingDate.Date,
+                    OrderCode = orderCode,
+                    Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
+                    Note = "Note",
+                    Status = BookingStatus.WAITING,
+                    Price = bidaTable.Price
+                };
+
+                _unitOfWork.BookingRepository.Insert(booking);
+                bookings.Add(booking);
+            }
+
+            _unitOfWork.Save();
+
+            var totalPrice = bookings.Sum(b => b.Price);
+            var firstBooking = bookings.FirstOrDefault();
+            if (firstBooking == null)
+                throw new Exception("No bookings found to generate bill.");
+
+            var bookedSlotIds = bookings.Select(b => b.BT_SlotId).ToList();
+
+            var bookerName = !string.IsNullOrEmpty(request.BookerName) ? request.BookerName : user.UserName;
+            var bookerPhone = !string.IsNullOrEmpty(request.BookerPhone) ? request.BookerPhone : user.Phone;
+            var bookerEmail = !string.IsNullOrEmpty(request.BookerEmail) ? request.BookerEmail : user.Email;
+
+            var bibaTable = _unitOfWork.BidaTableRepository.Get()
+                .FirstOrDefault(bc => bc.Id == tableId && bc.Status == BidaTableStatus.ACTIVE);
+
+            var bill = new Bill
+            {
+                UserId = firstBooking.UserId,
+                ClubId = bibaTable.BidaCludId,
+                PaymentMethods = request.PaymentMethods,
+                BookerName = bookerName,
+                BookerPhone = bookerPhone,
+                BookerEmail = bookerEmail,
+                Price = totalPrice,
+                CreateAt = DateTime.Now,
+                BookingDate = firstBooking.BookingDate.Date,
+                OrderCode = orderCode,
+                Descrpition = firstBooking.Descrpition,
+                Status = BillStatus.WAITING
+            };
+
+            if (img != null)
+            {
+                if (img.Length >= 10 * 1024 * 1024)
+                {
+                    throw new Exception();
+                }
+                string imageDownloadUrl = await _firebase.UploadImage(img);
+                bill.Image = imageDownloadUrl;
+            }
+            _unitOfWork.BillRepository.Insert(bill);
+            _unitOfWork.Save();
+
+            var billResponse = new BillResponse
+            {
+                Id = bill.Id,
+                ClubId = bill.ClubId,
+                BookerName = bookerName,
+                BookerPhone = bookerPhone,
+                BookerEmail = bookerEmail,
+                Price = totalPrice,
+                Image = bill.Image,
+                CreateAt = bill.CreateAt,
+                BookingDate = firstBooking.BookingDate.Date,
+                OrderCode = orderCode,
+                Descrpition = bill.Descrpition,
+                Status = BillStatus.WAITING.ToString(),
+                BookedSlotIds = bookedSlotIds
+            };
+
+            return billResponse;
+        }
+
     }
 }

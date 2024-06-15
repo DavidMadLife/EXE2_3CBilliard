@@ -122,7 +122,23 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
                 return StatusCode(500, ex.Message);
             }
         }
-    
+
+
+        [HttpPost("book-and-generate-bill-v2")]
+        public async Task<IActionResult> BookSlotsAndGenerateBill([FromBody] CombinedBookAndBillRequest request)
+        {
+            try
+            {
+                var billResponse = await _bookingService.BookSlotsAndGenerateBillAsyncv2(request);
+                return Ok(billResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
 
 
         [HttpGet("search")]
