@@ -120,31 +120,31 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchBidaClubs([FromQuery] string? bidaName,[FromQuery]long? userId , [FromQuery] string? address, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchBidaClubs([FromQuery] string? bidaName, [FromQuery] long? userId, [FromQuery] string? address, [FromQuery] string? status, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _bidaClubService.SearchBidaClubsAsync(bidaName,userId, address, pageIndex, pageSize);
+            var result = await _bidaClubService.SearchBidaClubsAsync(bidaName, userId, address, status, pageIndex, pageSize);
             Response.Headers.Add("X-Total-Count", result.totalCount.ToString());
             return Ok(result.bidaClubs);
         }
 
-       /* [HttpGet("details/{id}")]
-        public async Task<ActionResult<BidaClubReponse>> GetBidaClubDetailsByIdAsync(long id)
-        {
-            var bidaClub = await _bidaClubService.GetBidaClubByIdAsync(id);
-            if (bidaClub == null)
-            {
-                return NotFound();
-            }
+        /* [HttpGet("details/{id}")]
+         public async Task<ActionResult<BidaClubReponse>> GetBidaClubDetailsByIdAsync(long id)
+         {
+             var bidaClub = await _bidaClubService.GetBidaClubByIdAsync(id);
+             if (bidaClub == null)
+             {
+                 return NotFound();
+             }
 
-            // Tính giá trung bình của các bàn bi-da trong câu lạc bộ
-            var averagePrice = await _bidaClubService.CalculateAveragePriceAsync(id);
+             // Tính giá trung bình của các bàn bi-da trong câu lạc bộ
+             var averagePrice = await _bidaClubService.CalculateAveragePriceAsync(id);
 
-            // Thêm giá trị trung bình vào response
-            bidaClub.AveragePrice = averagePrice;
+             // Thêm giá trị trung bình vào response
+             bidaClub.AveragePrice = averagePrice;
 
-            return bidaClub;
-        }
-*/
+             return bidaClub;
+         }
+ */
 
 
 

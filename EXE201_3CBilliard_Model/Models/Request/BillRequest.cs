@@ -14,8 +14,8 @@ namespace EXE201_3CBilliard_Model.Models.Request
         public string OrderCode { get; set; }
         [Required(ErrorMessage = "PaymentMethods is required")]
         public int PaymentMethods { get; set; }
-        public string BookerName { get; set; }
-        public string BookerPhone { get; set; }
-        public string BookerEmail { get; set; }
+        public string? BookerName { get; set; }
+        public string? BookerPhone { get; set; }
+        public string? BookerEmail { get; set; }
     }
 }

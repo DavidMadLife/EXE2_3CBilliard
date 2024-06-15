@@ -230,13 +230,23 @@ namespace EXE201_3CBilliard_Service.Service
 
 
         //Search
-        public async Task<(IEnumerable<BidaClubReponse> bidaClubs, int totalCount)> SearchBidaClubsAsync(string? bidaName, long? userId, string? address,  int pageIndex, int pageSize)
+        public async Task<(IEnumerable<BidaClubReponse> bidaClubs, int totalCount)> SearchBidaClubsAsync(string? bidaName, long? userId, string? address, string? status, int pageIndex, int pageSize)
         {
+            // Khai báo biến statusEnum để lưu trữ giá trị enum BookingStatus sau khi chuyển đổi
+            BidaClubStatus? statusEnum = null;
+
+            // Thử chuyển đổi chuỗi status thành giá trị enum BookingStatus
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse(status, true, out BidaClubStatus parsedStatus))
+            {
+                statusEnum = parsedStatus;
+            }
+
             var bidaClubsWithCount = _unitOfWork.BidaClubRepository.GetWithCount(
                 filter: x =>
                     (string.IsNullOrEmpty(bidaName) || x.BidaName.Contains(bidaName)) &&
                     (string.IsNullOrEmpty(address) || x.Address.Contains(address)) &&
-                    (!userId.HasValue || x.UserId == userId.Value),
+                    (!userId.HasValue || x.UserId == userId.Value) &&
+                    (!statusEnum.HasValue || x.Status == statusEnum.Value),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );
