@@ -163,6 +163,19 @@ namespace EXE201_3CBilliard_Service.Service
 
             await _emailService.SendBillEmailAsync(user.Email, billResponse);
 
+            var notification = new Notificate
+            {
+                Title = "Bill Activated",
+                Descrpition = $"Your order with Order Code {bill.OrderCode} has been activated.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = user.Id,
+                Type = NotificationType.BookingNotification
+            };
+
+            _unitOfWork.NotificateRepository.Insert(notification);
+            _unitOfWork.Save();
+
             return billResponse;
         }
 
@@ -217,6 +230,19 @@ namespace EXE201_3CBilliard_Service.Service
             };
 
             await _emailService.SendRejectBookingEmailAsync(user.Email);
+
+            var notification = new Notificate
+            {
+                Title = "Bill Rejected",
+                Descrpition = $"Your bill with Order Code {bill.OrderCode} has been rejected.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = user.Id,
+                Type = NotificationType.BookingNotification
+            };
+
+            _unitOfWork.NotificateRepository.Insert(notification);
+            _unitOfWork.Save();
 
             return billResponse;
         }
@@ -280,7 +306,7 @@ namespace EXE201_3CBilliard_Service.Service
             return (billResponses, totalCount);
         }
 
-
+        //noti
         public async Task<string> UpdateBillImageAsync(long billId, IFormFile img)
         {
             var bill = _unitOfWork.BillRepository.GetById(billId);
@@ -303,6 +329,25 @@ namespace EXE201_3CBilliard_Service.Service
             bill.Image = imageDownloadUrl;
 
             _unitOfWork.BillRepository.Update(bill);
+            _unitOfWork.Save();
+
+            var user = _unitOfWork.UserRepository.GetById(bill.UserId);
+            if (user == null)
+            {
+                throw new Exception($"User with id {bill.UserId} not found.");
+            }
+
+            var notification = new Notificate
+            {
+                Title = "Bill Image Updated",
+                Descrpition = $"The image for your bill with Order Code {bill.OrderCode} has been updated.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = user.Id,
+                Type = NotificationType.BookingNotification
+            };
+
+            _unitOfWork.NotificateRepository.Insert(notification);
             _unitOfWork.Save();
 
             return imageDownloadUrl;
