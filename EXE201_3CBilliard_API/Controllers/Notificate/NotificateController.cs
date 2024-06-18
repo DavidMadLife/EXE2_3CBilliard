@@ -1,5 +1,6 @@
 ﻿using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
+using EXE201_3CBilliard_Repository.Entities;
 using EXE201_3CBilliard_Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             return Ok(notificate);
         }
 
-        [HttpPost("create")]
+       /* [HttpPost("create")]
         public async Task<ActionResult<NotificateResponse>> Create([FromBody] NotificateRequest request)
         {
             if (!ModelState.IsValid)
@@ -58,7 +59,7 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             {
                 return NotFound(ex.Message);
             }
-        }
+        }*/
 
         [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
@@ -72,6 +73,13 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchNotificates([FromQuery] string? title, [FromQuery] string? description, [FromQuery] NotificateStatus? status, [FromQuery] long? userId, [FromQuery] NotificationType? type, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        {
+            var (notificates, totalCount) = await _notificateService.SearchNotificatesAsync(title, description, status, userId,type, pageIndex, pageSize);
+            return Ok(new { notificates, totalCount });
         }
     }
 }
