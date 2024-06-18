@@ -43,6 +43,7 @@ namespace EXE201_3CBilliard_Service.Service
             bidaClub.CreateAt = DateTime.Now; // Set CreateAt time here
             bidaClub.Status = BidaClubStatus.WAITING; // Set status to WAITING
             bidaClub.Note = "Waiting for confirm !!";
+            
             /*bidaClub.OpeningHours = null;*/
 
 
@@ -70,7 +71,20 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.Save();
 
 
-            // Gửi thông báo Firebase
+            var notification = new Notificate
+            {
+                Title = "Câu lạc bộ Bida được tạo",
+                Descrpition = $"Câu lạc bộ bida của bạn '{bidaClub.BidaName}' đã được tạo và đang chờ xác nhận.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = request.UserId,
+                Type = NotificationType.ClubNotification,
+            };
+            _unitOfWork.NotificateRepository.Insert(notification);
+            _unitOfWork.Save();
+
+
+            /*// Gửi thông báo Firebase
             var message = new Message()
             {
                 Notification = new Notification
@@ -81,7 +95,7 @@ namespace EXE201_3CBilliard_Service.Service
                 Topic = "bidaClubUpdates"
             };
 
-            await FirebaseMessaging.DefaultInstance.SendAsync(message);
+            await FirebaseMessaging.DefaultInstance.SendAsync(message);*/
 
             return _mapper.Map<BidaClubReponse>(bidaClub);
         }
@@ -96,6 +110,18 @@ namespace EXE201_3CBilliard_Service.Service
 
             bidaClub.Status = BidaClubStatus.INACTIVE; // Set status to INACTIVE instead of deleting
             _unitOfWork.BidaClubRepository.Update(bidaClub);
+            _unitOfWork.Save();
+
+            var notification = new Notificate
+            {
+                Title = "Câu lạc bộ Bida bị xóa",
+                Descrpition = $"Câu lạc bộ bida của bạn '{bidaClub.BidaName}' đã bị xóa.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = bidaClub.UserId,
+                Type = NotificationType.ClubNotification
+            };
+            _unitOfWork.NotificateRepository.Insert(notification);
             _unitOfWork.Save();
         }
 
@@ -169,6 +195,20 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
 
+
+            //Notìicate 
+            var notification = new Notificate
+            {
+                Title = "Câu lạc bộ Bida được kích hoạt",
+                Descrpition = $"Câu lạc bộ bida của bạn '{bidaClub.BidaName}' đã được kích hoạt.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = bidaClub.UserId,
+                Type = NotificationType.ClubNotification
+            };
+            _unitOfWork.NotificateRepository.Insert(notification);
+            _unitOfWork.Save();
+
             // Send email notification with detailed information
             var emailSubject = "Your BidaClub has been activated!";
             var emailMessage = $@"
@@ -210,6 +250,21 @@ namespace EXE201_3CBilliard_Service.Service
             bidaClub.Note = noteRequest.Note; // Update note based on NoteRequest
             _unitOfWork.BidaClubRepository.Update(bidaClub);
             _unitOfWork.Save();
+
+
+            // Tạo thông báo
+            var notification = new Notificate
+            {
+                Title = "Câu lạc bộ Bida bị từ chối",
+                Descrpition = $"Câu lạc bộ bida của bạn '{bidaClub.BidaName}' đã bị từ chối. Lý do: {noteRequest.Note}",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = bidaClub.UserId,
+                Type = NotificationType.ClubNotification
+            };
+            _unitOfWork.NotificateRepository.Insert(notification);
+            _unitOfWork.Save();
+
 
             // Send email notification with rejection details
             var emailSubject = "Your BidaClub registration has been rejected";

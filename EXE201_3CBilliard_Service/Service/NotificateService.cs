@@ -35,16 +35,16 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<NotificateResponse>(notificate);
         }
 
-        public async Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request)
+        /*public async Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request)
         {
             var notificate = _mapper.Map<Notificate>(request);
             notificate.Status = NotificateStatus.ACTIVE;
             _unitOfWork.NotificateRepository.Insert(notificate);
             _unitOfWork.Save();
             return _mapper.Map<NotificateResponse>(notificate);
-        }
+        }*/
 
-        public async Task<NotificateResponse> UpdateNotificateAsync(long id, NotificateRequest request)
+       /* public async Task<NotificateResponse> UpdateNotificateAsync(long id, NotificateRequest request)
         {
             var notificate = _unitOfWork.NotificateRepository.GetById(id);
             if (notificate == null)
@@ -54,7 +54,7 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.NotificateRepository.Update(notificate);
             _unitOfWork.Save();
             return _mapper.Map<NotificateResponse>(notificate);
-        }
+        }*/
 
         public async Task DeleteNotificateAsync(long id)
         {
@@ -64,6 +64,26 @@ namespace EXE201_3CBilliard_Service.Service
             notificate.Status = NotificateStatus.INACTIVE;
             _unitOfWork.NotificateRepository.Update(notificate);
             _unitOfWork.Save();
+        }
+
+        public async Task<(IEnumerable<NotificateResponse> notificates, int totalCount)> SearchNotificatesAsync(string? title, string? description, NotificateStatus? status, long? userId, NotificationType? type, int pageIndex, int pageSize)
+        {
+            var notificatesWithCount = _unitOfWork.NotificateRepository.GetWithCount(
+                filter: x =>
+                    (string.IsNullOrEmpty(title) || x.Title.Contains(title)) &&
+                    (string.IsNullOrEmpty(description) || x.Descrpition.Contains(description)) &&
+                    (!status.HasValue || x.Status == status) &&
+                    (!userId.HasValue || x.UserId == userId.Value) &&
+                    (!type.HasValue || x.Type == type),
+                pageIndex: pageIndex,
+                pageSize: pageSize
+            );
+
+            var notificates = notificatesWithCount.items;
+            var totalCount = notificatesWithCount.totalCount;
+
+            var notificateResponses = _mapper.Map<IEnumerable<NotificateResponse>>(notificates);
+            return (notificateResponses, totalCount);
         }
     }
 }

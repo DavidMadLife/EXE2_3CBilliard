@@ -16,11 +16,20 @@ namespace EXE201_3CBilliard_Repository.Entities
         DELETED
     }
 
+    public enum NotificationType
+    {
+        PostNotification = 1, // Thông báo về bài viết
+        ClubNotification = 2, // Thông báo về CLB
+        BookingNotification = 3 // Thông báo về booking
+    }
+
+
     [Table("Notificate")]
     public class Notificate
     {
         [Key]
         public long Id { get; set; }
+        
         [Required]
         public string Title { get; set; }
         [Required]
@@ -28,5 +37,12 @@ namespace EXE201_3CBilliard_Repository.Entities
         [Required]
         public DateTime CreateAt { get; set; }
         public NotificateStatus Status { get; set; }
+
+        [Required]
+        public long UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+
+        public NotificationType Type { get; set; } // Thêm trường này
     }
 }
