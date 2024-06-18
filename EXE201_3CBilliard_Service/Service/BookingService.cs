@@ -71,6 +71,8 @@ namespace EXE201_3CBilliard_Service.Service
             return true;
         }
 
+
+        //Cũ
         public async Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
         {
             var currentDate = DateTime.Now; // Lấy ngày hiện tại
@@ -137,6 +139,8 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BookingResponse>>(bookings);
         }
 
+
+        //Xài
         public async Task<IEnumerable<BookingResponse>> ClubOwnerBookSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
         {
             var currentDate = DateTime.Now; // Lấy ngày hiện tại
@@ -218,6 +222,7 @@ namespace EXE201_3CBilliard_Service.Service
             return randomLetters + randomNumber;
         }
 
+        //Cũ
         public async Task<BillResponse> BookSlotsAndGenerateBillAsync(long userId, List<long> BT_SlotIds, DateTime bookingDate, BillRequest billRequest, IFormFile img)
         {
             var currentDate = DateTime.Now;
@@ -470,6 +475,12 @@ namespace EXE201_3CBilliard_Service.Service
                 Descrpition = firstBooking.Descrpition,
                 Status = BillStatus.WAITING
             };
+
+            if (img == null)
+            {
+                string imgDefault = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png";
+                bill.Image = imgDefault;
+            }
 
             if (img != null)
             {
