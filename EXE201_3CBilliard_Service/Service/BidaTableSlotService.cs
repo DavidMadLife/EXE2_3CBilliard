@@ -82,6 +82,9 @@ namespace EXE201_3CBilliard_Service.Service
             };
         }
 
+
+
+
         public async Task<GetSlotByBidatableResponse> UpdateSlotsOfBidaTableAsync(long bidaTableId, List<long> slotIds)
         {
             if (slotIds == null || !slotIds.Any())
@@ -207,16 +210,63 @@ namespace EXE201_3CBilliard_Service.Service
         }
 
 
-        public async Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotByIdAsync(long bidaTableId)
-        {
-            var bidaTableSlot = _unitOfWork.BidaTableSlotRepository.Get(filter: bts => bts.BidaTableId == bidaTableId, includeProperties: "Slot,BidaTable").ToList();
+        /* public async Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotByIdAsync(long bidaTableId)
+         {
+             var bidaTableSlot = _unitOfWork.BidaTableSlotRepository.Get(filter: bts => bts.BidaTableId == bidaTableId, includeProperties: "Slot,BidaTable").ToList();
 
-            if (bidaTableSlot == null)
+             if (bidaTableSlot == null)
+             {
+                 throw new Exception($"BidaTableSlot with id {bidaTableId} not found.");
+             }
+
+             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlot);
+         }
+
+         public async Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotBySlotIdAsync(long slotId)
+         {
+             var bidaTableSlot = _unitOfWork.BidaTableSlotRepository.Get(filter: bts => bts.SlotId == slotId, includeProperties: "Slot,BidaTable").ToList();
+             if (bidaTableSlot == null)
+             {
+                 throw new Exception($"BidaTableSlot with id {slotId} not found.");
+             }
+            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlot);
+         }*/
+
+        public async Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotsAsync(long? bidaTableId, long? slotId)
+        {
+            if (bidaTableId == null && slotId == null)
             {
-                throw new Exception($"BidaTableSlot with id {bidaTableId} not found.");
+                throw new ArgumentException("Both bidaTableId and slotId cannot be null.");
             }
 
-            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlot);
+            IEnumerable<BidaTable_Slot> bidaTableSlots;
+
+            if (bidaTableId.HasValue)
+            {
+                bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(
+                    filter: bts => bts.BidaTableId == bidaTableId.Value,
+                    includeProperties: "Slot,BidaTable"
+                ).ToList();
+            }
+            else if (slotId.HasValue)
+            {
+                bidaTableSlots = _unitOfWork.BidaTableSlotRepository.Get(
+                    filter: bts => bts.SlotId == slotId.Value,
+                    includeProperties: "Slot,BidaTable"
+                ).ToList();
+            }
+            else
+            {
+                throw new ArgumentException("Both bidaTableId and slotId cannot be null.");
+            }
+
+            if (!bidaTableSlots.Any())
+            {
+                throw new Exception($"No BidaTableSlots found with the provided criteria.");
+            }
+
+            return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
+
     }
 }

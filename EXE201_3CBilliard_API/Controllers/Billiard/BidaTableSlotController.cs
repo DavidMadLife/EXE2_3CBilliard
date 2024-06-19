@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Exceptions;
 using EXE201_3CBilliard_Service.Interface;
 using EXE201_3CBilliard_Service.Service;
@@ -106,23 +107,13 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
         }
 
 
-        [HttpGet("{bidaTableId}")]
-        public async Task<IActionResult> GetBidaTableSlotById(long bidaTableId)
+        [HttpGet("bidaTableId")]
+        public async Task<ActionResult<IEnumerable<BidaTableSlotResponse>>> GetBidaTableSlots([FromQuery] long? bidaTableId, [FromQuery] long? slotId)
         {
-            try
-            {
-                var bidaTableSlot = await _bidaTableSlotService.GetBidaTableSlotByIdAsync(bidaTableId);
-                if (bidaTableSlot == null)
-                {
-                    return NotFound($"BidaTableSlot with id {bidaTableId} not found.");
-                }
-                return Ok(bidaTableSlot);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
+            var result = await _bidaTableSlotService.GetBidaTableSlotsAsync(bidaTableId, slotId);
+            return Ok(result);
         }
+
+
     }
 }
