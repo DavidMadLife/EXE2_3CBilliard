@@ -109,9 +109,11 @@ namespace EXE201_3CBilliard_Service.Service
             user.RoleId = 3;
            
             user.Note = "Success";
+            user.Address = "";
+            user.DoB = DateTime.Now;
+            user.Image = "";
 
-
-            if (request.Image != null)
+           /* if (request.Image != null)
             {
                 if (request.Image.Length >= 10 * 1024 * 1024)
                 {
@@ -120,7 +122,7 @@ namespace EXE201_3CBilliard_Service.Service
                 string imageDownloadUrl = await _firebase.UploadImage(request.Image);
                 user.Image = imageDownloadUrl;
             }
-
+*/
             
 
 

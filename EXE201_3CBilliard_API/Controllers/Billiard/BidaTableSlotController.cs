@@ -114,6 +114,20 @@ namespace EXE201_3CBilliard_API.Controllers.Billiard
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetBidaTableSlotById(long id)
+        {
+            try
+            {
+                var bidaTableSlot = await _bidaTableSlotService.GetByIdAsync(id);
+                return Ok(bidaTableSlot);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
 
     }
 }

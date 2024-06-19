@@ -191,7 +191,7 @@ namespace EXE201_3CBilliard_Service.Service
             var allSlots = _unitOfWork.BidaTableSlotRepository.Get(filter: x => x.BidaTableId == bidaTableId, includeProperties: "Slot,BidaTable").ToList();
 
             // Get bookings for the given table and date
-            var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.BSlot.BidaTableId == bidaTableId).ToList();
+            var bookingsOnDateAndTable = _unitOfWork.BookingRepository.Get(filter: b => b.BookingDate.Date == bookingDate.Date && b.BSlot.BidaTableId == bidaTableId && (b.Status == BookingStatus.ACTIVE || b.Status == BookingStatus.WAITING)).ToList();
             var bookedSlotIds = bookingsOnDateAndTable.Select(b => b.BT_SlotId).ToList();
 
             // Map all slots to BidaTableSlotResponse and set Booked property
@@ -268,5 +268,10 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<IEnumerable<BidaTableSlotResponse>>(bidaTableSlots);
         }
 
+        public async Task<BidaTableSlotResponse> GetByIdAsync(long bidaTableSlotId)
+        {
+            var bidaTableSlot = _unitOfWork.BidaTableSlotRepository.Get(filter: bts => bts.Id == bidaTableSlotId, includeProperties: "Slot,BidaTable").FirstOrDefault();
+            return _mapper.Map<BidaTableSlotResponse>(bidaTableSlot);
+        }
     }
 }
