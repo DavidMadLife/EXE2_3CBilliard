@@ -20,6 +20,7 @@ namespace EXE201_3CBilliard_Service.Interface
 
         Task<IEnumerable<BidaTableSlotResponse>> GetBidaTableSlotsAsync(long? bidaTableId, long? slotId);
 
+        Task<BidaTableSlotResponse> GetByIdAsync(long bidaTableSlotId);
 
 
     }

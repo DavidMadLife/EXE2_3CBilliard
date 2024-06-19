@@ -21,9 +21,7 @@ namespace EXE201_3CBilliard_Model.Models.Request
         [Required(ErrorMessage = "Phone is required")]
         /*[RegularExpression("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$", ErrorMessage = "Invalid phone number format")]*/
         public string Phone { get; set; }
-        public IFormFile Image { get; set; }
-        public string Address { get; set; }
-        public DateTime DoB { get; set; }
+        
        
        
     }
