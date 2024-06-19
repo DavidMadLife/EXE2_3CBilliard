@@ -397,7 +397,7 @@ namespace EXE201_3CBilliard_Service.Service
                 throw new Exception($"User with id {userId} not found.");
 
             var bookings = new List<Booking>();
-            string orderCode = request.OrderCode;
+            string orderCode = GenerateRandomString();
             long tableId = 0;
 
             foreach (var slotId in BT_SlotIds)
