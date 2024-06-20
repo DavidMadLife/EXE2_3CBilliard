@@ -24,91 +24,63 @@ namespace EXE201_3CBilliard_Service.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PostResponse>> GetAllPostsAsync()
+        public async Task<PostResponse> CreatePostAsync(PostRequest postRequest)
+        {
+            var postEntity = _mapper.Map<PostRequest, Post>(postRequest);
+            postEntity.CreatedAt = DateTime.Now;
+
+            _unitOfWork.PostRepository.Insert(postEntity);
+            _unitOfWork.Save();
+
+            var postResponse = _mapper.Map<Post, PostResponse>(postEntity);
+            return postResponse;
+        }
+
+        public async Task<PostResponse> GetPostByIdAsync(long postId)
+        {
+            var postEntity = _unitOfWork.PostRepository.GetById(postId);
+            var postResponse = _mapper.Map<Post, PostResponse>(postEntity);
+            return postResponse;
+        }
+
+        public async Task<IEnumerable<PostResponse>> GetPostsAsync()
         {
             var posts = _unitOfWork.PostRepository.Get();
-            return _mapper.Map<IEnumerable<PostResponse>>(posts);
+            var postResponses = _mapper.Map<IEnumerable<Post>, IEnumerable<PostResponse>>(posts);
+            return postResponses;
         }
 
-        public async Task<PostResponse> GetPostByIdAsync(long id)
+        public async Task<PostResponse> UpdatePostAsync(long postId, PostRequest postRequest)
         {
-            var post = _unitOfWork.PostRepository.GetById(id);
-            return _mapper.Map<PostResponse>(post);
-        }
-
-        public async Task<PostResponse> CreatePostAsync(PostRequest request)
-        {
-            var post = _mapper.Map<Post>(request);
-            post.Descrpition = request.Description;
-            post.Note = "string";
-            post.Status = PostStatus.WAITING;
-            _unitOfWork.PostRepository.Insert(post);
-            _unitOfWork.Save();
-            return _mapper.Map<PostResponse>(post);
-        }
-
-        public async Task<PostResponse> UpdatePostAsync(long id, PostRequest request)
-        {
-            var post = _unitOfWork.PostRepository.GetById(id);
-            if (post == null)
-                throw new Exception($"Post with id {id} not found.");
-
-            _mapper.Map(request, post);
-            _unitOfWork.PostRepository.Update(post);
-            _unitOfWork.Save();
-            return _mapper.Map<PostResponse>(post);
-        }
-
-        public async Task DeletePostAsync(long id)
-        {
-            var post = _unitOfWork.PostRepository.GetById(id);
-            if (post == null)
-                throw new Exception($"Post with id {id} not found.");
-            post.Status = PostStatus.INACTIVE;
-            _unitOfWork.PostRepository.Update(post);
-            _unitOfWork.Save();
-        }
-
-        public async Task<PostResponse> ActivatePostAsync(long id, NoteRequest noteRequest)
-        {
-            var post = _unitOfWork.PostRepository.GetById(id);
-            if (post == null)
+            var existingPost = _unitOfWork.PostRepository.GetById(postId);
+            if (existingPost == null)
             {
-                throw new KeyNotFoundException($"Post with ID {id} not found");
+                // Handle not found scenario
+                return null;
             }
 
-            if (post.Status != PostStatus.WAITING)
-            {
-                throw new InvalidOperationException($"Post with ID {id} is not in WAITING status");
-            }
+            _mapper.Map(postRequest, existingPost);
+            existingPost.CreatedAt = DateTime.Now;
 
-            post.Status = PostStatus.ACTIVE;
-            post.Note = noteRequest.Note; // Update note based on NoteRequest
-            _unitOfWork.PostRepository.Update(post);
+            _unitOfWork.PostRepository.Update(existingPost);
             _unitOfWork.Save();
 
-            return _mapper.Map<PostResponse>(post);
+            var updatedPostResponse = _mapper.Map<Post, PostResponse>(existingPost);
+            return updatedPostResponse;
         }
 
-        public async Task<PostResponse> RejectPostAsync(long id, NoteRequest noteRequest)
+        public async Task<bool> DeletePostAsync(long postId)
         {
-            var post = _unitOfWork.PostRepository.GetById(id);
-            if (post == null)
+            var postToDelete = _unitOfWork.PostRepository.GetById(postId);
+            if (postToDelete == null)
             {
-                throw new KeyNotFoundException($"Post with ID {id} not found");
+                // Handle not found scenario
+                return false;
             }
 
-            if (post.Status != PostStatus.WAITING)
-            {
-                throw new InvalidOperationException($"Post with ID {id} is not in WAITING status");
-            }
-
-            post.Status = PostStatus.DELETED;
-            post.Note = noteRequest.Note; // Update note based on NoteRequest
-            _unitOfWork.PostRepository.Update(post);
+            _unitOfWork.PostRepository.Delete(postToDelete);
             _unitOfWork.Save();
-
-            return _mapper.Map<PostResponse>(post);
+            return true;
         }
     }
 }

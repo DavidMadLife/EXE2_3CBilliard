@@ -1,6 +1,8 @@
-﻿using EXE201_3CBilliard_Model.Models.Request;
+﻿using AutoMapper;
+using EXE201_3CBilliard_Model.Models.Request;
 using EXE201_3CBilliard_Model.Models.Response;
 using EXE201_3CBilliard_Service.Interface;
+using EXE201_3CBilliard_Service.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201_3CBilliard_API.Controllers.Post
@@ -10,68 +12,37 @@ namespace EXE201_3CBilliard_API.Controllers.Post
     public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;
+        private readonly IMapper _mapper;
 
-        public CommentController(ICommentService commentService)
+        public CommentController(ICommentService commentService, IMapper mapper)
         {
             _commentService = commentService;
+            _mapper = mapper;
         }
 
-        [HttpGet("get-all")]
-        public async Task<ActionResult<IEnumerable<CommentResponse>>> GetAll()
+        [HttpPost]
+        public async Task<ActionResult<CommentResponse>> CreateComment(CommentRequest commentRequest)
         {
-            var comments = await _commentService.GetAllCommentsAsync();
+            var commentResponse = await _commentService.CreateCommentAsync(commentRequest);
+            return Ok(commentResponse);
+        }
+
+        [HttpGet("post/{postId}")]
+        public async Task<ActionResult<IEnumerable<CommentResponse>>> GetCommentsForPost(long postId)
+        {
+            var comments = await _commentService.GetCommentsForPostAsync(postId);
             return Ok(comments);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CommentResponse>> GetById(long id)
+        [HttpDelete("{cmtId}")]
+        public async Task<ActionResult> DelCommentPost(long cmtId)
         {
-            var comment = await _commentService.GetCommentByIdAsync(id);
-            if (comment == null)
-                return NotFound();
-
-            return Ok(comment);
-        }
-
-        [HttpPost("create")]
-        public async Task<ActionResult<CommentResponse>> Create([FromBody] CommentRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var createdComment = await _commentService.CreateCommentAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = createdComment.Id }, createdComment);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult<CommentResponse>> Update(long id, [FromBody] CommentRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var updatedComment = await _commentService.UpdateCommentAsync(id, request);
-                return Ok(updatedComment);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        [HttpPut("delete/{id}")]
-        public async Task<ActionResult> Delete(long id)
-        {
-            try
-            {
-                await _commentService.DeleteCommentAsync(id);
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
+            var result = await _commentService.DeleteCommentAsync(cmtId);
+            if (!result)
             {
                 return NotFound();
             }
+            return NoContent();
         }
     }
 }

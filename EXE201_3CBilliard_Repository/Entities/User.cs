@@ -53,5 +53,9 @@ namespace EXE201_3CBilliard_Repository.Entities
         [JsonIgnore]
         public Role Role { get; set; }
 
+        // Navigation properties
+        /*public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Like> Likes { get; set; } = new List<Like>();
+*/
     }
 }

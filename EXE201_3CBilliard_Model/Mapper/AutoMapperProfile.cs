@@ -26,6 +26,7 @@ namespace EXE201_3CBilliard_Model.Mapper
             CreateMap<BookingRequest, Booking>().ReverseMap();
             CreateMap<RegisterUserRequest, User>().ReverseMap();
             CreateMap<BidaClubRequest, Bill>().ReverseMap();
+            CreateMap<LikeRequest, Like>().ReverseMap();
 
             //Reponse
             CreateMap<BidaClubReponse, BidaClub>().ReverseMap();
@@ -39,7 +40,7 @@ namespace EXE201_3CBilliard_Model.Mapper
             CreateMap<BookingResponse, Booking>().ReverseMap();
             CreateMap<BillResponse, Bill>().ReverseMap();
             CreateMap<RegisterUserResponse, User>().ReverseMap();
-
+            CreateMap<LikeResponse, Like>().ReverseMap();
 
             CreateMap<BidaTable_Slot, BidaTableSlotResponse>()
             .ForMember(dest => dest.SlotStartTime, opt => opt.MapFrom(src => src.Slot.StartTime))
