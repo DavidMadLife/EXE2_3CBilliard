@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EXE201_3CBilliard_Model.Models.Response
+{
+    public class LikeResponse
+    {
+        public long Id { get; set; }
+        /*public DateTime CreatedAt { get; set; }*/
+        public string UserName { get; set; }
+    }
+}

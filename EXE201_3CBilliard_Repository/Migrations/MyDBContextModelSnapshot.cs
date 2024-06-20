@@ -263,32 +263,15 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Descrpition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Evalution")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Like")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("PostId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -363,6 +346,27 @@ namespace EXE201_3CBilliard_Repository.Migrations
                     b.ToTable("JwtCode");
                 });
 
+            modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Like", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("PostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Like");
+                });
+
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Notificate", b =>
                 {
                     b.Property<long>("Id")
@@ -406,26 +410,16 @@ namespace EXE201_3CBilliard_Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Descrpition")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifineAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -593,7 +587,7 @@ namespace EXE201_3CBilliard_Repository.Migrations
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Comment", b =>
                 {
                     b.HasOne("EXE201_3CBilliard_Repository.Entities.Post", "Post")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -631,6 +625,17 @@ namespace EXE201_3CBilliard_Repository.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Like", b =>
+                {
+                    b.HasOne("EXE201_3CBilliard_Repository.Entities.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Notificate", b =>
                 {
                     b.HasOne("EXE201_3CBilliard_Repository.Entities.User", "User")
@@ -662,6 +667,13 @@ namespace EXE201_3CBilliard_Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("EXE201_3CBilliard_Repository.Entities.Post", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

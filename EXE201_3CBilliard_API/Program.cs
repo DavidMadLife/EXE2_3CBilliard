@@ -77,6 +77,7 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBillService, BillService>();
 builder.Services.AddScoped<IBidaTableSlotService, BidaTableSlotService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 
 
 //Email

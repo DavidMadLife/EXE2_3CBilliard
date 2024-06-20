@@ -10,11 +10,8 @@ namespace EXE201_3CBilliard_Model.Models.Response;
 public class PostResponse
 {
     public long Id { get; set; }
-    public long UserId { get; set; }
-    public string Descrpition { get; set; }
-    public string Image { get; set; }
-    public DateTime CreateAt { get; set; }
-    public DateTime ModifineAt { get; set; }
-    public string Status { get; set; }
-    public string Note { get; set; }
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

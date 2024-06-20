@@ -23,50 +23,64 @@ namespace EXE201_3CBilliard_Service.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CommentResponse>> GetAllCommentsAsync()
+        public async Task<CommentResponse> CreateCommentAsync(CommentRequest commentRequest)
         {
-            var comments = _unitOfWork.CommentRepository.Get();
-            return _mapper.Map<IEnumerable<CommentResponse>>(comments);
-        }
+            //check post existed
+            var post = _unitOfWork.PostRepository.GetById(commentRequest.PostId);
+            if (post == null)
+            {
+                throw new KeyNotFoundException($"Post with ID {commentRequest.PostId} not found");
+            }
+            //check user existed
+            var user = _unitOfWork.UserRepository.GetById(commentRequest.UserId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User with ID {commentRequest.UserId} not found");
+            }
 
-        public async Task<CommentResponse> GetCommentByIdAsync(long id)
-        {
-            var comment = _unitOfWork.CommentRepository.GetById(id);
-            return _mapper.Map<CommentResponse>(comment);
-        }
+            var commentEntity = _mapper.Map<CommentRequest, Comment>(commentRequest);
+            commentEntity.CreatedAt = DateTime.Now;
 
-        public async Task<CommentResponse> CreateCommentAsync(CommentRequest request)
-        {
-            var comment = _mapper.Map<Comment>(request);
-            comment.Status = CommentStatus.ACTIVE;
-            comment.Descrpition = request.Description;
-            comment.Note = "string";
-            _unitOfWork.CommentRepository.Insert(comment);
+            _unitOfWork.CommentRepository.Insert(commentEntity);
             _unitOfWork.Save();
-            return _mapper.Map<CommentResponse>(comment);
+
+            var commentResponse = _mapper.Map<Comment, CommentResponse>(commentEntity);
+            commentResponse.UserName = user.UserName;
+            return commentResponse;
         }
 
-        public async Task<CommentResponse> UpdateCommentAsync(long id, CommentRequest request)
+        public async Task<IEnumerable<CommentResponse>> GetCommentsForPostAsync(long postId)
         {
-            var comment = _unitOfWork.CommentRepository.GetById(id);
-            if (comment == null)
-                throw new Exception($"Comment with id {id} not found.");
+            //check post existed
+            var post = _unitOfWork.PostRepository.GetById(postId);
+            if (post == null)
+            {
+                throw new KeyNotFoundException($"Post with ID {postId} not found");
+            }
 
-            _mapper.Map(request, comment);
-            _unitOfWork.CommentRepository.Update(comment);
-            _unitOfWork.Save();
-            return _mapper.Map<CommentResponse>(comment);
+            var comments = _unitOfWork.CommentRepository.Get(filter: c => c.PostId == postId);
+            var commentResponses = _mapper.Map<IEnumerable<Comment>, IEnumerable<CommentResponse>>(comments);
+            foreach (var commentResponse in commentResponses)
+            {
+                var cmt = _unitOfWork.CommentRepository.GetById(commentResponse.Id);
+                var userCommnet = _unitOfWork.UserRepository.GetById(cmt.UserId);
+                commentResponse.UserName = userCommnet.UserName;
+            }
+            return commentResponses;
         }
 
-        public async Task DeleteCommentAsync(long id)
+        public async Task<bool> DeleteCommentAsync(long commentId)
         {
-            var comment = _unitOfWork.CommentRepository.GetById(id);
-            if (comment == null)
-                throw new Exception($"Comment with id {id} not found.");
+            var cmtToDelete = _unitOfWork.CommentRepository.GetById(commentId);
+            if (cmtToDelete == null)
+            {
+                // Handle not found scenario
+                throw new KeyNotFoundException($"Comment with ID {commentId} not found");
+            }
 
-            comment.Status = CommentStatus.INACTIVE;
-            _unitOfWork.CommentRepository.Update(comment);
+            _unitOfWork.CommentRepository.Delete(cmtToDelete);
             _unitOfWork.Save();
+            return true;
         }
     }
 }

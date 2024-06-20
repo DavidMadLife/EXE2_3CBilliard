@@ -28,6 +28,7 @@ namespace EXE201_3CBilliard_Repository.Repository
         private IGenericRepository<Slot> _slotRepo;
         private IGenericRepository<User> _userRepo;
         private IGenericRepository<Bill> _billRepo;
+        private IGenericRepository<Like> _likeRepo;
 
 
         public UnitOfWork(MyDBContext context)
@@ -98,6 +99,10 @@ namespace EXE201_3CBilliard_Repository.Repository
         public IGenericRepository<Bill> BillRepository
         {
             get { return _billRepo ??= new GenericRepository<Bill>(_context); }
+        }
+        public IGenericRepository<Like> LikeRepository
+        {
+            get { return _likeRepo ??= new GenericRepository<Like>(_context); }
         }
         public int Save()
         {
