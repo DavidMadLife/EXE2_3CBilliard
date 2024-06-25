@@ -10,14 +10,14 @@
         "projectUniqueName": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj",
         "projectName": "EXE201_3CBilliard_Repository",
         "projectPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\EXE201_3CBilliard_Repository.csproj",
-        "packagesPath": "C:\\Users\\Luong\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\quans\\.nuget\\packages\\",
         "outputPath": "D:\\Semester 8\\EXE2\\EXE2_3CBilliard\\EXE201_3CBilliard_Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Luong\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\quans\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -39,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -98,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

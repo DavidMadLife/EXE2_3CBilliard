@@ -133,13 +133,13 @@ namespace EXE201_3CBilliard_Service.Service
             return  registerResponse;
         }
 
-        public async Task<User[]> SearchUser(string? keyword, int pageNumber = 1, int pageSize = 10)
+        public async Task<User[]> SearchUser(string? keyword, DateTime? startDate, DateTime? endDate, int pageNumber = 1, int pageSize = 10)
         {
-            // Tạo điều kiện lọc dựa trên từ khóa
+            // Tạo điều kiện lọc dựa trên từ khóa và khoảng thời gian
             Expression<Func<User, bool>> filter = p =>
-                string.IsNullOrEmpty(keyword) ||
-                p.UserName.Contains(keyword) ||
-                p.Email.Contains(keyword);
+                (string.IsNullOrEmpty(keyword) || p.UserName.Contains(keyword) || p.Email.Contains(keyword)) &&
+                (!startDate.HasValue || p.CreateAt >= startDate.Value) &&
+                (!endDate.HasValue || p.CreateAt <= endDate.Value);
 
             // Lấy danh sách người dùng từ repository
             var users = _unitOfWork.UserRepository.Get(
