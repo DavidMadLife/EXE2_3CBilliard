@@ -82,10 +82,9 @@ namespace EXE201_3CBilliard_API.Controllers
         }
 
         [HttpGet("search")]
-        
-        public async Task<IActionResult> SearchUser([FromQuery] string? keyword, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchUser([FromQuery] string? keyword, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var users = await _userService.SearchUser(keyword, pageNumber, pageSize);
+            var users = await _userService.SearchUser(keyword, startDate, endDate, pageNumber, pageSize);
             return Ok(users);
         }
 
