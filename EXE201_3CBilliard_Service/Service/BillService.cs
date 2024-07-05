@@ -279,6 +279,7 @@ namespace EXE201_3CBilliard_Service.Service
                     (!createAt.HasValue || x.CreateAt.Date == createAt.Value.Date) &&
                     (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)) &&
                     (!statusEnum.HasValue || x.Status == statusEnum.Value), // Sử dụng enum trực tiếp trong bộ lọc
+                orderBy: q => q.OrderByDescending(b => b.CreateAt),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );

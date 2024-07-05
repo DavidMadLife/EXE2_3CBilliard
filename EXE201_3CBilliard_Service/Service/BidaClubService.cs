@@ -286,14 +286,14 @@ namespace EXE201_3CBilliard_Service.Service
 
         //Search
         public async Task<(IEnumerable<BidaClubReponse> bidaClubs, int totalCount)> SearchBidaClubsAsync(
-        string? bidaName,
-        long? userId,
-        string? address,
-        string? status,
-        DateTime? startDate,
-        DateTime? endDate,
-        int pageIndex,
-        int pageSize)
+    string? bidaName,
+    long? userId,
+    string? address,
+    string? status,
+    DateTime? startDate,
+    DateTime? endDate,
+    int pageIndex,
+    int pageSize)
         {
             // Khai báo biến statusEnum để lưu trữ giá trị enum BookingStatus sau khi chuyển đổi
             BidaClubStatus? statusEnum = null;
@@ -312,6 +312,7 @@ namespace EXE201_3CBilliard_Service.Service
                     (!statusEnum.HasValue || x.Status == statusEnum.Value) &&
                     (!startDate.HasValue || x.CreateAt >= startDate.Value) &&
                     (!endDate.HasValue || x.CreateAt <= endDate.Value),
+                orderBy: q => q.OrderByDescending(b => b.CreateAt),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );

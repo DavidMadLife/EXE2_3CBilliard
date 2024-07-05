@@ -141,10 +141,11 @@ namespace EXE201_3CBilliard_Service.Service
                 (!startDate.HasValue || p.CreateAt >= startDate.Value) &&
                 (!endDate.HasValue || p.CreateAt <= endDate.Value);
 
-            // Lấy danh sách người dùng từ repository
+            // Lấy danh sách người dùng từ repository và sắp xếp theo CreateAt giảm dần
             var users = _unitOfWork.UserRepository.Get(
                 filter: filter,
                 includeProperties: "Role",
+                orderBy: q => q.OrderByDescending(p => p.CreateAt),
                 pageIndex: pageNumber,
                 pageSize: pageSize
             );
