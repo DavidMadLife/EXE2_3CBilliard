@@ -19,13 +19,15 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
         private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
+        private readonly INotificateService _notificateService;
 
-        public BillService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
+        public BillService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService, EXE201_3CBilliard_Repository.Tools.Firebase firebase, INotificateService notificateService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailService = emailService;
             _firebase = firebase;
+            _notificateService = notificateService;
         }
 
 
@@ -138,6 +140,11 @@ namespace EXE201_3CBilliard_Service.Service
             bill.Status = BillStatus.ACTIVE;
             _unitOfWork.BillRepository.Update(bill);
 
+
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(bill.ClubId);
+            if (bidaClub == null)
+                throw new Exception($"Không tìm thấy câu lạc bộ với ID {bill.ClubId}.");
+
             // Lưu thay đổi vào cơ sở dữ liệu
             _unitOfWork.Save();
 
@@ -163,18 +170,17 @@ namespace EXE201_3CBilliard_Service.Service
 
             await _emailService.SendBillEmailAsync(user.Email, billResponse);
 
-            var notification = new Notificate
+            await _notificateService.SendNotificationAsync(new Notificate
             {
-                Title = "Bill Activated",
-                Descrpition = $"Your order with Order Code {bill.OrderCode} has been activated.",
+                Title = "Thông báo đặt bàn thành công",
+                Descrpition = $"Đơn đặt bàn của bạn tại câu lạc bộ {bidaClub.BidaName} đã được chấp nhận.",
                 CreateAt = DateTime.Now,
                 Status = NotificateStatus.ACTIVE,
                 UserId = user.Id,
-                Type = NotificationType.BookingNotification
-            };
-
-            _unitOfWork.NotificateRepository.Insert(notification);
-            _unitOfWork.Save();
+                Type = NotificationType.BookingNotification,
+                BillOrderCode = bill.OrderCode, // Thêm OrderCode để phía frontend có thể nhận biết hóa đơn
+                BillStatus = BillStatus.ACTIVE.ToString() // Thêm trạng thái hóa đơn
+            });
 
             return billResponse;
         }
@@ -206,6 +212,10 @@ namespace EXE201_3CBilliard_Service.Service
             bill.Status = BillStatus.INACTIVE;
             _unitOfWork.BillRepository.Update(bill);
 
+            var bidaClub = _unitOfWork.BidaClubRepository.GetById(bill.ClubId);
+            if (bidaClub == null)
+                throw new Exception($"Không tìm thấy câu lạc bộ với ID {bill.ClubId}.");
+
             // Lưu thay đổi vào cơ sở dữ liệu
             _unitOfWork.Save();
 
@@ -231,18 +241,17 @@ namespace EXE201_3CBilliard_Service.Service
 
             await _emailService.SendRejectBookingEmailAsync(user.Email);
 
-            var notification = new Notificate
+            await _notificateService.SendNotificationAsync(new Notificate
             {
-                Title = "Bill Rejected",
-                Descrpition = $"Your bill with Order Code {bill.OrderCode} has been rejected.",
+                Title = "Thông báo từ chối đặt bàn",
+                Descrpition = $"Đơn đặt bàn của bạn tại câu lạc bộ {bidaClub.BidaName} đã bị từ chối hoặc hủy bỏ.",
                 CreateAt = DateTime.Now,
                 Status = NotificateStatus.ACTIVE,
                 UserId = user.Id,
-                Type = NotificationType.BookingNotification
-            };
-
-            _unitOfWork.NotificateRepository.Insert(notification);
-            _unitOfWork.Save();
+                Type = NotificationType.BookingNotification,
+                BillOrderCode = bill.OrderCode, // Thêm OrderCode để phía frontend có thể nhận biết hóa đơn
+                BillStatus = BillStatus.INACTIVE.ToString() // Thêm trạng thái hóa đơn
+            });
 
             return billResponse;
         }
@@ -279,7 +288,6 @@ namespace EXE201_3CBilliard_Service.Service
                     (!createAt.HasValue || x.CreateAt.Date == createAt.Value.Date) &&
                     (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)) &&
                     (!statusEnum.HasValue || x.Status == statusEnum.Value), // Sử dụng enum trực tiếp trong bộ lọc
-                orderBy: q => q.OrderByDescending(b => b.CreateAt),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );

@@ -20,12 +20,14 @@ namespace EXE201_3CBilliard_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly EXE201_3CBilliard_Repository.Tools.Firebase _firebase;
+        private readonly INotificateService _notificateService;
 
-        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, EXE201_3CBilliard_Repository.Tools.Firebase firebase)
+        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, EXE201_3CBilliard_Repository.Tools.Firebase firebase, INotificateService notificateService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _firebase = firebase;
+            _notificateService = notificateService;
         }
 
         public async Task<IEnumerable<BookingResponse>> GetAllBookingsAsync()
@@ -399,16 +401,23 @@ namespace EXE201_3CBilliard_Service.Service
             var bookings = new List<Booking>();
             string orderCode = GenerateRandomString();
             long tableId = 0;
+            BidaClub bidaClub = null; // Khai báo để lấy thông tin của câu lạc bộ
 
             foreach (var slotId in BT_SlotIds)
             {
                 var slot = _unitOfWork.BidaTableSlotRepository.GetById(slotId);
-                if (slot == null)
+                if (slot == null)   
                     throw new Exception($"Slot with id {slotId} not found.");
                 tableId = slot.BidaTableId;
                 var bidaTable = _unitOfWork.BidaTableRepository.GetById(slot.BidaTableId);
                 if (bidaTable == null)
                     throw new Exception($"BidaTable with id {slot.BidaTableId} not found.");
+
+                // Lấy thông tin của câu lạc bộ từ bàn
+                bidaClub = _unitOfWork.BidaClubRepository.GetById(bidaTable.BidaCludId);
+                if (bidaClub == null)
+                    throw new Exception($"Không tìm thấy câu lạc bộ với ID {bidaTable.BidaCludId}.");
+
 
                 var existingBooking = _unitOfWork.BookingRepository.Get()
                     .FirstOrDefault(b => b.BT_SlotId == slotId && b.BookingDate.Date == bookingDate.Date && (b.Status == BookingStatus.ACTIVE || b.Status == BookingStatus.WAITING));
@@ -510,6 +519,19 @@ namespace EXE201_3CBilliard_Service.Service
                 Status = BillStatus.WAITING.ToString(),
                 BookedSlotIds = bookedSlotIds
             };
+
+            // Gửi thông báo cho bidaOwner
+            await _notificateService.SendNotificationAsync(new Notificate
+            {
+                Title = "Thông báo đặt bàn mới",
+                Descrpition = $"Bàn của bạn tại câu lạc bộ {bidaClub.BidaName} đã có đơn đặt hàng mới, vui lòng kiểm tra và xác nhận.",
+                CreateAt = DateTime.Now,
+                Status = NotificateStatus.ACTIVE,
+                UserId = bidaClub.UserId, // Sử dụng thông tin của chủ câu lạc bộ
+                Type = NotificationType.BookingNotification,
+                BillOrderCode = bill.OrderCode, // Thêm OrderCode để phía frontend có thể nhận biết hóa đơn
+                BillStatus = BillStatus.ACTIVE.ToString() // Thêm trạng thái hóa đơn
+            });
 
             return billResponse;
         }

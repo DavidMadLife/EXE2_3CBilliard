@@ -16,5 +16,9 @@ public class NotificateResponse
     public DateTime CreateAt { get; set; }
     public NotificateStatus Status { get; set; }
     public long UserId { get; set; }
+    public string BillOrderCode { get; set; } // Thêm OrderCode của hóa đơn
+    public string BillStatus { get; set; } // Thêm trạng thái của hóa đơn
+
     public NotificationType Type { get; set; }
+
 }

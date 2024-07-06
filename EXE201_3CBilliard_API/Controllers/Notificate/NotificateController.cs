@@ -76,10 +76,30 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchNotificates([FromQuery] string? title, [FromQuery] string? description, [FromQuery] NotificateStatus? status, [FromQuery] long? userId, [FromQuery] NotificationType? type, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> SearchNotificates(
+             [FromQuery] string? title,
+             [FromQuery] string? description,
+             [FromQuery] NotificateStatus? status,
+             [FromQuery] long? userId,
+             [FromQuery] NotificationType? type,
+             [FromQuery] string? billOrderCode,
+             [FromQuery] string? billStatus,
+             [FromQuery] int pageIndex = 1,
+             [FromQuery] int pageSize = 10)
         {
-            var (notificates, totalCount) = await _notificateService.SearchNotificatesAsync(title, description, status, userId,type, pageIndex, pageSize);
+            var (notificates, totalCount) = await _notificateService.SearchNotificatesAsync(
+                title,
+                description,
+                status,
+                userId,
+                type,
+                billOrderCode,
+                billStatus,
+                pageIndex,
+                pageSize
+            );
             return Ok(new { notificates, totalCount });
         }
+
     }
 }
