@@ -43,6 +43,11 @@ namespace EXE201_3CBilliard_Repository.Entities
         [ForeignKey("UserId")]
         public User User { get; set; }
 
+        public string BillOrderCode { get; set; } // Thêm OrderCode của hóa đơn
+        public string BillStatus { get; set; } // Thêm trạng thái của hóa đơn
+
         public NotificationType Type { get; set; } // Thêm trường này
+
+
     }
 }

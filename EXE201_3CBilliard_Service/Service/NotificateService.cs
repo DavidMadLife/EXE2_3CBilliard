@@ -66,7 +66,7 @@ namespace EXE201_3CBilliard_Service.Service
             _unitOfWork.Save();
         }
 
-        public async Task<(IEnumerable<NotificateResponse> notificates, int totalCount)> SearchNotificatesAsync(string? title, string? description, NotificateStatus? status, long? userId, NotificationType? type, int pageIndex, int pageSize)
+        public async Task<(IEnumerable<NotificateResponse> notificates, int totalCount)> SearchNotificatesAsync(string? title, string? description, NotificateStatus? status, long? userId, NotificationType? type, string? billOrderCode, string? billStatus, int pageIndex, int pageSize)
         {
             var notificatesWithCount = _unitOfWork.NotificateRepository.GetWithCount(
                 filter: x =>
@@ -74,7 +74,9 @@ namespace EXE201_3CBilliard_Service.Service
                     (string.IsNullOrEmpty(description) || x.Descrpition.Contains(description)) &&
                     (!status.HasValue || x.Status == status) &&
                     (!userId.HasValue || x.UserId == userId.Value) &&
-                    (!type.HasValue || x.Type == type),
+                    (!type.HasValue || x.Type == type) &&
+                    (string.IsNullOrEmpty(billOrderCode) || x.BillOrderCode.Contains(billOrderCode)) &&
+                    (string.IsNullOrEmpty(billStatus) || x.BillStatus == billStatus),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );
@@ -84,6 +86,14 @@ namespace EXE201_3CBilliard_Service.Service
 
             var notificateResponses = _mapper.Map<IEnumerable<NotificateResponse>>(notificates);
             return (notificateResponses, totalCount);
+        }
+
+
+
+        public async Task SendNotificationAsync(Notificate notification)
+        {
+            _unitOfWork.NotificateRepository.Insert(notification);
+            _unitOfWork.Save();
         }
     }
 }
