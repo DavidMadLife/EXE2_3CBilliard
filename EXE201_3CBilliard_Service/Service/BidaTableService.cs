@@ -127,7 +127,7 @@ namespace EXE201_3CBilliard_Service.Service
         {
             var bidaTable = _mapper.Map<BidaTable>(request);
             bidaTable.Status = BidaTableStatus.ACTIVE;
-            bidaTable.CreateAt = DateTime.Now;
+            bidaTable.CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")); ;
             
 
             if (request.Image != null)

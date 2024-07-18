@@ -19,5 +19,8 @@ namespace EXE201_3CBilliard_Service.Interface
         Task<(IEnumerable<NotificateResponse> notificates, int totalCount)> SearchNotificatesAsync(string? title, string? description, NotificateStatus? status, long? userId, NotificationType? type, string? billOrderCode, string? billStatus, int pageIndex, int pageSize);
 
         Task SendNotificationAsync(Notificate notification);
+
+
+        Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request);
     }
 }
