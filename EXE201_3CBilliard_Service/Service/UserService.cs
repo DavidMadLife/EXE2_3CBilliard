@@ -66,8 +66,8 @@ namespace EXE201_3CBilliard_Service.Service
                 IdentificationCardNumber = "",
                 Image = null,
                 Address = "",
-                CreateAt = DateTime.Now,
-                ModifineAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
+                ModifineAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 DoB = new(),
                 Note = "",
                 Status = UserStatus.ACTIVE
@@ -104,13 +104,13 @@ namespace EXE201_3CBilliard_Service.Service
             user.IdentificationCardNumber = "";
             user.Status = UserStatus.ACTIVE;
             user.Password = HashPassword(request.Password);
-            user.CreateAt = DateTime.Now;
-            user.ModifineAt = DateTime.Now;
+            user.CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
+            user.ModifineAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             user.RoleId = 3;
            
             user.Note = "Success";
             user.Address = "";
-            user.DoB = DateTime.Now;
+            user.DoB = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             user.Image = "";
 
            /* if (request.Image != null)
@@ -187,7 +187,7 @@ namespace EXE201_3CBilliard_Service.Service
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).AddDays(1),
                 signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
@@ -226,7 +226,7 @@ namespace EXE201_3CBilliard_Service.Service
 
             // Update the user's password
             user.Password = hashedNewPassword;
-            user.ModifineAt = DateTime.Now; // Update modification time
+            user.ModifineAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")); // Update modification time
 
             // Save changes to the database
             _unitOfWork.UserRepository.Update(user);

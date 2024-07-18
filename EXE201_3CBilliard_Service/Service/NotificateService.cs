@@ -35,26 +35,6 @@ namespace EXE201_3CBilliard_Service.Service
             return _mapper.Map<NotificateResponse>(notificate);
         }
 
-        /*public async Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request)
-        {
-            var notificate = _mapper.Map<Notificate>(request);
-            notificate.Status = NotificateStatus.ACTIVE;
-            _unitOfWork.NotificateRepository.Insert(notificate);
-            _unitOfWork.Save();
-            return _mapper.Map<NotificateResponse>(notificate);
-        }*/
-
-       /* public async Task<NotificateResponse> UpdateNotificateAsync(long id, NotificateRequest request)
-        {
-            var notificate = _unitOfWork.NotificateRepository.GetById(id);
-            if (notificate == null)
-                throw new Exception($"Notificate with id {id} not found.");
-
-            _mapper.Map(request, notificate);
-            _unitOfWork.NotificateRepository.Update(notificate);
-            _unitOfWork.Save();
-            return _mapper.Map<NotificateResponse>(notificate);
-        }*/
 
         public async Task DeleteNotificateAsync(long id)
         {
@@ -94,6 +74,16 @@ namespace EXE201_3CBilliard_Service.Service
         {
             _unitOfWork.NotificateRepository.Insert(notification);
             _unitOfWork.Save();
+        }
+
+        public async Task<NotificateResponse> CreateNotificateAsync(NotificateRequest request)
+        {
+            var noti = _mapper.Map<Notificate>(request);
+            noti.Status = NotificateStatus.ACTIVE;
+            noti.CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
+            _unitOfWork.NotificateRepository.Insert(noti);
+            _unitOfWork.Save();
+            return _mapper.Map<NotificateResponse>(noti);
         }
     }
 }

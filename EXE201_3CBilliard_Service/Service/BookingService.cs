@@ -77,7 +77,7 @@ namespace EXE201_3CBilliard_Service.Service
         //Cũ
         public async Task<IEnumerable<BookingResponse>> BookMultipleSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
         {
-            var currentDate = DateTime.Now; // Lấy ngày hiện tại
+            var currentDate = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")); // Lấy ngày hiện tại
             var maxDate = currentDate.AddDays(7); // Ngày tối đa là 7 ngày sau
 
             if (bookingDate.Date > maxDate)
@@ -124,7 +124,7 @@ namespace EXE201_3CBilliard_Service.Service
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
-                    CreateAt = DateTime.Now,
+                    CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                     BookingDate = bookingDate.Date, // Use the provided booking date
                     OrderCode = code,
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
@@ -145,7 +145,7 @@ namespace EXE201_3CBilliard_Service.Service
         //Xài
         public async Task<IEnumerable<BookingResponse>> ClubOwnerBookSlotsAsync(long userId, List<long>? BT_SlotId, DateTime bookingDate)
         {
-            var currentDate = DateTime.Now; // Lấy ngày hiện tại
+            var currentDate = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")); // Lấy ngày hiện tại
             var maxDate = currentDate.AddDays(7); // Ngày tối đa là 7 ngày sau
 
             if (bookingDate.Date > maxDate)
@@ -192,7 +192,7 @@ namespace EXE201_3CBilliard_Service.Service
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
-                    CreateAt = DateTime.Now,
+                    CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                     BookingDate = bookingDate.Date, // Use the provided booking date
                     OrderCode = code,
                     Descrpition = "CLUB OWNER BOOK SLOT",
@@ -227,7 +227,7 @@ namespace EXE201_3CBilliard_Service.Service
         //Cũ
         public async Task<BillResponse> BookSlotsAndGenerateBillAsync(long userId, List<long> BT_SlotIds, DateTime bookingDate, BillRequest billRequest, IFormFile img)
         {
-            var currentDate = DateTime.Now;
+            var currentDate = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             var maxDate = currentDate.AddDays(7);
 
             if (bookingDate.Date > maxDate)
@@ -274,7 +274,7 @@ namespace EXE201_3CBilliard_Service.Service
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
-                    CreateAt = DateTime.Now,
+                    CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                     BookingDate = bookingDate.Date,
                     OrderCode = orderCode,
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
@@ -312,7 +312,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerPhone = bookerPhone,
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = orderCode,
                 Descrpition = firstBooking.Descrpition,
@@ -386,7 +386,7 @@ namespace EXE201_3CBilliard_Service.Service
             var bookingDate = request.BookingDate;
             var img = request.Image;
 
-            var currentDate = DateTime.Now;
+            var currentDate = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             var maxDate = currentDate.AddDays(7);
 
             if (bookingDate.Date > maxDate)
@@ -440,7 +440,7 @@ namespace EXE201_3CBilliard_Service.Service
                 {
                     BT_SlotId = slotId,
                     UserId = userId,
-                    CreateAt = DateTime.Now,
+                    CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                     BookingDate = bookingDate.Date,
                     OrderCode = orderCode,
                     Descrpition = "THANH TOAN HOA DON 3CBILLIARD",
@@ -478,7 +478,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerPhone = bookerPhone,
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = orderCode,
                 Descrpition = firstBooking.Descrpition,
@@ -525,7 +525,7 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 Title = "Thông báo đặt bàn mới",
                 Descrpition = $"Bàn của bạn tại câu lạc bộ {bidaClub.BidaName} đã có đơn đặt hàng mới, vui lòng kiểm tra và xác nhận.",
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 Status = NotificateStatus.ACTIVE,
                 UserId = bidaClub.UserId, // Sử dụng thông tin của chủ câu lạc bộ
                 Type = NotificationType.BookingNotification,

@@ -83,7 +83,7 @@ namespace EXE201_3CBilliard_Service.Service
                 BookerPhone = bookerPhone,
                 BookerEmail = bookerEmail,
                 Price = totalPrice,
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 BookingDate = firstBooking.BookingDate.Date,
                 OrderCode = billRequest.OrderCode,
                 Descrpition = firstBooking.Descrpition,
@@ -174,7 +174,7 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 Title = "Thông báo đặt bàn thành công",
                 Descrpition = $"Đơn đặt bàn của bạn tại câu lạc bộ {bidaClub.BidaName} đã được chấp nhận.",
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 Status = NotificateStatus.ACTIVE,
                 UserId = user.Id,
                 Type = NotificationType.BookingNotification,
@@ -245,7 +245,7 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 Title = "Thông báo từ chối đặt bàn",
                 Descrpition = $"Đơn đặt bàn của bạn tại câu lạc bộ {bidaClub.BidaName} đã bị từ chối hoặc hủy bỏ.",
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 Status = NotificateStatus.ACTIVE,
                 UserId = user.Id,
                 Type = NotificationType.BookingNotification,
@@ -288,6 +288,7 @@ namespace EXE201_3CBilliard_Service.Service
                     (!createAt.HasValue || x.CreateAt.Date == createAt.Value.Date) &&
                     (string.IsNullOrEmpty(orderCode) || x.OrderCode.Contains(orderCode)) &&
                     (!statusEnum.HasValue || x.Status == statusEnum.Value), // Sử dụng enum trực tiếp trong bộ lọc
+                orderBy: q => q.OrderByDescending(x => x.CreateAt),
                 pageIndex: pageIndex,
                 pageSize: pageSize
             );
@@ -350,7 +351,7 @@ namespace EXE201_3CBilliard_Service.Service
             {
                 Title = "Bill Image Updated",
                 Descrpition = $"The image for your bill with Order Code {bill.OrderCode} has been updated.",
-                CreateAt = DateTime.Now,
+                CreateAt = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                 Status = NotificateStatus.ACTIVE,
                 UserId = user.Id,
                 Type = NotificationType.BookingNotification
@@ -365,11 +366,11 @@ namespace EXE201_3CBilliard_Service.Service
         public async Task CheckAndUpdateBillStatusAsync()
         {
             var bills = _unitOfWork.BillRepository.Get()
-                .Where(b => b.Status == BillStatus.WAITING && b.CreateAt.AddHours(1) <= DateTime.Now)
+                .Where(b => b.Status == BillStatus.WAITING && b.CreateAt.AddHours(1) <= TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")))
                 .ToList();
 
             var bookings = _unitOfWork.BookingRepository.Get()
-                .Where(bk => bk.Status == BookingStatus.WAITING && bk.CreateAt.AddHours(1) <= DateTime.Now)
+                .Where(bk => bk.Status == BookingStatus.WAITING && bk.CreateAt.AddHours(1) <= TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")))
                 .ToList();
 
             foreach (var booking in bookings)

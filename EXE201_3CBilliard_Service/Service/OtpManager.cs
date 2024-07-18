@@ -11,7 +11,7 @@ namespace EXE201_3CBilliard_Service.Service
         public string GenerateOtp(string email)
         {
             var otp = new Random().Next(100000, 999999).ToString();
-            var expiry = DateTime.UtcNow.Add(_expiryDuration);
+            var expiry = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).Add(_expiryDuration);
             _otps[email] = (otp, expiry);
             return otp;
         }
@@ -20,7 +20,7 @@ namespace EXE201_3CBilliard_Service.Service
         {
             if (_otps.TryGetValue(email, out var otpData))
             {
-                if (otpData.Expiry > DateTime.UtcNow && otpData.Otp == otp)
+                if (otpData.Expiry > TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")) && otpData.Otp == otp)
                 {
                     _otps.TryRemove(email, out _);
                     return true;

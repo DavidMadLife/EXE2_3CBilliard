@@ -34,33 +34,7 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             return Ok(notificate);
         }
 
-       /* [HttpPost("create")]
-        public async Task<ActionResult<NotificateResponse>> Create([FromBody] NotificateRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var createdNotificate = await _notificateService.CreateNotificateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = createdNotificate.Id }, createdNotificate);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult<NotificateResponse>> Update(long id, [FromBody] NotificateRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var updatedNotificate = await _notificateService.UpdateNotificateAsync(id, request);
-                return Ok(updatedNotificate);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }*/
-
+      
         [HttpPut("delete/{id}")]
         public async Task<ActionResult> Delete(long id)
         {
@@ -100,6 +74,20 @@ namespace EXE201_3CBilliard_API.Controllers.Notificate
             );
             return Ok(new { notificates, totalCount });
         }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateNotificate([FromBody] NotificateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _notificateService.CreateNotificateAsync(request);
+
+            return Ok(response);
+        }
+
 
     }
 }
